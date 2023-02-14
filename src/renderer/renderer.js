@@ -9,29 +9,10 @@ export default class Renderer {
     // Padding
     static p = 10;
 
-    constructor(context, grid, manager, player /*, obstacles */){
-        this.context = context;
+    constructor(grid){
+        this.context = document.getElementById("game").getContext("2d");
+        this.context.font='14px FontAwesome';
         this.grid = grid;
-        this.manager = manager;
-        this.player = player;
-
-        const img = new Image();
-        img.src = '../../images/player.svg';
-        this.playerIcon = img;
-        this.player.setIcon(img);
-        
-        /*
-        if (img.complete) { //check if image was already loaded by the browser
-            console.log('truu');
-            //this.context.drawImage(img, 15, 15, 30, 30);
-         } else {
-            console.log('false');
-            img.onload = () => {
-                console.log(img.complete);
-                //this.context.drawImage(img, 15, 15,10,10);
-            }
-         }
-       */
     }
 
     drawGrid = () => {
@@ -52,29 +33,16 @@ export default class Renderer {
         this.context.stroke();
     }
 
-    update = () => {
-        this.renderCharacters([this.player]);
-        this.renderEnemies();
-    }
-
-    renderCharacters = (characters) => {
-        characters.forEach(character => {
-            const {oldX,oldY} = character.getOldPosition();
-            const {posX: oldPosX, posY: oldPosY} = gridCoordinateToPosition(oldX, oldY);
-            const {x,y} = character.getPosition();
-            const {height, width} = character.getIconSize();
-            console.log('size', width, height);
-            const {posX: newPosX, posY: newPosY} = gridCoordinateToPosition(x, y);
-            console.log('character', newPosX, newPosY);
-            this.context.beginPath();
-            this.context.clearRect (oldPosX, oldPosY,width , height);
-            this.context.drawImage(character.getIcon(), newPosX, newPosY, width , height);
-        })
-
-    }
-
-    renderEnemies = () => {
-        this.renderCharacters(this.manager.getEnemies());
+    updateGrid = (gridSquare) => {
+        const {posX,posY} = gridCoordinateToPosition(...Object.values(gridSquare.getPosition()));
+        this.context.beginPath();
+        this.context.clearRect(posX, posY, 30,30);
+        
+        if (gridSquare.isEmpty()) return;
+        const object = gridSquare.getObject();
+        const {width, height} = object.getIconSize();
+        this.context.beginPath();
+        this.context.drawImage(object.getIcon(), posX, posY, width, height);
     }
 
 }

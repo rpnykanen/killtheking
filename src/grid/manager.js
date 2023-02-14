@@ -1,22 +1,36 @@
-import Pawn from "../enemy/pawn.js";
-import Enemy from "../enemy/enemy.js";
+import Pawn from "../character/pawn.js";
+import Enemy from "../character/enemy.js";
 
 export default class Manager {
-    constructor(grid) {
+
+    static events = {'37': 'left','38': 'up','39': 'right','40': 'down'};
+
+    constructor(player) {
         this.enemies = [];
-        this.grid = grid;
+        this.player = player;
     }
 
-    update() {
-        this.removeEnemies();
-        this.updateEnemyPosition();
-        this.spawnEnemies();
+    shoot = () => {
+        const xPos = this.player.getPosition()['x'];
+        const enemyHit = this.enemies.filter(enemy => enemy.getPosition()['x'] === xPos)
+            ?.reduce((accumulator, enemy)=> {
+                if (accumulator === null) {
+                    accumulator = enemy;
+                } else {
+                    accumulator = enemy.getPosition()['y'] > accumulator.getPosition()['y'] ? enemy : accumulator; 
+                }
+                return accumulator;
+            }, null)
+
+        if (enemyHit) {
+            enemyHit.reduceHealth(1);
+        }
     }
+
 
     removeEnemies = () => {
         if (this.enemies.length == 0) return;
-        this.enemies.filter(enemy => enemy.getHealth() <= 0)
-            .forEach(enemy => destroy(enemy));
+        this.enemies = this.enemies.filter(enemy => enemy.getHealth() > 0)
     }
 
     updateEnemyPosition = () => {
@@ -52,6 +66,6 @@ export default class Manager {
         console.log(this.enemies);
     }
 
-    getEnemies = () => this.enemies;
+    getEnemies = () => {return this.enemies;}
 
 }

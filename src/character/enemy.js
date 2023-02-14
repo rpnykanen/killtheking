@@ -1,14 +1,17 @@
+import Character from "./character.js";
 import Movement from "./movement.js";
 
-export default class Enemy {
+export default class Enemy extends Character {
 
     static MoveState = 'move';
     static PredictState = 'predict';
+    static DeadState = 'dead';
 
     static iconHeight = 35;
     static iconWidth = 25;
 
     constructor(x,y, health, iconName){
+        super();
         this.oldX = x;
         this.oldY = 0;
         this.x = x;
@@ -23,7 +26,6 @@ export default class Enemy {
     }
 
     getState = () => {
-        console.log('prediction', this.newX === this.x && this.newY === this.y);
         if (this.newX === this.x && this.newY === this.y) {
             return Enemy.PredictState;
         }
@@ -36,14 +38,10 @@ export default class Enemy {
 
     getMovement = () => this.movement;
 
-    getPosition = () => { return {"x": this.x, "y": this.y} };
-
-    getOldPosition = () => { return {"oldX": this.oldX, "oldY": this.oldY} };
-
     getHealth = () => this.health;
 
-    reduceHealth = (health) => {
-        this.health -= health;
+    reduceHealth = (damage) => {
+        this.health -= damage;
     }
 
     predictPosition = (x,y) => {

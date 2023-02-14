@@ -1,4 +1,6 @@
-export default class Player {
+import Character from "./character.js";
+
+export default class Player extends Character {
     
     static Y = 0;
 
@@ -6,10 +8,15 @@ export default class Player {
     static iconWidth = 30;
 
     constructor() {
+        super();
         this.x = 0;
         this.y = 15
         this.oldX = 0;
         this.oldY = 15;
+
+        const img = new Image();
+        img.src = '../../images/player.svg';
+        this.setIcon(img);
     }
 
     right = () => {
@@ -25,15 +32,5 @@ export default class Player {
     getIconSize = () => {
         return {"height": Player.iconHeight, "width": Player.iconWidth}
     }
-
-    getPosition = () => { return {"x": this.x, "y": this.y}; }
-
-    getOldPosition = () => { return {"oldX": this.oldX, "oldY": this.oldY}; }
-
-    getIconName = () => "player.svg";
-
-    setIcon = (icon) => { this.icon = icon}
-
-    getIcon = () => this.icon;
 
 }

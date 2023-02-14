@@ -2,7 +2,11 @@ export default class GridSquare {
     constructor(x, y) {
         this.x = x;
         this.y = y;
-        this.isEmpty = true;
+        this.object = null;
+    }
+
+    getPosition = () => {
+        return {'x': this.x, 'y': this.y};
     }
 
     getUp = () => {
@@ -29,10 +33,10 @@ export default class GridSquare {
 
     getY = () => this.y;
 
-    getIsEmpty = () => this.isEmpty;
+    isEmpty = () => this.object === null;
 
-    setIsEmpty = (empty) => {
-        this.isEmpty = empty;
-    }
+    setObject = (object = null) => this.object = object;
+
+    getObject = () => this.object;
 
 }
