@@ -1,5 +1,7 @@
 import Enemy from "../character/enemy.js";
+import Knight from "../character/knight.js";
 import Pawn from "../character/pawn.js";
+
 import GridSquare from "./gridSquare.js";
 
 export default class Grid {
@@ -19,6 +21,11 @@ export default class Grid {
                 this.grid.push(new GridSquare(x, y));
             }
         }
+        
+        const positionX = Math.floor(Math.random() * 10);
+        const enemy = new Pawn(positionX,0,1);
+        this.#addCharacter(enemy);
+        this.enemies.push(enemy);
 
         this.getGridSquare(...Object.values(this.player.getPosition()))
             .setObject(this.player);
@@ -43,7 +50,6 @@ export default class Grid {
 
     #updateGrid = () => {
         this.grid.forEach((gridSquare) => {
-            if (!gridSquare.isEmpty()) console.log(gridSquare.getObject());
             this.renderer.updateGrid(gridSquare);
         });
     }
@@ -52,7 +58,14 @@ export default class Grid {
         if (this.enemies.length < 3) {
             const positionX = Math.floor(Math.random() * 10);
             const positionY = 0;
-            const enemy = new Pawn(positionX, positionY, 1);
+
+            const rand = Math.floor(Math.random() * 3);
+            let enemy = null;
+            if (rand % 2 === 0 && rand != 0) {
+                enemy = new Knight(positionX, positionY, 1);
+            } else {
+                enemy = new Pawn(positionX, positionY, 1);
+            }
             this.getGridSquare(...Object.values(enemy.getPosition())).setObject(enemy);
             this.enemies.push(enemy);
         }
@@ -66,8 +79,24 @@ export default class Grid {
         predict.forEach((enemy) => {
             const movements = enemy.getMovement();
             const prediction = movements.reduce((accumulator, movement) => {
-                accumulator.x += movement.x;
                 accumulator.y += movement.y;
+                
+
+
+                if (enemy.getPosition()['x'] == 0) {
+                    accumulator.x = accumulator.x += movement.x;
+                } else if (enemy.getPosition()['x'] == 9) {
+                    accumulator.x = accumulator.x -= movement.x;
+                } else {
+                    let x = movement.x;
+                    if (x != 0) {
+                        const rand = Math.floor(Math.random() * 2);
+                        x = rand % 2 === 0 ? x*-1 : x;
+                    }
+                    accumulator.x = accumulator.x += x;
+                } 
+
+                
                 return accumulator;
             }, enemy.getPosition());
             enemy.predictPosition(prediction.x, prediction.y);
@@ -81,6 +110,10 @@ export default class Grid {
 
     #moveCharacter = (character) => {
         this.getGridSquare(...Object.values(character.getOldPosition())).setObject(null);
+        this.#addCharacter(character)
+    }
+
+    #addCharacter = (character) => {
         this.getGridSquare(...Object.values(character.getPosition())).setObject(character);
     }
 

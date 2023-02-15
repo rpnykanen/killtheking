@@ -18,10 +18,10 @@ export default class Enemy extends Character {
         this.newX = x;
         this.newY = 0;
         this.health = health;
-        this.movement = [new Movement(0,1)]
         const icon = new Image();
         icon.src = iconName;
         this.icon = icon;
+        this.movement = [new Movement(0,1)]
     }
 
     getState = () => {
