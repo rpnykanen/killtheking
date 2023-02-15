@@ -41,7 +41,6 @@ export default class Renderer {
         if (gridSquare.isEmpty()) return;
         const object = gridSquare.getObject();
         const {width, height} = object.getIconSize();
-        this.context.beginPath();
         this.context.drawImage(object.getIcon(), posX, posY, width, height);
     }
 

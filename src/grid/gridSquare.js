@@ -33,9 +33,9 @@ export default class GridSquare {
 
     getY = () => this.y;
 
-    isEmpty = () => this.object === null;
+    isEmpty = () => !this.object
 
-    setObject = (object = null) => this.object = object;
+    setObject = (object) => this.object = object;
 
     getObject = () => this.object;
 

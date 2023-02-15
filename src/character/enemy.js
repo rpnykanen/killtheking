@@ -5,15 +5,14 @@ export default class Enemy extends Character {
 
     static MoveState = 'move';
     static PredictState = 'predict';
-    static DeadState = 'dead';
 
-    static iconHeight = 35;
-    static iconWidth = 25;
+    static iconHeight = 30;
+    static iconWidth = 20;
 
     constructor(x,y, health, iconName){
         super();
-        this.oldX = x;
-        this.oldY = 0;
+        this.oldX = null;
+        this.oldY = null;
         this.x = x;
         this.y = 0;
         this.newX = x;
@@ -40,9 +39,9 @@ export default class Enemy extends Character {
 
     getHealth = () => this.health;
 
-    reduceHealth = (damage) => {
-        this.health -= damage;
-    }
+    isDead = () => this.health <= 0;
+
+    reduceHealth = damage => this.health -= damage;
 
     predictPosition = (x,y) => {
         this.oldX = this.x;
