@@ -1,8 +1,8 @@
 export default class Character {
 
-    getPosition = () => { return {"x": this.x, "y": this.y} };
+    getPosition = () => this.position;
 
-    getOldPosition = () => { return {"oldX": this.oldX, "oldY": this.oldY} };
+    getOldPosition = () => this.oldPosition;
 
     getIconName = () => "player.svg";
 

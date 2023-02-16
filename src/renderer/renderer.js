@@ -29,7 +29,7 @@ export default class Renderer {
     }
 
     updateGrid = (gridSquare) => {
-        const {posX,posY} = this.gridCoordinateToPosition(...Object.values(gridSquare.getPosition()));
+        const {posX,posY} = this.gridCoordinateToPosition(gridSquare.getPosition());
         this.context.beginPath();
         this.context.clearRect(posX, posY, 30,30);
         
@@ -39,8 +39,8 @@ export default class Renderer {
         this.context.drawImage(object.getIcon(), posX, posY, width, height);
     }
 
-    gridCoordinateToPosition = (x,y) => {
-        return { "posX": (x*40)+20, "posY": (y*40)+15 };
+    gridCoordinateToPosition = (position) => {
+        return { "posX": (position.getX()*40)+20, "posY": (position.getY()*40)+15 };
     }
 
 }

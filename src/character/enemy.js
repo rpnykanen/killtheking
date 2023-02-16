@@ -1,5 +1,6 @@
 import Character from "./character.js";
 import Movement from "./movement.js";
+import Position from "../grid/position.js";
 
 export default class Enemy extends Character {
 
@@ -11,21 +12,20 @@ export default class Enemy extends Character {
 
     constructor(x,y, health, iconName){
         super();
-        this.oldX = null;
-        this.oldY = null;
-        this.x = x;
-        this.y = 0;
-        this.newX = x;
-        this.newY = 0;
+        this.oldPosition = null;
+        this.position = new Position(x,0);
+        this.newPosition = new Position(x,0);
         this.health = health;
+
         const icon = new Image();
         icon.src = iconName;
         this.icon = icon;
+
         this.movement = [new Movement(0,1)]
     }
 
     getState = () => {
-        if (this.newX === this.x && this.newY === this.y) {
+        if (this.position.equals(this.newPosition)) {
             return Enemy.PredictState;
         }
         return Enemy.MoveState;
@@ -43,16 +43,13 @@ export default class Enemy extends Character {
 
     reduceHealth = damage => this.health -= damage;
 
-    predictPosition = (x,y) => {
-        this.oldX = this.x;
-        this.oldY = this.y;
-        this.newX = x;
-        this.newY = y;
+    predictPosition = (position) => {
+        this.oldPosition = this.position.clone();
+        this.newPosition = position;
     }
 
     moveToPredictedPosition = () => {
-        this.x = this.newX;
-        this.y = this.newY;
+        this.position = this.newPosition.clone();
     }
 
 }

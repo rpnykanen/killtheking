@@ -12,8 +12,6 @@ export default class Grid {
     }
 
     initialize() {
-        this.squareWidth = 40;
-        this.squareHeight = 40;
         this.grid = [];
         for (let x = 0; x < 10; x++) {
             for (let y = 0; y <= 15; y++){
@@ -21,12 +19,11 @@ export default class Grid {
             }
         }
         
-        const positionX = Math.floor(Math.random() * 10);
-        const enemy = new Pawn(positionX,0,1);
+        const x = Math.floor(Math.random() * 10);
+        const enemy = new Pawn(x,0,1);
         this.#addCharacter(enemy);
         this.enemies.push(enemy);
-
-        this.getGridSquare(...Object.values(this.player.getPosition()))
+        this.getGridSquare(this.player.getPosition())
             .setObject(this.player);
         this.renderer.drawGrid();
         this.#updateGrid();
@@ -65,7 +62,7 @@ export default class Grid {
             } else {
                 enemy = new Pawn(positionX, positionY, 1);
             }
-            this.getGridSquare(...Object.values(enemy.getPosition())).setObject(enemy);
+            this.getGridSquare(enemy.getPosition()).setObject(enemy);
             this.enemies.push(enemy);
         }
     }
@@ -77,14 +74,13 @@ export default class Grid {
         const move = this.enemies.filter(enemy => enemy.getState() === Enemy.MoveState);
         predict.forEach((enemy) => {
             const movements = enemy.getMovement();
+            const enemyPosition = enemy.getPosition().clone();
             const prediction = movements.reduce((accumulator, movement) => {
-                accumulator.y += movement.y;
-                
+                accumulator.addY(movement.getY());
 
-
-                if (enemy.getPosition()['x'] == 0) {
+                if (enemyPosition.getX() == 0) {
                     accumulator.x = accumulator.x += movement.x;
-                } else if (enemy.getPosition()['x'] == 9) {
+                } else if (enemyPosition.getX() == 9) {
                     accumulator.x = accumulator.x -= movement.x;
                 } else {
                     let x = movement.x;
@@ -92,13 +88,12 @@ export default class Grid {
                         const rand = Math.floor(Math.random() * 2);
                         x = rand % 2 === 0 ? x*-1 : x;
                     }
-                    accumulator.x = accumulator.x += x;
+                    accumulator.addX(x);
                 } 
-
                 
                 return accumulator;
-            }, enemy.getPosition());
-            enemy.predictPosition(prediction.x, prediction.y);
+            }, enemy.getPosition().clone());
+            enemy.predictPosition(prediction);
         });
         
         move.forEach((enemy) => {
@@ -108,26 +103,27 @@ export default class Grid {
     }
 
     #moveCharacter = (character) => {
-        this.getGridSquare(...Object.values(character.getOldPosition())).setObject(null);
-        this.#addCharacter(character)
+        console.log('old',character.getOldPosition() ,character.getPosition());
+        this.getGridSquare(character.getOldPosition()).setObject(null);
+        this.getGridSquare(character.getPosition()).setObject(character);
     }
 
     #addCharacter = (character) => {
-        this.getGridSquare(...Object.values(character.getPosition())).setObject(character);
+        this.getGridSquare(character.getPosition()).setObject(character);
     }
 
     #removeCharacters = () => {
         const deadEnemies = this.enemies.filter(enemy => enemy.isDead())
         .forEach((enemy) => {
-            this.getGridSquare(...Object.values(enemy.getPosition())).setObject(null);
+            this.getGridSquare(enemy.getPosition()).setObject(null);
         });
         this.enemies = this.enemies.filter(enemy => !enemy.isDead());
     }
 
     #movePlayer = (action) => {
         this.player[action]();
-        this.getGridSquare(...Object.values(this.player.getOldPosition())).setObject(null);
-        this.getGridSquare(...Object.values(this.player.getPosition())).setObject(this.player);
+        this.getGridSquare(this.player.getOldPosition()).setObject(null);
+        this.getGridSquare(this.player.getPosition()).setObject(this.player);
     }
 
     #shoot = () => {
@@ -147,5 +143,5 @@ export default class Grid {
         }
     }
 
-    getGridSquare = (x,y) => this.grid.find(square => square.getX() == x && square.getY() == y)
+    getGridSquare = (position) => this.grid.find(square => square.position.equals(position))
 }
