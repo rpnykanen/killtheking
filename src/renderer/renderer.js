@@ -1,13 +1,8 @@
-import { gridCoordinateToPosition } from "./helper.js";
-
 export default class Renderer {
 
-    // Box width
-    static bw = 400;
-    // Box height
-    static bh = 600;
-    // Padding
-    static p = 10;
+    static width = 400;
+    static height = 600;
+    static padding = 10;
 
     constructor(grid){
         this.context = document.getElementById("game").getContext("2d");
@@ -16,17 +11,17 @@ export default class Renderer {
     }
 
     drawGrid = () => {
-        const p = Renderer.p;
-        const bw = Renderer.bw
-        const bh = Renderer.bh
+        const padding = Renderer.padding;
+        const width = Renderer.width
+        const height = Renderer.height
 
-        for (let x = 0; x <= bw; x += 40) {
-            this.context.moveTo(0.5 + x + p, p);
-            this.context.lineTo(0.5 + x + p, bh + p);
+        for (let x = 0; x <= width; x += 40) {
+            this.context.moveTo(0.5 + x + padding, padding);
+            this.context.lineTo(0.5 + x + padding, height + padding);
         }
-        for (let x = 0; x <= bh; x += 40) {
-            this.context.moveTo(p, 0.5 + x + p);
-            this.context.lineTo(bw + p, 0.5 + x + p);
+        for (let x = 0; x <= height; x += 40) {
+            this.context.moveTo(padding, 0.5 + x + padding);
+            this.context.lineTo(width + padding, 0.5 + x + padding);
         }
     
         this.context.strokeStyle = "black";
@@ -34,7 +29,7 @@ export default class Renderer {
     }
 
     updateGrid = (gridSquare) => {
-        const {posX,posY} = gridCoordinateToPosition(...Object.values(gridSquare.getPosition()));
+        const {posX,posY} = this.gridCoordinateToPosition(...Object.values(gridSquare.getPosition()));
         this.context.beginPath();
         this.context.clearRect(posX, posY, 30,30);
         
@@ -42,6 +37,10 @@ export default class Renderer {
         const object = gridSquare.getObject();
         const {width, height} = object.getIconSize();
         this.context.drawImage(object.getIcon(), posX, posY, width, height);
+    }
+
+    gridCoordinateToPosition = (x,y) => {
+        return { "posX": (x*40)+20, "posY": (y*40)+15 };
     }
 
 }

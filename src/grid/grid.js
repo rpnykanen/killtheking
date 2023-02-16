@@ -5,10 +5,9 @@ import Pawn from "../character/pawn.js";
 import GridSquare from "./gridSquare.js";
 
 export default class Grid {
-    constructor(player, manager, renderer){
+    constructor(player, renderer){
         this.player = player;
         this.enemies = [];
-        this.manager = manager;
         this.renderer = renderer
     }
 
