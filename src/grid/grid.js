@@ -13,6 +13,7 @@ export default class Grid {
         this.actions = [];
         pubsub.subscribe('player.move', this.#move);
         pubsub.subscribe('player.shoot', this.#shoot);
+        pubsub.subscribe('player.skip', this.#genericActions);
     }
 
     initialize = () => {
