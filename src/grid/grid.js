@@ -14,6 +14,7 @@ export default class Grid {
         pubsub.subscribe('player.move', this.#move);
         pubsub.subscribe('player.shoot', this.#shoot);
         pubsub.subscribe('player.skip', this.#genericActions);
+        pubsub.subscribe('enemy.death', this.#removeEnemy)
     }
 
     initialize = () => {
@@ -39,10 +40,15 @@ export default class Grid {
     }
 
     #genericActions = () => {
-        this.#removeCharacters();
         this.#moveEnemies();
         this.#spawnEnemies();
         this.#performActions();
+    }
+
+    #removeEnemy = (position) => {
+        this.actions.push(position);
+        this.getGridSquare(position).setObject(null); 
+        this.enemies = this.enemies.filter(enemy => !enemy.isDead());
     }
 
     #move = (positions) => {
@@ -54,15 +60,6 @@ export default class Grid {
         if (character) this.getGridSquare(newPos).setObject(character);
 
         this.#genericActions();
-    }
-
-    #getAllEnemyPositions = () => {
-        return this.enemies.map(enemy => {
-            const result = [];
-            if (enemy.getPosition()) result.push(enemy.getPosition());
-            if (enemy.getOldPosition()) result.push(enemy.getOldPosition());
-            return result;
-        })
     }
 
     #shoot = (position) => {
@@ -152,14 +149,7 @@ export default class Grid {
         this.getGridSquare(character.getPosition()).setObject(character);
     }
 
-    #removeCharacters = () => {
-        const deadEnemies = this.enemies.filter(enemy => enemy.isDead())
-            .forEach((enemy) => {
-                this.actions.push(enemy.getPosition());
-                this.getGridSquare(enemy.getPosition()).setObject(null);
-            });
-        this.enemies = this.enemies.filter(enemy => !enemy.isDead());
-    }
+
 
     getGridSquare = (position) => this.grid.find(square => square.position.equals(position))
 }

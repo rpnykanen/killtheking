@@ -1,6 +1,7 @@
 import Character from "./character.js";
 import Movement from "./movement.js";
 import Position from "../grid/position.js";
+import pubsub from "../event/pubSub.js";
 
 export default class Enemy extends Character {
 
@@ -43,7 +44,11 @@ export default class Enemy extends Character {
 
     isDead = () => this.health <= 0;
 
-    reduceHealth = damage => this.health -= damage;
+    reduceHealth = damage => {
+        this.health -= damage;
+        if (this.isDead()) pubsub.publish('enemy.death', this.getPosition());
+    }
+
 
     predictPosition = (position) => {
         this.oldPosition = this.position.clone();
