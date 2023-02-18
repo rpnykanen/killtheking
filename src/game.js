@@ -1,10 +1,11 @@
 import Renderer from './renderer/renderer.js';
 import Player from './character/player.js';
 import Grid from './grid/grid.js';
+import pubsub from './event/pubSub.js';
 
 export default class Game {
 
-    static events = {'37': 'left', '38': 'up', '39': 'right', '40': 'down'};
+    static events = {'37': 'left', '38': 'shoot', '39': 'right', '40': 'skip'};
 
     constructor() {
         this.grid = new Grid(
@@ -13,11 +14,16 @@ export default class Game {
         );
         this.grid.initialize();
     }
-
+    
     event = (keyCode) => {
-        const action = Game.events[keyCode];
-        if (action === undefined) return;
-        this.grid.action(action);
+        switch(Game.events[keyCode]) {
+            case 'left': 
+            case 'right': 
+            case 'shoot': 
+            case 'skip': 
+                pubsub.publish('keyboard.event', Game.events[keyCode]);
+                break;
+        }
     }
-
+    
 }

@@ -35,6 +35,8 @@ export default class Enemy extends Character {
         return {"height": Enemy.iconHeight, "width": Enemy.iconWidth}
     }
 
+    getNewPosition = () => this.newPosition;
+
     getMovement = () => this.movement;
 
     getHealth = () => this.health;
