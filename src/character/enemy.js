@@ -46,9 +46,8 @@ export default class Enemy extends Character {
 
     reduceHealth = damage => {
         this.health -= damage;
-        if (this.isDead()) pubsub.publish('enemy.death', this.getPosition());
+        if (this.isDead()) pubsub.publish('enemy.death', this.position.clone());
     }
-
 
     predictPosition = (position) => {
         this.oldPosition = this.position.clone();

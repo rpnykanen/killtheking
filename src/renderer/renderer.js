@@ -1,13 +1,20 @@
+import pubsub from '../event/pubSub.js';
+import Particles from './particles.js';
+import CanvasPosition from './canvasPosition.js';
+
 export default class Renderer {
 
     static width = 400;
     static height = 600;
     static padding = 10;
 
-    constructor(grid){
+    constructor(grid) {
         this.context = document.getElementById("game").getContext("2d");
         this.context.font='14px FontAwesome';
         this.grid = grid;
+
+        // this.particles = [];
+        // this.particles = new Particles(this.context);
     }
 
     drawGrid = () => {
@@ -29,18 +36,21 @@ export default class Renderer {
     }
 
     updateGrid = (gridSquare) => {
-        const {posX,posY} = this.gridCoordinateToPosition(gridSquare.getPosition());
-        this.context.beginPath();
-        this.context.clearRect(posX, posY, 30,30);
-        
+        this.clearGrid(gridSquare);
         if (gridSquare.isEmpty()) return;
-        const object = gridSquare.getObject();
-        const {width, height} = object.getIconSize();
-        this.context.drawImage(object.getIcon(), posX, posY, width, height);
+        this.renderGrid(gridSquare);
     }
 
-    gridCoordinateToPosition = (position) => {
-        return { "posX": (position.getX()*40)+20, "posY": (position.getY()*40)+15 };
+    clearGrid = (gridSquare) => {
+        const canvasPosition = new CanvasPosition(gridSquare.getPosition().getX(), gridSquare.getPosition().getY(), true);
+        this.context.clearRect(canvasPosition.getX(), canvasPosition.getY(), 30, 30);
+    }
+
+    renderGrid = (gridSquare) => {
+        const object = gridSquare.getObject();
+        const {width, height} = object.getIconSize();
+        const canvasPosition = new CanvasPosition(gridSquare.getPosition().getX(), gridSquare.getPosition().getY(), true);
+        this.context.drawImage(object.getIcon(), canvasPosition.getX(), canvasPosition.getY(), width, height);
     }
 
 }

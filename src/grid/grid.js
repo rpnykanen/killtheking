@@ -4,6 +4,8 @@ import Pawn from "../character/pawn.js";
 import GridSquare from "./gridSquare.js";
 import pubsub from "../event/pubSub.js";
 
+import Particles from "../renderer/particles.js";
+
 export default class Grid {
 
     constructor(player, renderer){
