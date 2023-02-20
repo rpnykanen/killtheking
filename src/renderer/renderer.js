@@ -1,5 +1,3 @@
-import pubsub from '../event/pubSub.js';
-import Particles from './particles.js';
 import CanvasPosition from './canvasPosition.js';
 
 export default class Renderer {
@@ -12,9 +10,6 @@ export default class Renderer {
         this.context = document.getElementById("game").getContext("2d");
         this.context.font='14px FontAwesome';
         this.grid = grid;
-
-        // this.particles = [];
-        // this.particles = new Particles(this.context);
     }
 
     drawGrid = () => {

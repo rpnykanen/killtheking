@@ -14,6 +14,13 @@ export default class Position {
     substractX = x => this.x -= x;
     substractY = x => this.y -= y;
 
+    // TODO: clenaup
+    toCanvasPosition = () => {
+        const x = this.x*40+30
+        const y = this.y*40+30;
+        return {x,y};
+    }
+
     equals = (position) => position.getX() === this.x && position.getY() === this.y;
 
     clone = () => new Position(this.x, this.y);

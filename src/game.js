@@ -2,6 +2,7 @@ import Renderer from './renderer/renderer.js';
 import Player from './character/player.js';
 import Grid from './grid/grid.js';
 import pubsub from './event/pubSub.js';
+import Particles from './particles/particles.js';
 
 export default class Game {
 
@@ -12,6 +13,7 @@ export default class Game {
             new Player(),
             new Renderer()
         );
+        this.particles = new Particles();
         this.grid.initialize();
     }
     

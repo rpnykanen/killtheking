@@ -1,5 +1,6 @@
 export default class CanvasPosition {
 
+    // TODO figure out the calculation.
     constructor(x,y, isPosition){
         this.originalX = x;
         this.originalY = y;

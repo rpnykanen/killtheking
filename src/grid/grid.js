@@ -4,8 +4,6 @@ import Pawn from "../character/pawn.js";
 import GridSquare from "./gridSquare.js";
 import pubsub from "../event/pubSub.js";
 
-import Particles from "../renderer/particles.js";
-
 export default class Grid {
 
     constructor(player, renderer){
@@ -13,6 +11,7 @@ export default class Grid {
         this.enemies = [];
         this.renderer = renderer
         this.actions = [];
+        // pubsub.subscribe('character.spawn', this.#spawn); // TODO get rid of player dependency
         pubsub.subscribe('player.move', this.#move);
         pubsub.subscribe('player.shoot', this.#shoot);
         pubsub.subscribe('player.skip', this.#genericActions);
@@ -144,14 +143,11 @@ export default class Grid {
             this.actions.push(enemy.getOldPosition(), enemy.getNewPosition())
         })
     }
-
     
     #moveCharacter = (character) => {
         this.getGridSquare(character.getOldPosition()).setObject(null);
         this.getGridSquare(character.getPosition()).setObject(character);
     }
-
-
 
     getGridSquare = (position) => this.grid.find(square => square.position.equals(position))
 }
