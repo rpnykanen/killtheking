@@ -6,10 +6,10 @@ import pubsub from "../event/pubSub.js";
 
 export default class Grid {
 
-    constructor(player, renderer){
-        this.player = player;
+    constructor(/*player, renderer*/){
+        //this.player = player;
         this.enemies = [];
-        this.renderer = renderer
+        // this.renderer = renderer
         this.actions = [];
         // pubsub.subscribe('character.spawn', this.#spawn); // TODO get rid of player dependency
         pubsub.subscribe('player.move', this.#move);
