@@ -5,7 +5,7 @@ export default class Game {
         this.event = (keyCode) => {
         };
         this.grid = new Grid();
-        this.renderer = new Renderer;
+        this.renderer = new Renderer();
     }
 }
 Game.events = { '37': 'left', '38': 'shoot', '39': 'right', '40': 'skip' };
