@@ -1,9 +1,10 @@
 export default class Position {
-    constructor(x, y) {
-        this.x = x;
-        this.y = y;
-        this.getX = () => this.x;
-        this.getY = () => this.y;
-        this.equals = (position) => this.x === position.getX() && this.y === position.getY();
+    constructor(_x, _y) {
+        this._x = _x;
+        this._y = _y;
+        this.equals = (position) => this._x === position.x && this._y === position.y;
+        this.clone = () => new Position(this._x, this._y);
     }
+    get x() { return this._x; }
+    get y() { return this._y; }
 }

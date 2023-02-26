@@ -2,28 +2,22 @@ import Position from "../grid/Position";
 import Movement from "./Movement";
 export default class Enemy {
     constructor(x, y, health) {
-        this._oldPosition = null;
+        this._oldPosition = new Position(x, 0);
         this._position = new Position(x, 0);
         this._newPosition = new Position(x, 0);
-        this.health = health;
-        this.movement = [new Movement(0, 1)];
+        this._health = health;
+        this._movement = [new Movement(0, 1)];
     }
-    get Position() {
+    get position() {
         return this._position;
     }
-    get OldPosition() {
+    get oldPosition() {
         return this._oldPosition;
     }
-    get NewPosition() {
+    get newPosition() {
         return this._newPosition;
     }
-    get IconName() {
-        return this.iconName;
-    }
     get icon() {
-        return this.icon;
-    }
-    get iconSize() {
-        return { "height": this.iconHeight, "width": this.iconWidth };
+        return this._icon;
     }
 }

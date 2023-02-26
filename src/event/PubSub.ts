@@ -3,7 +3,6 @@ type Events = {
 }
 
 class PubSub {
-    // TODO use set?
     private events: Events;
     private instance:PubSub | null;
 
@@ -16,6 +15,7 @@ class PubSub {
     }
     
     subscribe = (eventName: string, callback: CallableFunction): void => {
+        console.log(`subbed to ${eventName}`);
         this.events[eventName] = this.events[eventName] || [];
         this.events[eventName].push(callback);
     }
@@ -26,10 +26,11 @@ class PubSub {
         }
     }
 
-    publish = (eventName: string, event: string): void => {
+    publish = (eventName: string, eventObject: IEvent): void => {
+        console.log(`published to ${eventName}`);
         if (!this.events[eventName]) return;
         this.events[eventName]
-            .forEach(callback => callback(event));
+            .forEach(callback => callback(eventObject));
     }
 }
 

@@ -14,9 +14,9 @@ export default class GridSquare {
 
     getPosition = () => this.position;
 
-    getX = () => this.position.getX();
+    get x(){ return this.position.x; }
 
-    getY = () => this.position.getY();
+    get y() { return this.position.y; }
 
     isEmpty = () => !this.character
 

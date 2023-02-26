@@ -1,9 +1,10 @@
-import Enemy from "./Enemy";
-import Movement from "./Movement";
+import Enemy from "./Enemy.js";
+import Icon from "./Icon.js";
+import Movement from "./Movement.js";
 export default class Pawn extends Enemy {
     constructor(x, y, health) {
         super(x, y, health);
-        this.iconName = '../../images/pawn.svg';
-        this.movement = [new Movement(0, 1)];
+        this._icon = new Icon(25, 30, '../../images/pawn.svg');
+        this._movement = [new Movement(0, 1)];
     }
 }

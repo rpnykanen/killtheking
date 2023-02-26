@@ -1,5 +1,5 @@
 import Game from "./Game.js";
 const game = new Game();
-document.onkeydown = (e) => {
-    e = e || window.event;
-};
+document.addEventListener("keydown", (keydownEvent) => {
+    game.event(keydownEvent.key);
+});

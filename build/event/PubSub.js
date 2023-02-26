@@ -1,6 +1,7 @@
 class PubSub {
     constructor() {
         this.subscribe = (eventName, callback) => {
+            console.log(`subbed to ${eventName}`);
             this.events[eventName] = this.events[eventName] || [];
             this.events[eventName].push(callback);
         };
@@ -9,11 +10,12 @@ class PubSub {
                 this.events[eventName] = this.events[eventName].filter(fn => fn !== callback);
             }
         };
-        this.publish = (eventName, event) => {
+        this.publish = (eventName, eventObject) => {
+            console.log(`published to ${eventName}`);
             if (!this.events[eventName])
                 return;
             this.events[eventName]
-                .forEach(callback => callback(event));
+                .forEach(callback => callback(eventObject));
         };
         if (this.instance) {
             throw new Error("New instance cannot be created!");

@@ -1,5 +1,8 @@
+import pubsub from "../event/PubSub.js";
+import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
+import GridSquare from "../grid/GridSquare.js";
 import Position from "../grid/Position.js";
-import GridPosition from "./CanvasPosition.js";
+import CanvasPosition from "./CanvasPosition.js";
 import Effect from "./effect/Effect.js";
 
 export default class Renderer {
@@ -19,10 +22,11 @@ export default class Renderer {
         this.context = canvas.getContext("2d")!;
         const effectsCanvas = <HTMLCanvasElement> document.getElementById("effect");
         this.effect = new Effect(effectsCanvas.getContext("2d")!);
+        this.drawGrid();
 
         //TODO: Sub to enemy death.
-
-        this.drawGrid();
+        pubsub.subscribe(GameUpdateEvent.eventName, this.updateGrid)
+        
     }
 
     drawGrid = () => {
@@ -30,7 +34,7 @@ export default class Renderer {
         const width = Renderer.canvasWidth;
         const height = Renderer.canvasHeight;
 
-        for (let x = 0; x <= width; x += 40) {
+        for (let x = 0; x <= width; x += Renderer.gridWidth) {
             let xFrom = 0.5 + x + padding;
             let yFrom = padding;
 
@@ -39,7 +43,7 @@ export default class Renderer {
             this.context?.moveTo(xFrom, yFrom);
             this.context?.lineTo(xTo, yTo);
         }
-        for (let x = 0; x <= height; x += 40) {
+        for (let x = 0; x <= height; x += Renderer.gridWidth) {
             let xFrom = padding;
             let yFrom = 0.5 + x + padding;
             let xTo = width + padding;
@@ -54,28 +58,32 @@ export default class Renderer {
     }
 
     enemyDeath = (position: Position) => {
-        this.effect.explosion(new GridPosition(position));
+        this.effect.explosion(new CanvasPosition(position));
     }
 
-    /*
-    updateGrid = (gridSquare) => {
-        this.clearGrid(gridSquare);
-        if (gridSquare.isEmpty()) return;
-        this.renderGrid(gridSquare);
+    
+    updateGrid = (gridSquares: GridSquare[]) => {
+        gridSquares.forEach((gridSquare:GridSquare) => {
+            this.clearGrid(gridSquare);
+            if (gridSquare.isEmpty()) return;
+            this.renderGrid(gridSquare);
+        })
     }
-    */
+  
+    clearGrid = (gridSquare: GridSquare) => {
+        const canvasPosition = new CanvasPosition(gridSquare.getPosition());
+        this.context.clearRect(canvasPosition.x, canvasPosition.y, 30, 30);
+    }
 
-    /*
-    clearGrid = (gridSquare) => {
-        const canvasPosition = new CanvasPosition(gridSquare.getPosition().getX(), gridSquare.getPosition().getY(), true);
-        this.context.clearRect(canvasPosition.getX(), canvasPosition.getY(), 30, 30);
+    renderGrid = (gridSquare: GridSquare) => {
+        const object = gridSquare.getCharacter();
+        if (!object) {
+            return;
+        }
+        const icon = object.icon;
+        const canvasPosition = new CanvasPosition(gridSquare.getPosition());
+        this.context.drawImage(icon.image, canvasPosition.x, canvasPosition.y, icon.width, icon.height);
+        
     }
-
-    renderGrid = (gridSquare) => {
-        const object = gridSquare.getObject();
-        const {width, height} = object.getIconSize();
-        const canvasPosition = new CanvasPosition(gridSquare.getPosition().getX(), gridSquare.getPosition().getY(), true);
-        this.context.drawImage(object.getIcon(), canvasPosition.getX(), canvasPosition.getY(), width, height);
-    }
-    */
+    
 }

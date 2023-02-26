@@ -1,15 +1,14 @@
 import Position from "../grid/Position.js";
 import Renderer from "./Renderer.js";
 
-export default class GridPosition {
-
-    private x: number;
-    private y: number;
+export default class CanvasPosition {
+    private _x: number;
+    private _y: number;
     
-    constructor(private position:Position) {
-        this.x = (this.position.getX()* Renderer.gridWidth + 20)
-        this.y = (this.position.getX()* Renderer.gridWidth + 20)
+    constructor(private _position:Position) {
+        this._x = (this._position.x* Renderer.gridWidth + 20)
+        this._y = (this._position.y* Renderer.gridWidth + 20)
     }
-    getX = () => this.position.getX();
-    getY = () => this.position.getY();
+    get x() { return this._x }
+    get y() { return this._y } 
 }

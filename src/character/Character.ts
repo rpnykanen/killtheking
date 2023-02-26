@@ -1,15 +1,12 @@
 import Position from "../grid/Position";
+import Icon from "./Icon.js";
 
 export default interface Character {
 
-    get Position(): Position;
+    get position(): Position;
 
-    get OldPosition(): Position | null;
+    get oldPosition(): Position;
 
-    get IconName(): string
-
-    get icon(): string;
-
-    get iconSize(): object;
+    get icon(): Icon;
 
 }
