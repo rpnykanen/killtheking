@@ -1,7 +1,6 @@
 class PubSub {
     constructor() {
         this.subscribe = (eventName, callback) => {
-            console.log(`subbed to ${eventName}`);
             this.events[eventName] = this.events[eventName] || [];
             this.events[eventName].push(callback);
         };
@@ -11,7 +10,6 @@ class PubSub {
             }
         };
         this.publish = (eventName, eventObject) => {
-            console.log(`published to ${eventName}`);
             if (!this.events[eventName])
                 return;
             this.events[eventName]

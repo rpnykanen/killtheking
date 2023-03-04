@@ -5,11 +5,11 @@ import PlayerMoveEvent from "../event/events/PlayerMoveEvent.js";
 import KeyboardEvent from "../event/events/KeyboardEvent.js";
 import CharacterSpawnEvent from "../event/events/CharacterSpawnEvent.js";
 import Icon from "./Icon.js";
+import PlayerShootEvent from "../event/events/PlayerShootEvent.js";
 
 export default class Player implements Character {
     protected _oldPosition: Position;
     protected _position: Position;
-    protected _newPosition: Position;
     protected _health: number;
     
     protected _iconName: string;
@@ -25,29 +25,22 @@ export default class Player implements Character {
     }
 
     protected action = (action: string | null) => {
-        if (action) {
-            return;
-        } 
-
-        if (action == 'left' || action == 'right') {
+        if (action == 'ArrowLeft' || action == 'ArrowRight') {
             this._oldPosition = this._position.clone();
             let x = this._position.x;
-            if (action == 'left') {
-                x -= this._position.y > 0 ? 1 : 0;
-                // this.position.substractX(x);
+            if (action == 'ArrowLeft') {
+                x -= this._position.x > 0 ? 1 : 0;
             } else {
                 x += this._position.x < 9 ?  1 : 0;
-                // this.position.addX(x);
             }
             this._position = new Position(x, this._position.y);
-            
             pubsub.publish(PlayerMoveEvent.eventName, PlayerMoveEvent.create(this._oldPosition, this._position));
         }
-        if (action == 'shoot') {
-            pubsub.publish('player.shoot', this._position);
+        if (action == 'ArrowUp') {
+            pubsub.publish(PlayerShootEvent.eventName, PlayerShootEvent.create(this._position));
         }
 
-        if (action == 'skip') {
+        if (action == 'ArrowDown') {
             pubsub.publish('player.skip', {});
         }
 

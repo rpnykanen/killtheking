@@ -1,9 +1,15 @@
-import Position from "../grid/Position";
-import Character from "./Character";
-import Icon from "./Icon";
-import Movement from "./Movement";
+import PubSub from "../event/PubSub.js";
+import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
+import Position from "../grid/Position.js";
+import Character from "./Character.js";
+import Icon from "./Icon.js";
+import Movement from "./Movement.js";
 
 export default abstract class Enemy implements Character {
+
+    static MoveState = 'move';
+    static PredictState = 'predict';
+
     protected _position: Position;
     protected _oldPosition: Position;
     protected _newPosition: Position;
@@ -20,11 +26,15 @@ export default abstract class Enemy implements Character {
         this._position = new Position(x,0);
         this._newPosition = new Position(x,0);
         this._health = health;
-        this._movement = [new Movement(0,1)]
+        this._movement = new Movement(0,1);
     }
 
     get position(): Position {
         return this._position;
+    }
+
+    get movement(): Movement {
+        return this._movement;
     }
 
     get oldPosition(): Position {
@@ -37,6 +47,29 @@ export default abstract class Enemy implements Character {
  
     get icon(): Icon {
         return this._icon;
+    }
+
+    isDead = () => this._health <= 0;
+
+    reduceHealth = (damage: number) => {
+        this._health -= damage;
+        if (this.isDead()) PubSub.publish(EnemyDeathEvent.eventName, EnemyDeathEvent.create(this));
+    }
+
+    get state() {
+        if (this.position.equals(this.newPosition)) {
+            return Enemy.PredictState;
+        }
+        return Enemy.MoveState;
+    }
+
+    predictPosition = (position: Position) => {
+        this._oldPosition = this.position.clone();
+        this._newPosition = position.clone();
+    }
+
+    moveToPredictedPosition = () => {
+        this._position = this._newPosition.clone();
     }
 
 }

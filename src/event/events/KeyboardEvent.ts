@@ -13,16 +13,14 @@ export default class KeyboardEvent implements IEvent {
         'ArrowDown': 'skip'
     };
 
-    event: string | null;
-
-    constructor(event: string) {
-        this.event = KeyboardEvent.events[event];
+    constructor(private _event: string ) {
+        this._event = KeyboardEvent.events[this._event];
     }
 
     static create = (event: string) => {
         return new KeyboardEvent(event);
     }
 
-    getEvent = (): string | null => this.event;
+    get event(): string | null { return this.event; }
 
 }

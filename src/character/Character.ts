@@ -1,4 +1,4 @@
-import Position from "../grid/Position";
+import Position from "../grid/Position.js";
 import Icon from "./Icon.js";
 
 export default interface Character {

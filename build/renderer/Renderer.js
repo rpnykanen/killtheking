@@ -1,9 +1,14 @@
 import pubsub from "../event/PubSub.js";
+import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
 import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
 import CanvasPosition from "./CanvasPosition.js";
 import Effect from "./effect/Effect.js";
 export default class Renderer {
     constructor() {
+        this.doExplode = (event) => {
+            const position = event.enemy.position;
+            this.effect.explosion(new CanvasPosition(position));
+        };
         this.drawGrid = () => {
             const padding = Renderer.canvasPadding;
             const width = Renderer.canvasWidth;
@@ -30,8 +35,8 @@ export default class Renderer {
         this.enemyDeath = (position) => {
             this.effect.explosion(new CanvasPosition(position));
         };
-        this.updateGrid = (gridSquares) => {
-            gridSquares.forEach((gridSquare) => {
+        this.updateGrid = (gameUpdateEvent) => {
+            gameUpdateEvent.gridSquares.forEach((gridSquare) => {
                 this.clearGrid(gridSquare);
                 if (gridSquare.isEmpty())
                     return;
@@ -39,17 +44,17 @@ export default class Renderer {
             });
         };
         this.clearGrid = (gridSquare) => {
-            const canvasPosition = new CanvasPosition(gridSquare.getPosition());
-            this.context.clearRect(canvasPosition.x, canvasPosition.y, 30, 30);
+            const canvasPosition = new CanvasPosition(gridSquare.position);
+            this.context.clearRect(canvasPosition.x - 4, canvasPosition.y - 9, 39, 39);
         };
         this.renderGrid = (gridSquare) => {
-            const object = gridSquare.getCharacter();
+            const object = gridSquare.character;
             if (!object) {
                 return;
             }
             const icon = object.icon;
-            const canvasPosition = new CanvasPosition(gridSquare.getPosition());
-            this.context.drawImage(icon.image, canvasPosition.x, canvasPosition.y, icon.width, icon.height);
+            const canvasPosition = new CanvasPosition(gridSquare.position);
+            this.context.drawImage(icon.image, canvasPosition.x, canvasPosition.y - 5, icon.width, icon.height);
         };
         const canvas = document.getElementById("game");
         this.context = canvas.getContext("2d");
@@ -57,6 +62,7 @@ export default class Renderer {
         this.effect = new Effect(effectsCanvas.getContext("2d"));
         this.drawGrid();
         pubsub.subscribe(GameUpdateEvent.eventName, this.updateGrid);
+        pubsub.subscribe(EnemyDeathEvent.eventName, this.doExplode);
     }
 }
 Renderer.canvasWidth = 400;

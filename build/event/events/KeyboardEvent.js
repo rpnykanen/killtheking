@@ -1,8 +1,9 @@
 export default class KeyboardEvent {
-    constructor(event) {
-        this.getEvent = () => this.event;
-        this.event = KeyboardEvent.events[event];
+    constructor(_event) {
+        this._event = _event;
+        this._event = KeyboardEvent.events[this._event];
     }
+    get event() { return this.event; }
 }
 KeyboardEvent.eventName = 'keyboard.event';
 KeyboardEvent.events = {

@@ -1,5 +1,9 @@
+import Particle from "./Particle";
+
 export default interface IEffect {
 
-    update(position: any): void;
+    update(): Particle[];
+
+    isDead(): boolean;
 
 }

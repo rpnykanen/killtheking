@@ -1,7 +1,7 @@
 export default class Icon {
-    constructor(_height, _width, imageUrl) {
-        this._height = _height;
+    constructor(_width, _height, imageUrl) {
         this._width = _width;
+        this._height = _height;
         const img = new Image();
         img.src = imageUrl;
         this._image = img;

@@ -1,10 +1,10 @@
 export default class PlayerMoveEvent {
-    constructor(oldPosition, newPosition) {
-        this.oldPosition = oldPosition;
-        this.newPosition = newPosition;
-        this.getOldPosition = () => this.oldPosition;
-        this.getNewPosition = () => this.newPosition;
+    constructor(_oldPosition, _newPosition) {
+        this._oldPosition = _oldPosition;
+        this._newPosition = _newPosition;
     }
+    get oldPosition() { return this._oldPosition; }
+    get newPosition() { return this._newPosition; }
 }
 PlayerMoveEvent.eventName = 'player.move';
 PlayerMoveEvent.create = (oldPosition, newPosition) => {

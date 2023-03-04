@@ -5,8 +5,9 @@ import Grid from './grid/grid.js';
 */
 import Player from './character/Player.js';
 import pubsub from './event/PubSub.js';
-import GameUpdateEvent from './event/events/GameUpdateEvent';
+import GameUpdateEvent from './event/events/GameUpdateEvent.js';
 import KeyboardEvent from './event/events/KeyboardEvent.js';
+import PlayerMoveEvent from './event/events/PlayerMoveEvent.js';
 
 
 import Grid from "./grid/Grid.js";
@@ -25,7 +26,12 @@ export default class Game {
         this.renderer = new Renderer();
         this.player = new Player();
         this.grid.updateGrid();
-        //this.grid.initialize();
+        pubsub.subscribe(GameUpdateEvent.eventName, this.spawnEnemies);
+        // pubsub.subscribe(PlayerMoveEvent.eventName, PlayerMoveEvent.create(this._oldPosition, this._position));
+    }
+    
+    spawnEnemies = () => {
+        this.grid.spawnEnemies();
     }
     
     event = (keyName: string) => {

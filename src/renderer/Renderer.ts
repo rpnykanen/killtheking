@@ -1,4 +1,5 @@
 import pubsub from "../event/PubSub.js";
+import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
 import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
 import GridSquare from "../grid/GridSquare.js";
 import Position from "../grid/Position.js";
@@ -26,7 +27,12 @@ export default class Renderer {
 
         //TODO: Sub to enemy death.
         pubsub.subscribe(GameUpdateEvent.eventName, this.updateGrid)
-        
+        pubsub.subscribe(EnemyDeathEvent.eventName, this.doExplode);
+    }
+
+    doExplode = (event: EnemyDeathEvent) => {
+        const position = event.enemy.position;
+        this.effect.explosion(new CanvasPosition(position));
     }
 
     drawGrid = () => {
@@ -62,8 +68,8 @@ export default class Renderer {
     }
 
     
-    updateGrid = (gridSquares: GridSquare[]) => {
-        gridSquares.forEach((gridSquare:GridSquare) => {
+    updateGrid = (gameUpdateEvent: GameUpdateEvent) => {
+        gameUpdateEvent.gridSquares.forEach((gridSquare:GridSquare) => {
             this.clearGrid(gridSquare);
             if (gridSquare.isEmpty()) return;
             this.renderGrid(gridSquare);
@@ -71,19 +77,18 @@ export default class Renderer {
     }
   
     clearGrid = (gridSquare: GridSquare) => {
-        const canvasPosition = new CanvasPosition(gridSquare.getPosition());
-        this.context.clearRect(canvasPosition.x, canvasPosition.y, 30, 30);
+        const canvasPosition = new CanvasPosition(gridSquare.position);
+        this.context.clearRect(canvasPosition.x-4, canvasPosition.y-9, 39, 39);
     }
 
     renderGrid = (gridSquare: GridSquare) => {
-        const object = gridSquare.getCharacter();
+        const object = gridSquare.character;
         if (!object) {
             return;
         }
         const icon = object.icon;
-        const canvasPosition = new CanvasPosition(gridSquare.getPosition());
-        this.context.drawImage(icon.image, canvasPosition.x, canvasPosition.y, icon.width, icon.height);
-        
+        const canvasPosition = new CanvasPosition(gridSquare.position);
+        this.context.drawImage(icon.image, canvasPosition.x, canvasPosition.y-5, icon.width, icon.height);
     }
     
 }

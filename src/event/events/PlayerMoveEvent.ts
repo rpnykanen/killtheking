@@ -4,15 +4,15 @@ export default class PlayerMoveEvent implements IEvent {
 
     static eventName: string = 'player.move';
 
-    constructor(private oldPosition: Position, private newPosition: Position) {
+    constructor(private _oldPosition: Position, private _newPosition: Position) {
     }
 
     static create = (oldPosition: Position, newPosition: Position) => {
         return new PlayerMoveEvent(oldPosition, newPosition);
     }
 
-    getOldPosition = () => this.oldPosition;
+    get oldPosition() { return this._oldPosition; } 
 
-    getNewPosition = () => this.newPosition;
+    get newPosition() { return this._newPosition; } 
 
 }

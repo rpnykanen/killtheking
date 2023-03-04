@@ -2,7 +2,7 @@ export default class Icon {
 
     private _image: HTMLImageElement;
 
-    constructor(private _height: number, private _width: number, imageUrl: string) {
+    constructor(private _width: number, private _height: number, imageUrl: string) {
         const img = new Image();
         img.src = imageUrl;
         this._image = img;

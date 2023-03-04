@@ -3,27 +3,27 @@ import Position from "./Position.js";
 
 export default class GridSquare {
 
-    private character: Character | null;
+    private _character: Character | null;
 
-    private position: Position;
+    private _position: Position;
 
     constructor(x: number, y: number) {
-        this.position = new Position(x, y);
-        this.character = null;
+        this._position = new Position(x, y);
+        this._character = null;
     }
 
-    getPosition = () => this.position;
+    get position() { return this._position; }
 
-    get x(){ return this.position.x; }
+    get character(): Character | null  {return this._character};
 
-    get y() { return this.position.y; }
+    get x(){ return this._position.x; }
 
-    isEmpty = () => !this.character
+    get y() { return this._position.y; }
 
-    setCharacter = (character: Character) => this.character = character;
+    isEmpty = () => !this._character
 
-    getCharacter = (): Character | null => this.character;
+    setCharacter = (character: Character | null) => this._character = character;
 
-    removeCharacter = () => this.character = null;
+    removeCharacter = () => this._character = null;
 
 }
