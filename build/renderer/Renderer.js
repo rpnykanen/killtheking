@@ -13,7 +13,7 @@ export default class Renderer {
             const padding = Renderer.canvasPadding;
             const width = Renderer.canvasWidth;
             const height = Renderer.canvasHeight;
-            for (let x = 0; x <= width; x += Renderer.gridWidth) {
+            for (let x = 0; x <= width; x += Renderer.gridSquareWidth) {
                 let xFrom = 0.5 + x + padding;
                 let yFrom = padding;
                 let xTo = 0.5 + x + padding;
@@ -21,7 +21,7 @@ export default class Renderer {
                 this.context?.moveTo(xFrom, yFrom);
                 this.context?.lineTo(xTo, yTo);
             }
-            for (let x = 0; x <= height; x += Renderer.gridWidth) {
+            for (let x = 0; x <= height; x += Renderer.gridSquareWidth) {
                 let xFrom = padding;
                 let yFrom = 0.5 + x + padding;
                 let xTo = width + padding;
@@ -68,4 +68,4 @@ export default class Renderer {
 Renderer.canvasWidth = 400;
 Renderer.canvasHeight = 600;
 Renderer.canvasPadding = 10;
-Renderer.gridWidth = 40;
+Renderer.gridSquareWidth = 40;

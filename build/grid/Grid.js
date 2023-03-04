@@ -27,18 +27,11 @@ export default class Grid {
         };
         this.removeEnemy = (enemyDeathEvent) => {
             const deadEnemy = enemyDeathEvent.enemy;
-            const x = enemyDeathEvent.enemy.position.x;
-            const y = enemyDeathEvent.enemy.position.y;
             const gridSquare = this.getGridSquare(deadEnemy.position);
             gridSquare.removeCharacter();
             gridSquare.setCharacter(null);
             this.changes.push(gridSquare);
-            console.log(x, y);
-            this.enemies = this.enemies.filter(enemy => {
-                console.log(x, y, enemy.position.x, enemy.position.y);
-                return !enemy.position.equals(enemyDeathEvent.enemy.position);
-            });
-            console.log(this.enemies);
+            this.enemies = this.enemies.filter(enemy => !enemy.position.equals(enemyDeathEvent.enemy.position));
             this.genericActions();
         };
         this.shoot = (shoot) => {
@@ -110,6 +103,9 @@ export default class Grid {
                 const newGrid = this.getGridSquare(enemy.newPosition);
                 oldGrid.removeCharacter();
                 grid.removeCharacter();
+                if (newGrid.character && newGrid.character instanceof Enemy) {
+                    newGrid.character.reduceHealth(1);
+                }
                 newGrid.setCharacter(enemy);
                 this.changes.push(oldGrid, newGrid, grid);
                 enemy.moveToPredictedPosition();
@@ -134,13 +130,18 @@ export default class Grid {
             }
         };
         this.buildGrid = () => {
-            for (let x = 0; x < 10; x++) {
-                for (let y = 0; y <= 15; y++) {
+            for (let y = 0; y <= 15; y++) {
+                for (let x = 0; x <= 9; x++) {
                     this.grid.push(new GridSquare(x, y));
                 }
             }
         };
-        this.getGridSquare = (position) => this.grid.find((gridSquare) => gridSquare.position.equals(position)) ?? null;
+        this.oldgetGridSquare = (position) => this.grid.find((gridSquare) => gridSquare.position.equals(position)) ?? null;
+        this.getGridSquare = (position) => {
+            console.log(this.grid);
+            const index = position.y * 10 + position.x;
+            return this.grid[index];
+        };
         PubSub.subscribe(CharacterSpawnEvent.eventName, this.spawn);
         PubSub.subscribe(PlayerMoveEvent.eventName, this.move);
         PubSub.subscribe(PlayerShootEvent.eventName, this.shoot);

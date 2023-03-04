@@ -12,7 +12,7 @@ export default class Renderer {
     static canvasHeight = 600;
     static canvasPadding = 10;
 
-    static gridWidth = 40;
+    static gridSquareWidth = 40;
 
     private context: CanvasRenderingContext2D;
 
@@ -25,7 +25,6 @@ export default class Renderer {
         this.effect = new Effect(effectsCanvas.getContext("2d")!);
         this.drawGrid();
 
-        //TODO: Sub to enemy death.
         pubsub.subscribe(GameUpdateEvent.eventName, this.updateGrid)
         pubsub.subscribe(EnemyDeathEvent.eventName, this.doExplode);
     }
@@ -40,7 +39,7 @@ export default class Renderer {
         const width = Renderer.canvasWidth;
         const height = Renderer.canvasHeight;
 
-        for (let x = 0; x <= width; x += Renderer.gridWidth) {
+        for (let x = 0; x <= width; x += Renderer.gridSquareWidth) {
             let xFrom = 0.5 + x + padding;
             let yFrom = padding;
 
@@ -49,7 +48,7 @@ export default class Renderer {
             this.context?.moveTo(xFrom, yFrom);
             this.context?.lineTo(xTo, yTo);
         }
-        for (let x = 0; x <= height; x += Renderer.gridWidth) {
+        for (let x = 0; x <= height; x += Renderer.gridSquareWidth) {
             let xFrom = padding;
             let yFrom = 0.5 + x + padding;
             let xTo = width + padding;

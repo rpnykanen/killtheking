@@ -164,22 +164,21 @@ export default class Grid {
     }
 
     private buildGrid = () => {
-        for (let x = 0; x < 10; x++) {
-            for (let y = 0; y <= 15; y++){
+        for (let y = 0; y <= 15; y++) {
+            for (let x = 0; x <= 9; x++){
                 this.grid.push(new GridSquare(x, y));
             }
         }
-        
     }
 
     private gridInitialState() {
         this.spawnEnemies();
-       /*
-        this.renderer.drawGrid();
-        this.renderer.updateGrid(this.getGridSquare(this.player.getPosition()));
-        */
     }
 
-    private getGridSquare = (position: Position): GridSquare | null => this.grid.find((gridSquare: GridSquare) => gridSquare.position.equals(position)) ?? null;
+    private getGridSquare = (position: Position): GridSquare | null => {
+        // Calculate the array index: current y position times the width of the grid + x position.
+        const index = position.y*10+position.x;
+        return this.grid[index];
+    }
 
 }

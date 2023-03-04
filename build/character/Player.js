@@ -29,7 +29,7 @@ export default class Player {
         };
         this._icon = new Icon(30, 30, '../../images/player.svg');
         pubsub.subscribe(KeyboardEvent.eventName, this.action);
-        this._position = new Position(0, 14);
+        this._position = new Position(0, 15);
         pubsub.publish(CharacterSpawnEvent.eventName, CharacterSpawnEvent.create(this));
     }
     get position() {
