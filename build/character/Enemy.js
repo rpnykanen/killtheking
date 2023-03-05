@@ -8,15 +8,13 @@ export default class Enemy {
         this.reduceHealth = (damage) => {
             this._health -= damage;
             if (this.isDead())
-                PubSub.publish(EnemyDeathEvent.eventName, EnemyDeathEvent.create(this));
+                PubSub.publish(EnemyDeathEvent.create(this));
         };
         this.predictPosition = (position) => {
             this._oldPosition = this.position.clone();
             this._newPosition = position.clone();
         };
-        this.moveToPredictedPosition = () => {
-            this._position = this._newPosition.clone();
-        };
+        this.moveToPredictedPosition = () => { this._position = this._newPosition.clone(); };
         this._oldPosition = new Position(x, 0);
         this._position = new Position(x, 0);
         this._newPosition = new Position(x, 0);
@@ -38,12 +36,7 @@ export default class Enemy {
     get icon() {
         return this._icon;
     }
-    get state() {
-        if (this.position.equals(this.newPosition)) {
-            return Enemy.PredictState;
-        }
-        return Enemy.MoveState;
-    }
+    get state() { return this.position.equals(this.newPosition) ? Enemy.PredictState : Enemy.MoveState; }
 }
 Enemy.MoveState = 'move';
 Enemy.PredictState = 'predict';

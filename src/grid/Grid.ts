@@ -18,11 +18,11 @@ export default class Grid {
 
     private changes: GridSquare[] = [];
 
-    constructor(){
-        PubSub.subscribe(CharacterSpawnEvent.eventName, this.spawn);
-        PubSub.subscribe(PlayerMoveEvent.eventName, this.move);
-        PubSub.subscribe(PlayerShootEvent.eventName, this.shoot);
-        PubSub.subscribe(EnemyDeathEvent.eventName, this.removeEnemy)
+    constructor() {
+        PubSub.subscribe(CharacterSpawnEvent.EVENTNAME, this.spawn);
+        PubSub.subscribe(PlayerMoveEvent.EVENTNAME, this.move);
+        PubSub.subscribe(PlayerShootEvent.EVENTNAME, this.shoot);
+        PubSub.subscribe(EnemyDeathEvent.EVENTNAME, this.removeEnemy)
 
         this.buildGrid()
         this.gridInitialState();
@@ -45,7 +45,6 @@ export default class Grid {
         const deadEnemy = enemyDeathEvent.enemy;
         const gridSquare = this.getGridSquare(deadEnemy.position)!;
 
-        gridSquare.removeCharacter();
         gridSquare.setCharacter(null);
         this.changes.push(gridSquare);
 
@@ -69,7 +68,7 @@ export default class Grid {
     }
 
     updateGrid = () => {
-        PubSub.publish(GameUpdateEvent.eventName, GameUpdateEvent.create(this.changes));
+        PubSub.publish(GameUpdateEvent.create(this.changes));
     }
 
     private move = (playerMoveEvent: PlayerMoveEvent) => {
@@ -92,8 +91,8 @@ export default class Grid {
 
     private genericActions = () => {
         this.moveEnemies();
-        this.spawnEnemies();
-        PubSub.publish(GameUpdateEvent.eventName, GameUpdateEvent.create(this.changes))
+        this.spawnEnemy();
+        PubSub.publish(GameUpdateEvent.create(this.changes))
     }
 
     private moveEnemies = () => {
@@ -134,6 +133,7 @@ export default class Grid {
             oldGrid.removeCharacter();
             grid.removeCharacter();
             
+            //TODO check this
             if (newGrid.character && newGrid.character instanceof Enemy) {
                 newGrid.character.reduceHealth(1);
             }
@@ -144,7 +144,7 @@ export default class Grid {
         })
     }
 
-    spawnEnemies = () => {
+    spawnEnemy = () => {
         if (this.enemies.length < 3) {
             const x = Math.floor(Math.random() * 10);
             const y = 0;
@@ -172,7 +172,7 @@ export default class Grid {
     }
 
     private gridInitialState() {
-        this.spawnEnemies();
+        this.spawnEnemy();
     }
 
     private getGridSquare = (position: Position): GridSquare | null => {

@@ -61,8 +61,8 @@ export default class Renderer {
         const effectsCanvas = document.getElementById("effect");
         this.effect = new Effect(effectsCanvas.getContext("2d"));
         this.drawGrid();
-        pubsub.subscribe(GameUpdateEvent.eventName, this.updateGrid);
-        pubsub.subscribe(EnemyDeathEvent.eventName, this.doExplode);
+        pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid);
+        pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.doExplode);
     }
 }
 Renderer.canvasWidth = 400;

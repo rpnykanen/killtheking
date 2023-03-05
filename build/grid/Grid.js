@@ -28,7 +28,6 @@ export default class Grid {
         this.removeEnemy = (enemyDeathEvent) => {
             const deadEnemy = enemyDeathEvent.enemy;
             const gridSquare = this.getGridSquare(deadEnemy.position);
-            gridSquare.removeCharacter();
             gridSquare.setCharacter(null);
             this.changes.push(gridSquare);
             this.enemies = this.enemies.filter(enemy => !enemy.position.equals(enemyDeathEvent.enemy.position));
@@ -49,7 +48,7 @@ export default class Grid {
             }
         };
         this.updateGrid = () => {
-            PubSub.publish(GameUpdateEvent.eventName, GameUpdateEvent.create(this.changes));
+            PubSub.publish(GameUpdateEvent.create(this.changes));
         };
         this.move = (playerMoveEvent) => {
             const oldPos = playerMoveEvent.oldPosition;
@@ -67,8 +66,8 @@ export default class Grid {
         };
         this.genericActions = () => {
             this.moveEnemies();
-            this.spawnEnemies();
-            PubSub.publish(GameUpdateEvent.eventName, GameUpdateEvent.create(this.changes));
+            this.spawnEnemy();
+            PubSub.publish(GameUpdateEvent.create(this.changes));
         };
         this.moveEnemies = () => {
             if (this.enemies.length == 0)
@@ -111,7 +110,7 @@ export default class Grid {
                 enemy.moveToPredictedPosition();
             });
         };
-        this.spawnEnemies = () => {
+        this.spawnEnemy = () => {
             if (this.enemies.length < 3) {
                 const x = Math.floor(Math.random() * 10);
                 const y = 0;
@@ -136,20 +135,18 @@ export default class Grid {
                 }
             }
         };
-        this.oldgetGridSquare = (position) => this.grid.find((gridSquare) => gridSquare.position.equals(position)) ?? null;
         this.getGridSquare = (position) => {
-            console.log(this.grid);
             const index = position.y * 10 + position.x;
             return this.grid[index];
         };
-        PubSub.subscribe(CharacterSpawnEvent.eventName, this.spawn);
-        PubSub.subscribe(PlayerMoveEvent.eventName, this.move);
-        PubSub.subscribe(PlayerShootEvent.eventName, this.shoot);
-        PubSub.subscribe(EnemyDeathEvent.eventName, this.removeEnemy);
+        PubSub.subscribe(CharacterSpawnEvent.EVENTNAME, this.spawn);
+        PubSub.subscribe(PlayerMoveEvent.EVENTNAME, this.move);
+        PubSub.subscribe(PlayerShootEvent.EVENTNAME, this.shoot);
+        PubSub.subscribe(EnemyDeathEvent.EVENTNAME, this.removeEnemy);
         this.buildGrid();
         this.gridInitialState();
     }
     gridInitialState() {
-        this.spawnEnemies();
+        this.spawnEnemy();
     }
 }

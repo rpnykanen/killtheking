@@ -3,8 +3,7 @@ export default class GameUpdateEvent {
         this._gridSquares = _gridSquares;
     }
     get gridSquares() { return this._gridSquares; }
+    get eventName() { return GameUpdateEvent.EVENTNAME; }
 }
-GameUpdateEvent.eventName = 'game.update';
-GameUpdateEvent.create = (gridSquares) => {
-    return new GameUpdateEvent(gridSquares);
-};
+GameUpdateEvent.EVENTNAME = 'game.update';
+GameUpdateEvent.create = (gridSquares) => new GameUpdateEvent(gridSquares);

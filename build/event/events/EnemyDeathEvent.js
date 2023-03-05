@@ -3,8 +3,8 @@ export default class EnemyDeathEvent {
         this._enemy = _enemy;
     }
     get enemy() { return this._enemy; }
+    get position() { return this._enemy.position; }
+    get eventName() { return EnemyDeathEvent.EVENTNAME; }
 }
-EnemyDeathEvent.eventName = 'enemy.death';
-EnemyDeathEvent.create = (enemy) => {
-    return new EnemyDeathEvent(enemy);
-};
+EnemyDeathEvent.EVENTNAME = 'enemy.death';
+EnemyDeathEvent.create = (enemy) => new EnemyDeathEvent(enemy);

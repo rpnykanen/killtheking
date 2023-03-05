@@ -49,27 +49,20 @@ export default abstract class Enemy implements Character {
         return this._icon;
     }
 
-    isDead = () => this._health <= 0;
+    isDead = (): boolean => this._health <= 0;
 
-    reduceHealth = (damage: number) => {
+    reduceHealth = (damage: number): void => {
         this._health -= damage;
-        if (this.isDead()) PubSub.publish(EnemyDeathEvent.eventName, EnemyDeathEvent.create(this));
+        if (this.isDead()) PubSub.publish(EnemyDeathEvent.create(this));
     }
 
-    get state() {
-        if (this.position.equals(this.newPosition)) {
-            return Enemy.PredictState;
-        }
-        return Enemy.MoveState;
-    }
+    get state(): string { return this.position.equals(this.newPosition) ? Enemy.PredictState : Enemy.MoveState; }
 
-    predictPosition = (position: Position) => {
+    predictPosition = (position: Position): void => {
         this._oldPosition = this.position.clone();
         this._newPosition = position.clone();
     }
 
-    moveToPredictedPosition = () => {
-        this._position = this._newPosition.clone();
-    }
+    moveToPredictedPosition = (): void => { this._position = this._newPosition.clone(); }
 
 }

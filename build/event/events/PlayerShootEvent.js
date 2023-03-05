@@ -3,8 +3,7 @@ export default class PlayerShootEvent {
         this._position = _position;
     }
     get position() { return this._position; }
+    get eventName() { return PlayerShootEvent.EVENTNAME; }
 }
-PlayerShootEvent.eventName = 'player.shoot';
-PlayerShootEvent.create = (position) => {
-    return new PlayerShootEvent(position);
-};
+PlayerShootEvent.EVENTNAME = 'player.shoot';
+PlayerShootEvent.create = (position) => new PlayerShootEvent(position);

@@ -19,23 +19,22 @@ export default class Game {
     renderer: Renderer;
     player: Player;
 
-    //private Grid grid;
-
     constructor() {
         this.grid = new Grid();
         this.renderer = new Renderer();
         this.player = new Player();
         this.grid.updateGrid();
-        pubsub.subscribe(GameUpdateEvent.eventName, this.spawnEnemies);
-        // pubsub.subscribe(PlayerMoveEvent.eventName, PlayerMoveEvent.create(this._oldPosition, this._position));
+        pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.spawnEnemies);
     }
+    
     
     spawnEnemies = () => {
-        this.grid.spawnEnemies();
+        this.grid.spawnEnemy();
     }
     
+    
     event = (keyName: string) => {
-        pubsub.publish(KeyboardEvent.eventName, keyName);
+        pubsub.publish(KeyboardEvent.create(keyName));
     }
     
 }

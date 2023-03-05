@@ -3,8 +3,7 @@ export default class CharacterSpawnEvent {
         this._character = _character;
     }
     get character() { return this._character; }
+    get eventName() { return CharacterSpawnEvent.EVENTNAME; }
 }
-CharacterSpawnEvent.eventName = 'character.spawn';
-CharacterSpawnEvent.create = (character) => {
-    return new CharacterSpawnEvent(character);
-};
+CharacterSpawnEvent.EVENTNAME = 'character.spawn';
+CharacterSpawnEvent.create = (character) => new CharacterSpawnEvent(character);

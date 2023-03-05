@@ -19,16 +19,16 @@ class PubSub {
         this.events[eventName].push(callback);
     }
 
-    unsubscribe = (eventName: string, callback: CallableFunction): void => {
-        if (this.events[eventName]) {
-            this.events[eventName] = this.events[eventName].filter(fn => fn !== callback);
+    unsubscribe = (event: IEvent, callback: CallableFunction): void => {
+        if (this.events[event.eventName]) {
+            this.events[event.eventName] = this.events[event.eventName].filter(fn => fn !== callback);
         }
     }
 
-    publish = (eventName: string, eventObject: IEvent): void => {
-        if (!this.events[eventName]) return;
-        this.events[eventName]
-            .forEach(callback => callback(eventObject));
+    publish = (event: IEvent): void => {
+        if (!this.events[event.eventName]) return;
+        this.events[event.eventName]
+            .forEach(callback => callback(event));
     }
 }
 

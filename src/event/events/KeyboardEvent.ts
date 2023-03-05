@@ -4,7 +4,7 @@ type events = {
 
 export default class KeyboardEvent implements IEvent {
 
-    static eventName: string = 'keyboard.event';
+    static EVENTNAME: string = 'keyboard.event';
 
     static events: events = {
         'ArrowLeft': 'left',
@@ -13,14 +13,13 @@ export default class KeyboardEvent implements IEvent {
         'ArrowDown': 'skip'
     };
 
-    constructor(private _event: string ) {
-        this._event = KeyboardEvent.events[this._event];
-    }
+    private _event: string;
 
-    static create = (event: string) => {
-        return new KeyboardEvent(event);
-    }
+    constructor(event: string ) { this._event = KeyboardEvent.events[event]; }
 
-    get event(): string | null { return this.event; }
+    static create = (event: string) => new KeyboardEvent(event);
 
+    get event(): string | null { return this._event; }
+
+    get eventName() { return KeyboardEvent.EVENTNAME; }
 }

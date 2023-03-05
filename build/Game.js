@@ -7,15 +7,15 @@ import Renderer from "./renderer/Renderer.js";
 export default class Game {
     constructor() {
         this.spawnEnemies = () => {
-            this.grid.spawnEnemies();
+            this.grid.spawnEnemy();
         };
         this.event = (keyName) => {
-            pubsub.publish(KeyboardEvent.eventName, keyName);
+            pubsub.publish(KeyboardEvent.create(keyName));
         };
         this.grid = new Grid();
         this.renderer = new Renderer();
         this.player = new Player();
         this.grid.updateGrid();
-        pubsub.subscribe(GameUpdateEvent.eventName, this.spawnEnemies);
+        pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.spawnEnemies);
     }
 }

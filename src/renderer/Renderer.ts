@@ -25,8 +25,8 @@ export default class Renderer {
         this.effect = new Effect(effectsCanvas.getContext("2d")!);
         this.drawGrid();
 
-        pubsub.subscribe(GameUpdateEvent.eventName, this.updateGrid)
-        pubsub.subscribe(EnemyDeathEvent.eventName, this.doExplode);
+        pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid)
+        pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.doExplode);
     }
 
     doExplode = (event: EnemyDeathEvent) => {

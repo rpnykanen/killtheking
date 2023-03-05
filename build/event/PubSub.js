@@ -4,16 +4,16 @@ class PubSub {
             this.events[eventName] = this.events[eventName] || [];
             this.events[eventName].push(callback);
         };
-        this.unsubscribe = (eventName, callback) => {
-            if (this.events[eventName]) {
-                this.events[eventName] = this.events[eventName].filter(fn => fn !== callback);
+        this.unsubscribe = (event, callback) => {
+            if (this.events[event.eventName]) {
+                this.events[event.eventName] = this.events[event.eventName].filter(fn => fn !== callback);
             }
         };
-        this.publish = (eventName, eventObject) => {
-            if (!this.events[eventName])
+        this.publish = (event) => {
+            if (!this.events[event.eventName])
                 return;
-            this.events[eventName]
-                .forEach(callback => callback(eventObject));
+            this.events[event.eventName]
+                .forEach(callback => callback(event));
         };
         if (this.instance) {
             throw new Error("New instance cannot be created!");
