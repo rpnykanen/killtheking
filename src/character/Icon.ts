@@ -8,11 +8,10 @@ export default class Icon {
         this._image = img;
     }
 
-    get image() {return this._image};
+    get image() {return this._image}
 
-    get width() {return this._width};
+    get width() {return this._width}
 
-    get height() {return this._height};
-    
+    get height() {return this._height}
 
 }

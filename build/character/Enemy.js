@@ -20,6 +20,7 @@ export default class Enemy {
         this._newPosition = new Position(x, 0);
         this._health = health;
         this._movement = new Movement(0, 1);
+        this._score = 1;
     }
     get position() {
         return this._position;
@@ -35,6 +36,9 @@ export default class Enemy {
     }
     get icon() {
         return this._icon;
+    }
+    get score() {
+        return this._score;
     }
     get state() { return this.position.equals(this.newPosition) ? Enemy.PredictState : Enemy.MoveState; }
 }

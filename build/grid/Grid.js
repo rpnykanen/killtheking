@@ -9,6 +9,7 @@ import PubSub from "../event/PubSub.js";
 import Position from "./Position.js";
 import Pawn from "../character/Pawn.js";
 import Knight from "../character/Knight.js";
+import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
 export default class Grid {
     constructor() {
         this.grid = [];
@@ -143,6 +144,7 @@ export default class Grid {
         PubSub.subscribe(PlayerMoveEvent.EVENTNAME, this.move);
         PubSub.subscribe(PlayerShootEvent.EVENTNAME, this.shoot);
         PubSub.subscribe(EnemyDeathEvent.EVENTNAME, this.removeEnemy);
+        PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.genericActions);
         this.buildGrid();
         this.gridInitialState();
     }

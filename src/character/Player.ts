@@ -8,17 +8,11 @@ import Position from "../grid/Position.js";
 import pubsub from "../event/PubSub.js";
 import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
 
-export default class Player implements Character {
-    protected _oldPosition: Position;
-    protected _position: Position;
+export default class Player extends Character {
     protected _health: number;
     
-    protected _iconName: string;
-    protected _iconHeight: number;
-    protected _iconWidth: number;
-    protected _icon: Icon;
-
     constructor() {
+        super();
         this._icon = new Icon(30, 30, '../../images/player.svg');
         this._position = new Position(0,15);
         pubsub.subscribe(KeyboardEvent.EVENTNAME, this.action);

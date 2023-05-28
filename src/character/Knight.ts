@@ -7,5 +7,6 @@ export default class Knight extends Enemy {
         super(x,y, health);
         this._icon = new Icon(30,35, '../../images/knight.png');
         this._movement = new Movement(1,2);
+        this._score = 5;
     }
 }

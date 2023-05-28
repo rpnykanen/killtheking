@@ -1,5 +1,6 @@
 import Player from './character/Player.js';
 import pubsub from './event/PubSub.js';
+import manager from './Manager.js';
 import GameUpdateEvent from './event/events/GameUpdateEvent.js';
 import KeyboardEvent from './event/events/KeyboardEvent.js';
 import Grid from "./grid/Grid.js";
@@ -17,5 +18,6 @@ export default class Game {
         this.player = new Player();
         this.grid.updateGrid();
         pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.spawnEnemies);
+        this.manager = manager;
     }
 }
