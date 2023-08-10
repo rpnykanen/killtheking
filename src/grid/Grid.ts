@@ -20,6 +20,7 @@ export default class Grid {
     private changes: GridSquare[] = [];
 
     constructor() {
+        PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.genericActions);
         this.player = new Player();
         this.buildGrid()
         this.spawnPlayer();
@@ -68,6 +69,7 @@ export default class Grid {
         gridSquare.setCharacter(null);
         this.changes.push(gridSquare);
         this.enemies = this.enemies.filter(character => !character.position.equals(enemy.position));
+        PubSub.publish(new EnemyDeathEvent(enemy));
     }
 
     private shoot = () => {
@@ -86,7 +88,7 @@ export default class Grid {
         }
     }
 
-    spawnEnemy = () => {
+    public spawnEnemy = () => {
         if (this.enemies.length < 3) {
             const x = Math.floor(Math.random() * 10);
             const y = 0;
@@ -107,51 +109,25 @@ export default class Grid {
 
     private moveEnemies = () => {
         if (this.enemies.length == 0) return;
-        
-        const predict = this.enemies.filter(enemy => enemy.state === Enemy.PredictState)
-        const move = this.enemies.filter(enemy => enemy.state === Enemy.MoveState);
 
-        predict.forEach((enemy: Enemy) => {
-            const movement = enemy.movement;
-            const enemyPosition = enemy.position;
-            
-            let x = enemyPosition.x;
-            let y = enemyPosition.y;
+        this.enemies.forEach((enemy: Enemy) => {
+            if (enemy.state === Enemy.MoveState) {
+                const grids = enemy.positions.map((pos: Position): GridSquare => this.getGridSquare(pos))
+                
+                const oldGrid = this.getGridSquare(enemy.oldPosition);
+                const grid = this.getGridSquare(enemy.position);
+                const newGrid = this.getGridSquare(enemy.newPosition);
 
-            y += movement.y;
+                oldGrid.removeCharacter();
+                grid.removeCharacter();
+                newGrid.setCharacter(enemy);
 
-            if (x == 0) {
-                x += movement.x;
-            } else if (enemyPosition.x == 9) {
-                x -= movement.x;
-            } else {
-                let movementX = movement.x; 
-                if (movementX != 0) {
-                    const rand = Math.floor(Math.random() * 2);
-                    movementX = rand % 2 === 0 ? movementX*-1 : movementX;
-                }
-                x += movementX;
-            } 
-            enemy.predictPosition(new Position(x,y));
-        });
-        
-        move.forEach((enemy) => {
-            const oldGrid = this.getGridSquare(enemy.oldPosition)!;
-            const grid = this.getGridSquare(enemy.position)!;
-            const newGrid = this.getGridSquare(enemy.newPosition)!;
-
-            oldGrid.removeCharacter();
-            grid.removeCharacter();
-            
-            //TODO check this
-            if (newGrid.character && newGrid.character instanceof Enemy) {
-                newGrid.character.reduceHealth(1);
+                this.changes.push(oldGrid, grid, newGrid);
             }
 
-            newGrid.setCharacter(enemy);
-            this.changes.push(oldGrid, newGrid, grid);
-            enemy.moveToPredictedPosition();
+            enemy.move();
         })
+
     }
 
     private genericActions = () => {
@@ -160,7 +136,7 @@ export default class Grid {
         PubSub.publish(GameUpdateEvent.create(this.changes))
     }
 
-    updateGrid = () => {
+    public updateGrid = () => {
         PubSub.publish(GameUpdateEvent.create(this.changes));
     }
 
@@ -172,8 +148,7 @@ export default class Grid {
         }
     }
 
-    private getGridSquare = (position: Position): GridSquare | null => {
-        // Calculate the array index: current y position times the width of the grid + x position.
+    private getGridSquare = (position: Position): GridSquare  => {
         const index = position.y*10+position.x;
         return this.grid[index];
     }

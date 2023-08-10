@@ -41,7 +41,30 @@ export default class Enemy extends Character {
     get health() {
         return this._health;
     }
+    move() {
+        if (this.state === Enemy.PredictState) {
+            const y = this.position.y + this.movement.y;
+            let x = this.position.x;
+            if (this.position.x == 0) {
+                x += this.movement.x;
+            }
+            else if (this.position.x == 9) {
+                x -= this.movement.x;
+            }
+            else {
+                let movementX = this.movement.x;
+                if (movementX != 0) {
+                    movementX = Math.random() < 0.5 ? movementX * -1 : movementX;
+                }
+                x += movementX;
+            }
+            this.predictPosition(new Position(x, y));
+            return;
+        }
+        this.moveToPredictedPosition();
+    }
     get state() { return this.position.equals(this.newPosition) ? Enemy.PredictState : Enemy.MoveState; }
+    get positions() { return []; }
 }
 Enemy.MoveState = 'move';
 Enemy.PredictState = 'predict';
