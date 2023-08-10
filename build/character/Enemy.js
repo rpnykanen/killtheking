@@ -1,5 +1,3 @@
-import PubSub from "../event/PubSub.js";
-import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
 import Position from "../grid/Position.js";
 import Character from "./Character.js";
 import Movement from "./Movement.js";
@@ -9,8 +7,6 @@ export default class Enemy extends Character {
         this.isDead = () => this._health <= 0;
         this.reduceHealth = (damage) => {
             this._health -= damage;
-            if (this.isDead())
-                PubSub.publish(EnemyDeathEvent.create(this));
         };
         this.predictPosition = (position) => {
             this._oldPosition = this.position.clone();
@@ -41,6 +37,9 @@ export default class Enemy extends Character {
     }
     get score() {
         return this._score;
+    }
+    get health() {
+        return this._health;
     }
     get state() { return this.position.equals(this.newPosition) ? Enemy.PredictState : Enemy.MoveState; }
 }

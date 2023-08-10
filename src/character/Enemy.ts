@@ -49,11 +49,15 @@ export default abstract class Enemy extends Character {
         return this._score;
     }
 
+    get health(): number {
+        return this._health;
+    }
+
     isDead = (): boolean => this._health <= 0;
 
     reduceHealth = (damage: number): void => {
         this._health -= damage;
-        if (this.isDead()) PubSub.publish(EnemyDeathEvent.create(this));
+        // if (this.isDead()) PubSub.publish(EnemyDeathEvent.create(this));
     }
 
     get state(): string { return this.position.equals(this.newPosition) ? Enemy.PredictState : Enemy.MoveState; }

@@ -15,29 +15,19 @@ export default class Player extends Character {
         super();
         this._icon = new Icon(30, 30, '../../images/player.svg');
         this._position = new Position(0,15);
-        pubsub.subscribe(KeyboardEvent.EVENTNAME, this.action);
-        pubsub.publish(CharacterSpawnEvent.create(this));
+        // pubsub.publish(CharacterSpawnEvent.create(this));
     }
 
-    protected action = (event: KeyboardEvent) => {
-        const action = event.event;
-        if (action == 'left' || action == 'right') {
-            this._oldPosition = this._position.clone();
-            let x = this._position.x;
-            if (action == 'left') {
-                x -= this._position.x > 0 ? 1 : 0;
-            } else {
-                x += this._position.x < 9 ? 1 : 0;
-            }
-            this._position = new Position(x, this._position.y);
-            pubsub.publish(PlayerMoveEvent.create(this._oldPosition, this._position));
+    public updatePosition = (action: string) => {
+        this._oldPosition = this._position.clone();
+        let x = this._position.x;
+        if (action == 'ArrowLeft') {
+            x -= this._position.x > 0 ? 1 : 0;
+        } else {
+            x += this._position.x < 9 ? 1 : 0;
         }
-        if (action == 'shoot') {
-            pubsub.publish(PlayerShootEvent.create(this._position));
-        }
-        if (action == 'skip') {
-            pubsub.publish(RoundSkipEvent.create());
-        }
+        this._position = new Position(x, this._position.y);
+        pubsub.publish(PlayerMoveEvent.create(this._oldPosition, this._position));  
     }
 
     get position(): Position {
