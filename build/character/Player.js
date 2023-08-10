@@ -1,3 +1,4 @@
+import Character from "./Character.js";
 import CharacterSpawnEvent from "../event/events/CharacterSpawnEvent.js";
 import Icon from "./Icon.js";
 import KeyboardEvent from "../event/events/KeyboardEvent.js";
@@ -6,8 +7,9 @@ import PlayerShootEvent from "../event/events/PlayerShootEvent.js";
 import Position from "../grid/Position.js";
 import pubsub from "../event/PubSub.js";
 import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
-export default class Player {
+export default class Player extends Character {
     constructor() {
+        super();
         this.action = (event) => {
             const action = event.event;
             if (action == 'left' || action == 'right') {

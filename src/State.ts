@@ -4,59 +4,62 @@ import PlayerShootEvent from "./event/events/PlayerShootEvent.js";
 import pubsub from "./event/PubSub.js";
 import RoundSkipEvent from "./event/events/RoundSkipEvent.js";
 
-
-class Manager {
-
-    private instance: Manager | null;
+export default class State {
 
     private roundLength: number;
     private roundStatus: number;
     private gameActive: boolean;
     private score: number;
     private killed: number;
-    private timebank: number;
+    private requestId: any;
 
-    constructor() {
-        if (this.instance) {
-            throw new Error("New instance cannot be created!");
-          }
-        this.instance = this;
-
+    constructor() {      
         this.roundLength = 500;
         this.roundStatus = 0;
-        this.gameActive = true;
         this.score = 0;
         this.killed = 0;
         pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
         pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.addScore);
-        this.loop();
+        this.start();
+        this.requestId = undefined;
     }
 
-    resetCounter = () => {
+    start = () => {
+        this.gameActive = true;
+        if (!this.requestId) {
+            this.requestId = requestAnimationFrame(this.loop);
+        }
+    }
+
+    stop = () => {
+        this.gameActive = false;
+        cancelAnimationFrame(this.requestId);
+        this.requestId = undefined;
+    }
+
+    private resetCounter = () => {
         this.score -= (this.roundStatus/100);
         this.roundStatus = 0;
         console.log('minus',(this.roundStatus/100));
     }
 
-    addScore = (death: EnemyDeathEvent) => {
-        this.killed +=1;
+    private addScore = (death: EnemyDeathEvent) => {
+        this.killed += 1;
         const baseScore = death.enemy.score;
-        this.score += this.roundStatus < 500 ? baseScore * ((this.roundLength-this.roundStatus)/100) : baseScore;
+        // this.score += this.roundStatus < 500 ? baseScore * ((this.roundLength-this.roundStatus)/100) : baseScore;
+        this.score = this.score += death.enemy.score;
         console.log('score',this.score);
     }
 
-    loop = (): void => {
+    private loop = (): void => {
         if (this.gameActive) {
-            if (this.roundStatus >= this.roundLength && this.timebank > 0) {
+            if (this.roundStatus >= this.roundLength) {
                 this.roundStatus = 0;
-                console.log('skipped by manager');
+                console.log('skipped by state manager');
                 pubsub.publish(RoundSkipEvent.create());
             }
             this.roundStatus += 5;
             requestAnimationFrame(this.loop);
         }
     }
-
 }
-
-export default new Manager()

@@ -7,9 +7,6 @@ export default class Icon {
         this._image = img;
     }
     get image() { return this._image; }
-    ;
     get width() { return this._width; }
-    ;
     get height() { return this._height; }
-    ;
 }

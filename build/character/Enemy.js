@@ -1,9 +1,11 @@
 import PubSub from "../event/PubSub.js";
 import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
 import Position from "../grid/Position.js";
+import Character from "./Character.js";
 import Movement from "./Movement.js";
-export default class Enemy {
+export default class Enemy extends Character {
     constructor(x, y, health) {
+        super();
         this.isDead = () => this._health <= 0;
         this.reduceHealth = (damage) => {
             this._health -= damage;
