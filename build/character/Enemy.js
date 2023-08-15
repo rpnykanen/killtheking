@@ -4,67 +4,42 @@ import Movement from "./Movement.js";
 export default class Enemy extends Character {
     constructor(x, y, health) {
         super();
+        this._index = 0;
+        this.setPosition = (position) => {
+            this._position = position;
+            if (this._index == (this._movement[0].length - 1)) {
+                this._index = 0;
+            }
+            else {
+                this._index += 1;
+            }
+        };
         this.isDead = () => this._health <= 0;
         this.reduceHealth = (damage) => {
             this._health -= damage;
         };
-        this.predictPosition = (position) => {
-            this._oldPosition = this.position.clone();
-            this._newPosition = position.clone();
-        };
-        this.moveToPredictedPosition = () => { this._position = this._newPosition.clone(); };
-        this._oldPosition = new Position(x, 0);
         this._position = new Position(x, 0);
-        this._newPosition = new Position(x, 0);
         this._health = health;
-        this._movement = new Movement(0, 1);
-        this._score = 1;
+        this._movement = [
+            [new Movement(0, 0), new Movement(0, 1)],
+        ];
     }
     get position() {
         return this._position;
     }
     get movement() {
-        return this._movement;
+        return this._movement[this._index];
     }
-    get oldPosition() {
-        return this._oldPosition;
-    }
-    get newPosition() {
-        return this._newPosition;
+    get possiblePositions() {
+        const z = this._movement.map((movementArray) => {
+            return new Position(this._position.x + movementArray[this._index].x, this._position.y + movementArray[this._index].y);
+        });
+        return z;
     }
     get icon() {
         return this._icon;
     }
-    get score() {
-        return this._score;
-    }
     get health() {
         return this._health;
     }
-    move() {
-        if (this.state === Enemy.PredictState) {
-            const y = this.position.y + this.movement.y;
-            let x = this.position.x;
-            if (this.position.x == 0) {
-                x += this.movement.x;
-            }
-            else if (this.position.x == 9) {
-                x -= this.movement.x;
-            }
-            else {
-                let movementX = this.movement.x;
-                if (movementX != 0) {
-                    movementX = Math.random() < 0.5 ? movementX * -1 : movementX;
-                }
-                x += movementX;
-            }
-            this.predictPosition(new Position(x, y));
-            return;
-        }
-        this.moveToPredictedPosition();
-    }
-    get state() { return this.position.equals(this.newPosition) ? Enemy.PredictState : Enemy.MoveState; }
-    get positions() { return []; }
 }
-Enemy.MoveState = 'move';
-Enemy.PredictState = 'predict';

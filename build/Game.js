@@ -1,28 +1,35 @@
+import GameRestartEvent from './event/events/GameRestartEvent.js';
 import pubsub from './event/PubSub.js';
-import GameUpdateEvent from './event/events/GameUpdateEvent.js';
 import Grid from "./grid/Grid.js";
 import Renderer from "./renderer/Renderer.js";
 import State from "./State.js";
 export default class Game {
     constructor() {
-        this.listenEvents = () => {
-            pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.spawnEnemies);
-        };
-        this.spawnEnemies = () => {
-            this.grid.spawnEnemy();
-        };
-        this.event = (keyName) => {
+        this.action = (keyName) => {
             this.grid.action(keyName);
+            this.test();
         };
         this.startGame = () => {
             this.state.start();
         };
         this.endGame = () => {
-            this.state.stop();
+            this.state.end();
         };
-        this.grid = new Grid();
+        this.test = () => {
+            if (this.state.getKills() === 10 && this.boss === false) {
+                this.grid.spawnBoss();
+                this.boss = true;
+            }
+        };
+        this.restart = () => {
+            this.grid = new Grid();
+            this.renderer = new Renderer();
+            this.state = new State();
+        };
+        pubsub.subscribe(GameRestartEvent.EVENTNAME, this.restart);
         this.renderer = new Renderer();
+        this.grid = new Grid();
         this.state = new State();
-        this.listenEvents();
+        this.boss = false;
     }
 }

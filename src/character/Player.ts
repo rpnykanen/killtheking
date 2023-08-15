@@ -1,12 +1,6 @@
 import Character from "./Character.js";
-import CharacterSpawnEvent from "../event/events/CharacterSpawnEvent.js";
 import Icon from "./Icon.js";
-import KeyboardEvent from "../event/events/KeyboardEvent.js";
-import PlayerMoveEvent from "../event/events/PlayerMoveEvent.js";
-import PlayerShootEvent from "../event/events/PlayerShootEvent.js";
 import Position from "../grid/Position.js";
-import pubsub from "../event/PubSub.js";
-import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
 
 export default class Player extends Character {
     protected _health: number;
@@ -15,7 +9,6 @@ export default class Player extends Character {
         super();
         this._icon = new Icon(30, 30, '../../images/player.svg');
         this._position = new Position(0,15);
-        // pubsub.publish(CharacterSpawnEvent.create(this));
     }
 
     public updatePosition = (action: string) => {
@@ -27,7 +20,6 @@ export default class Player extends Character {
             x += this._position.x < 9 ? 1 : 0;
         }
         this._position = new Position(x, this._position.y);
-        pubsub.publish(PlayerMoveEvent.create(this._oldPosition, this._position));  
     }
 
     get position(): Position {

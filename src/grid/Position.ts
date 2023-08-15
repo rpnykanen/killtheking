@@ -5,4 +5,5 @@ export default class Position {
     get y () { return this._y; }
     equals = (position: Position) => this._x === position.x && this._y === position.y;
     clone = () => new Position(this._x, this._y);
+
 }

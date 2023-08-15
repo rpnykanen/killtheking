@@ -1,5 +1,5 @@
 ### Development
 
-run tsc to build
+run tsc --build to build
 
 use liveserver

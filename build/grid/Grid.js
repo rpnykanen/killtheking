@@ -1,18 +1,19 @@
 import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
 import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
-import Enemy from "../character/Enemy.js";
 import GridSquare from "./GridSquare.js";
 import PubSub from "../event/PubSub.js";
 import Pawn from "../character/Pawn.js";
 import Knight from "../character/Knight.js";
 import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
 import Player from "../character/Player.js";
+import King from "../character/King.js";
 export default class Grid {
     constructor() {
         this.grid = [];
         this.enemies = [];
         this.changes = [];
         this.action = (action) => {
+            this.changes = [];
             if (action == 'ArrowLeft' || action == 'ArrowRight') {
                 this.player.updatePosition(action);
                 this.movePlayer();
@@ -46,7 +47,7 @@ export default class Grid {
             gridSquare.setCharacter(null);
             this.changes.push(gridSquare);
             this.enemies = this.enemies.filter(character => !character.position.equals(enemy.position));
-            PubSub.publish(new EnemyDeathEvent(enemy));
+            PubSub.publish(EnemyDeathEvent.create(enemy));
         };
         this.shoot = () => {
             const x = this.player.position.x;
@@ -76,26 +77,33 @@ export default class Grid {
                 }
                 const gridSquare = this.getGridSquare(enemy.position);
                 gridSquare.setCharacter(enemy);
+                enemy.setPosition(enemy.position);
                 this.changes.push(gridSquare);
                 this.enemies.push(enemy);
+                console.log(this.changes);
             }
         };
         this.moveEnemies = () => {
             if (this.enemies.length == 0)
                 return;
             this.enemies.forEach((enemy) => {
-                if (enemy.state === Enemy.MoveState) {
-                    const grids = enemy.positions.map((pos) => this.getGridSquare(pos));
-                    const oldGrid = this.getGridSquare(enemy.oldPosition);
-                    const grid = this.getGridSquare(enemy.position);
-                    const newGrid = this.getGridSquare(enemy.newPosition);
-                    oldGrid.removeCharacter();
-                    grid.removeCharacter();
-                    newGrid.setCharacter(enemy);
-                    this.changes.push(oldGrid, grid, newGrid);
-                }
-                enemy.move();
+                if (!enemy.position)
+                    return;
+                let oldGrid = this.getGridSquare(enemy.position);
+                oldGrid.removeCharacter();
+                this.changes.push(oldGrid);
+                const allowed = enemy.possiblePositions.filter((position) => {
+                    return this.isValidPosition(position);
+                });
+                const position = allowed[Math.floor(Math.random() * allowed.length)];
+                enemy.setPosition(position);
+                const newGrid = this.getGridSquare(position);
+                newGrid.setCharacter(enemy);
+                this.changes.push(newGrid);
             });
+        };
+        this.spawnBoss = () => {
+            this.enemies.push(new King(4, 0, 10));
         };
         this.genericActions = () => {
             this.moveEnemies();
@@ -115,6 +123,9 @@ export default class Grid {
         this.getGridSquare = (position) => {
             const index = position.y * 10 + position.x;
             return this.grid[index];
+        };
+        this.isValidPosition = (position) => {
+            return position.x >= 0 && position.x <= 9 && position.y >= 0 && position.y <= 14;
         };
         PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.genericActions);
         this.player = new Player();

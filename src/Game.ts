@@ -1,6 +1,7 @@
 import Player from './character/Player.js';
-import pubsub from './event/PubSub.js';
+import GameRestartEvent from './event/events/GameRestartEvent.js';
 import GameUpdateEvent from './event/events/GameUpdateEvent.js';
+import pubsub from './event/PubSub.js';
 
 import Grid from "./grid/Grid.js";
 import Renderer from "./renderer/Renderer.js";
@@ -11,25 +12,19 @@ export default class Game {
     renderer: Renderer;
     player: Player;
     state: State;
+    boss: boolean;
 
     constructor() {
-        this.grid = new Grid();
+        pubsub.subscribe(GameRestartEvent.EVENTNAME, this.restart);
         this.renderer = new Renderer();
+        this.grid = new Grid();
         this.state = new State();
-        this.listenEvents();
+        this.boss = false;
     }
 
-    private listenEvents = () => {
-        pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.spawnEnemies);
-    }
-    
-    spawnEnemies = () => {
-        this.grid.spawnEnemy();
-    }
-
-    event = (keyName: string) => {
+    action = (keyName: string) => {
         this.grid.action(keyName)
-        // pubsub.publish(KeyboardEvent.create(keyName));
+        this.test();
     }
 
     startGame = () => {
@@ -37,7 +32,20 @@ export default class Game {
     }
 
     endGame = () => {
-        this.state.stop();
+        this.state.end();
+    }
+
+    test = () => {
+        if (this.state.getKills() === 10 && this.boss === false) {
+            this.grid.spawnBoss();
+            this.boss = true;
+        }
+    }
+
+    restart = () => {
+        this.grid = new Grid();
+        this.renderer = new Renderer();
+        this.state = new State();
     }
     
 }
