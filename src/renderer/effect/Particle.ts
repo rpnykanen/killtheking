@@ -1,17 +1,21 @@
 export default class Particle {
 
     private _alpha;
+
+    private _radius;
     
     constructor(
         private _x: number,
         private _y:number,
-        private dx:number,
+        private dx: number,
         private dy: number,
         private up: boolean,
         private right: boolean,
-        private _ttl: number
+        private _ttl: number,
+        radius?: number
     ) {
         this._alpha = 1.0;
+        this._radius = radius ? radius : 1.5;
     }
 
     get x() {
@@ -20,6 +24,10 @@ export default class Particle {
 
     get y() {
         return this._y;
+    }
+
+    get radius() {
+        return this._radius;
     }
 
     get alpha() {
@@ -31,10 +39,10 @@ export default class Particle {
     }
 
     update = () => {
-        this._x += this.right == true ? + this.dx : -this.dx;
-        this._y += this.up == true ? + this.dy : -this.dy;
+        this._x += this.right == true ? + -this.dx : this.dx;
+        this._y += this.up == true ? + -this.dy : this.dy;
         this._ttl -= 10;
-        this._alpha -= 0.03;
+        // this._alpha -= 0.03;
     }
 
 

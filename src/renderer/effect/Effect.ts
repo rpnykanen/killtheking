@@ -30,14 +30,13 @@ export default class Effect {
     private draw = () => {
         if (this.animationActive()) {
             this.animations.forEach((effect:IEffect)=>{
-                
                 this.effectsContext.clearRect(0, 0, 1000, 1000);
 
                 const particles = effect.update();
                 if (particles) {
                     particles.forEach((particle: Particle)=>{
                         this.effectsContext.beginPath();
-                        this.effectsContext.arc(particle.x, particle.y, 1.5, 0, Math.PI*2, false)
+                        this.effectsContext.arc(particle.x, particle.y, particle.radius, 0, Math.PI*2, false)
                         this.effectsContext.fillStyle = `rgba(255,100, 0, ${particle.alpha})`;
                         this.effectsContext.fill();
                     });

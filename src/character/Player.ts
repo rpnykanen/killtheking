@@ -3,8 +3,6 @@ import Icon from "./Icon.js";
 import Position from "../grid/Position.js";
 
 export default class Player extends Character {
-    protected _health: number;
-    
     constructor() {
         super();
         this._icon = new Icon(30, 30, '../../images/player.svg');
@@ -33,5 +31,4 @@ export default class Player extends Character {
     get icon(): Icon {
         return this._icon;
     }
-
 }

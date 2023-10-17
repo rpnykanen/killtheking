@@ -18,7 +18,7 @@ export default class Effect {
                     if (particles) {
                         particles.forEach((particle) => {
                             this.effectsContext.beginPath();
-                            this.effectsContext.arc(particle.x, particle.y, 1.5, 0, Math.PI * 2, false);
+                            this.effectsContext.arc(particle.x, particle.y, particle.radius, 0, Math.PI * 2, false);
                             this.effectsContext.fillStyle = `rgba(255,100, 0, ${particle.alpha})`;
                             this.effectsContext.fill();
                         });

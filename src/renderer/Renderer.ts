@@ -1,6 +1,7 @@
 import pubsub from "../event/PubSub.js";
 import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
 import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
+import PlayerShootEvent from "../event/events/PlayerShootEvent.js";
 import GridSquare from "../grid/GridSquare.js";
 import Position from "../grid/Position.js";
 import CanvasPosition from "./CanvasPosition.js";
@@ -65,7 +66,6 @@ export default class Renderer {
     enemyDeath = (position: Position) => {
         this.effect.explosion(new CanvasPosition(position));
     }
-
     
     updateGrid = (gameUpdateEvent: GameUpdateEvent) => {
         gameUpdateEvent.gridSquares.forEach((gridSquare:GridSquare) => {
@@ -82,10 +82,7 @@ export default class Renderer {
 
     renderGrid = (gridSquare: GridSquare) => {
         const object = gridSquare.character;
-        if (!object) {
-            return;
-        }
-        const icon = object.icon;
+        const icon = object!.icon;
         const canvasPosition = new CanvasPosition(gridSquare.position);
         this.context.drawImage(icon.image, canvasPosition.x, canvasPosition.y-5, icon.width, icon.height);
     }

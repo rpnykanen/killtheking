@@ -2,7 +2,7 @@ import Position from "../grid/Position.js";
 import Character from "./Character.js";
 import Movement from "./Movement.js";
 export default class Enemy extends Character {
-    constructor(x, y, health) {
+    constructor(position, health) {
         super();
         this._index = 0;
         this.setPosition = (position) => {
@@ -18,7 +18,7 @@ export default class Enemy extends Character {
         this.reduceHealth = (damage) => {
             this._health -= damage;
         };
-        this._position = new Position(x, 0);
+        this._position = position;
         this._health = health;
         this._movement = [
             [new Movement(0, 0), new Movement(0, 1)],
@@ -28,13 +28,12 @@ export default class Enemy extends Character {
         return this._position;
     }
     get movement() {
-        return this._movement[this._index];
+        return this._movement[0][this._index];
     }
     get possiblePositions() {
-        const z = this._movement.map((movementArray) => {
+        return this._movement.map((movementArray) => {
             return new Position(this._position.x + movementArray[this._index].x, this._position.y + movementArray[this._index].y);
         });
-        return z;
     }
     get icon() {
         return this._icon;

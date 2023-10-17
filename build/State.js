@@ -1,9 +1,16 @@
 import EnemyDeathEvent from "./event/events/EnemyDeathEvent.js";
 import GameUpdateEvent from "./event/events/GameUpdateEvent.js";
 import pubsub from "./event/PubSub.js";
+import GameActionEvent from "./event/events/GameActionEvent.js";
 export default class State {
     constructor() {
         this.kills = 0;
+        this.actions = 0;
+        this.action = (gameActionEvent) => {
+            this.actions += 1;
+            this.roundCurrentLength = 0;
+            const actionMillisecond = (((gameActionEvent.currentTime - this.startTime) / this.actions) / 1000);
+        };
         this.start = () => {
             this.gameActive = true;
             if (!this.requestId) {
@@ -16,6 +23,8 @@ export default class State {
             cancelAnimationFrame(this.requestId);
             this.requestId = undefined;
             this.endTime = Date.now();
+            const score = (((this.endTime - this.startTime) / this.actions));
+            alert(`Game ended. score: ${score}`);
         };
         this.resetCounter = () => {
             this.roundCurrentLength = 0;
@@ -26,16 +35,20 @@ export default class State {
         this.getKills = () => {
             return this.kills;
         };
+        this.isActive = () => {
+            return this.gameActive;
+        };
         this.loop = () => {
             if (!this.gameActive)
                 return;
-            this.roundCurrentLength += 5;
             requestAnimationFrame(this.loop);
         };
         pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
         pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.addKills);
+        pubsub.subscribe(GameActionEvent.EVENTNAME, this.action);
         this.roundLength = 500;
         this.roundCurrentLength = 0;
+        this.gameActive = false;
         this.start();
         this.requestId = undefined;
     }

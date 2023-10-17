@@ -20,7 +20,7 @@ export default class GridSquare {
 
     get y() { return this._position.y; }
 
-    isEmpty = () => !this._character
+    isEmpty = () => this._character === null;
 
     setCharacter = (character: Character | null) => this._character = character;
 

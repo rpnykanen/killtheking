@@ -12,9 +12,9 @@ export default abstract class Enemy extends Character {
     protected _score: number;
     protected _index = 0;
 
-    constructor(x: number, y:number, health:number) {
+    constructor(position: Position, health:number) {
         super();
-        this._position = new Position(x,0);
+        this._position = position;
         this._health = health;
         this._movement = [
             [new Movement(0,0), new Movement(0,1)],
@@ -25,18 +25,17 @@ export default abstract class Enemy extends Character {
         return this._position;
     }
 
-    get movement(): Movement[] {
-        return this._movement[this._index];
+    get movement(): Movement {
+        return this._movement[0][this._index];
     }
 
     get possiblePositions(): Position[] {
-        const z = this._movement.map((movementArray)=>{
+        return this._movement.map((movementArray)=>{
             return new Position(
                 this._position.x + movementArray[this._index].x,
                 this._position.y + movementArray[this._index].y,
             );
         });
-        return z;
     }
  
     get icon(): Icon {

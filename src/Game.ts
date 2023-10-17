@@ -1,8 +1,7 @@
 import Player from './character/Player.js';
-import GameRestartEvent from './event/events/GameRestartEvent.js';
-import GameUpdateEvent from './event/events/GameUpdateEvent.js';
+import GameActionEvent from './event/events/GameActionEvent.js';
+import GameOverEvent from './event/events/GameOverEvent.js';
 import pubsub from './event/PubSub.js';
-
 import Grid from "./grid/Grid.js";
 import Renderer from "./renderer/Renderer.js";
 import State from "./State.js";
@@ -15,7 +14,7 @@ export default class Game {
     boss: boolean;
 
     constructor() {
-        pubsub.subscribe(GameRestartEvent.EVENTNAME, this.restart);
+        pubsub.subscribe(GameOverEvent.EVENTNAME, this.endGame);
         this.renderer = new Renderer();
         this.grid = new Grid();
         this.state = new State();
@@ -23,8 +22,16 @@ export default class Game {
     }
 
     action = (keyName: string) => {
+        if (!this.state.isActive()) {
+            return;
+        }
+
         this.grid.action(keyName)
-        this.test();
+        if (this.state.getKills() === 10 && this.boss === false) {
+            this.grid.spawnBoss();
+            this.boss = true;
+        }
+        pubsub.publish(new GameActionEvent());
     }
 
     startGame = () => {
@@ -33,13 +40,7 @@ export default class Game {
 
     endGame = () => {
         this.state.end();
-    }
-
-    test = () => {
-        if (this.state.getKills() === 10 && this.boss === false) {
-            this.grid.spawnBoss();
-            this.boss = true;
-        }
+        this.grid.end();
     }
 
     restart = () => {
@@ -47,5 +48,4 @@ export default class Game {
         this.renderer = new Renderer();
         this.state = new State();
     }
-    
 }

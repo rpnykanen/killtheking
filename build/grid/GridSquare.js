@@ -1,7 +1,7 @@
 import Position from "./Position.js";
 export default class GridSquare {
     constructor(x, y) {
-        this.isEmpty = () => !this._character;
+        this.isEmpty = () => this._character === null;
         this.setCharacter = (character) => this._character = character;
         this.removeCharacter = () => this._character = null;
         this._position = new Position(x, y);

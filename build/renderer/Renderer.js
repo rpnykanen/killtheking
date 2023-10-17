@@ -49,9 +49,6 @@ export default class Renderer {
         };
         this.renderGrid = (gridSquare) => {
             const object = gridSquare.character;
-            if (!object) {
-                return;
-            }
             const icon = object.icon;
             const canvasPosition = new CanvasPosition(gridSquare.position);
             this.context.drawImage(icon.image, canvasPosition.x, canvasPosition.y - 5, icon.width, icon.height);
