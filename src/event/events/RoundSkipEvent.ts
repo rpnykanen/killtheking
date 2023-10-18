@@ -1,7 +1,7 @@
 export default class RoundSkipEvent implements IEvent {
-    static EVENTNAME: string = 'round.skip';
+  static EVENTNAME = 'round.skip';
 
-    static create = () => new RoundSkipEvent();
+  static create = () => new RoundSkipEvent();
 
-    get eventName() { return RoundSkipEvent.EVENTNAME; }
+  get eventName() { return RoundSkipEvent.EVENTNAME; }
 }

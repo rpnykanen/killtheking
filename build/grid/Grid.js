@@ -88,7 +88,7 @@ export default class Grid {
                     pubsub.publish(new GameOverEvent());
                     return;
                 }
-                let oldGrid = this.getGridSquare(enemy.position);
+                const oldGrid = this.getGridSquare(enemy.position);
                 oldGrid.removeCharacter();
                 const allowed = enemy.possiblePositions.filter((p) => {
                     return this.isValidPosition(p) && this.getGridSquare(p)?.isEmpty();
@@ -149,7 +149,7 @@ export default class Grid {
     findEmptySpawn() {
         const x = Math.floor(Math.random() * 10);
         const y = 0;
-        var position = new Position(x, y);
+        const position = new Position(x, y);
         const square = this.getGridSquare(position);
         if (!square || !square.isEmpty()) {
             this.findEmptySpawn();

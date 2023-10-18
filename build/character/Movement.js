@@ -4,7 +4,5 @@ export default class Movement {
         this._y = _y;
     }
     get x() { return this._x; }
-    ;
     get y() { return this._y; }
-    ;
 }

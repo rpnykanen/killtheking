@@ -2,8 +2,8 @@ import Particle from "./Particle";
 
 export default interface IEffect {
 
-    update(): Particle[];
+  update(): Particle[];
 
-    isDead(): boolean;
+  isDead(): boolean;
 
 }

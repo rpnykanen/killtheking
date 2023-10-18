@@ -1,3 +1,3 @@
 interface IEvent {
-    get eventName(): string;
+  get eventName(): string;
 }

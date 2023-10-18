@@ -7,20 +7,20 @@ import Icon from "./Icon.js";
 import Movement from "./Movement.js";
 
 export default class King extends Enemy {
-    constructor(position: Position, health:number) {
-        super(position, health);
-        this._icon = new Icon(30,35, '../../images/king.svg');
-        this._movement = [
-            [new Movement(0,0),new Movement(0,0),new Movement(-1,1)],
-            [new Movement(0,0),new Movement(0,0),new Movement(0,1)],
-            [new Movement(0,0),new Movement(0,0),new Movement(1,1)],
-        ]
-    }
+  constructor(position: Position, health: number) {
+    super(position, health);
+    this._icon = new Icon(30, 35, '../../images/king.svg');
+    this._movement = [
+      [new Movement(0, 0), new Movement(0, 0), new Movement(-1, 1)],
+      [new Movement(0, 0), new Movement(0, 0), new Movement(0, 1)],
+      [new Movement(0, 0), new Movement(0, 0), new Movement(1, 1)],
+    ]
+  }
 
-    reduceHealth = (damage: number): void => {
-        this._health -= damage;
-        pubsub.publish(new EnemyHitEvent(this));
-        if (this.isDead()) pubsub.publish(new GameOverEvent());
-    }
+  reduceHealth = (damage: number): void => {
+    this._health -= damage;
+    pubsub.publish(new EnemyHitEvent(this));
+    if (this.isDead()) pubsub.publish(new GameOverEvent());
+  }
 
 }
