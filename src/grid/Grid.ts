@@ -24,7 +24,7 @@ export default class Grid {
     private changes: GridSquare[] = [];
 
     constructor() {
-        PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.genericActions);
+        PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.afterRoundActions);
         this.player = new Player();
         this.buildGrid()
         this.spawnPlayer();
@@ -36,12 +36,12 @@ export default class Grid {
         this.changes = [];
         if (action == 'ArrowLeft' || action == 'ArrowRight') {
             this.movePlayer(action);
-            this.genericActions();
+            this.afterRoundActions();
         }
         if (action == 'ArrowUp') {
             pubsub.publish(new PlayerShootEvent(this.player.position));
             this.shoot();
-            this.genericActions();
+            this.afterRoundActions();
         }
     }
 
@@ -52,21 +52,21 @@ export default class Grid {
     }
 
     private movePlayer = (action: string) => {
-        this.player.updatePosition(action);
-
-        const oldPos = this.player.oldPosition;
-        const newPos = this.player.position
-
-        const oldGrid = this.getGridSquare(oldPos)!;
-        const character = oldGrid.character;
-        if (!character){
+        const oldPos = this.player.position
+        if (
+            action == 'ArrowLeft' && oldPos.x <= 0 || 
+            action == 'ArrowRight' && oldPos.x >= 9
+        ) {
             return;
         }
+        const newPos = oldPos.clone();
+        action == 'ArrowLeft' ? newPos.substractX() : newPos.addX();
+        this.player.position = newPos;
 
-        oldGrid.removeCharacter();
+        const oldGrid = this.getGridSquare(oldPos)!;
         const newGrid = this.getGridSquare(newPos)!;
-        newGrid?.setCharacter(character);
-
+        oldGrid && oldGrid.removeCharacter();
+        newGrid && newGrid.setCharacter(this.player);
         this.changes.push(oldGrid, newGrid);
     }
 
@@ -86,48 +86,43 @@ export default class Grid {
                 return enemy.position.y > accumulator.position.y ? enemy : accumulator; 
             }, null)
             
-        if (enemyHit) {
-            enemyHit.reduceHealth(1);
-            if (enemyHit.health <= 0) {
-                this.removeEnemy(enemyHit);
-            }
+        if (!enemyHit) {
+            return;
+        }
+
+        enemyHit.reduceHealth(1);
+        if (enemyHit.isDead() ) {
+            this.removeEnemy(enemyHit);
         }
     }
 
-    public spawnEnemy = () => {
-        if (this.enemies.length < 3) {
+    private spawnEnemy = () => {      
+        const position = this.findEmptySpawn();
+        const gridSquare = this.getGridSquare(position);
+        
+        // spawn enemy with factory ?
+        const rand = Math.floor(Math.random() * 3);
+        const enemy = rand % 2 === 0 && rand != 0 ? new Knight(position, 1) : new Pawn(position, 1);
 
-            let enemy = null;
-            let spawn = false; 
+        gridSquare && gridSquare.setCharacter(enemy);
+        gridSquare && this.changes.push(gridSquare);
 
-            do {
-                const x = Math.floor(Math.random() * 10);
-                const y = 0;
-                var position = new Position(x,y);
-                const square = this.getGridSquare(position);
-                spawn = square.isEmpty();
-            }
-            while(!spawn);
+        enemy.setPosition(enemy.position);
+        this.enemies.push(enemy);
+    }
 
-            const rand = Math.floor(Math.random() * 3);
-            if (rand % 2 === 0 && rand != 0) {
-                enemy = new Knight(position, 1);
-            } else {
-                enemy = new Pawn(position, 1);
-            }
-
-            const gridSquare = this.getGridSquare(enemy.position);
-
-            enemy.setPosition(enemy.position);
-            gridSquare.setCharacter(enemy);
-            this.enemies.push(enemy);
-            this.changes.push(gridSquare);
+    private findEmptySpawn(): Position {
+        const x = Math.floor(Math.random() * 10);
+        const y = 0;
+        var position = new Position(x,y);
+        const square = this.getGridSquare(position);
+        if (!square || !square.isEmpty()) {
+            this.findEmptySpawn();
         }
+        return position;
     }
 
     private moveEnemies = () => {
-        if (this.enemies.length == 0) return;
-
         this.enemies.forEach((enemy: Enemy) => {
             if (!enemy.position) return;
 
@@ -136,11 +131,11 @@ export default class Grid {
                 return;
             }
 
-            let oldGrid = this.getGridSquare(enemy.position);
+            let oldGrid = this.getGridSquare(enemy.position)!;
             oldGrid.removeCharacter();
 
             const allowed = enemy.possiblePositions.filter((p: Position) => {
-                return this.isValidPosition(p) && this.getGridSquare(p).isEmpty();
+                return this.isValidPosition(p) && this.getGridSquare(p)?.isEmpty();
             });
             
             if (allowed.length === 0) {
@@ -154,20 +149,21 @@ export default class Grid {
             
             enemy.setPosition(position);
             const newGrid = this.getGridSquare(position);
-            newGrid.setCharacter(enemy);
 
-            this.changes.push(newGrid);
+            newGrid && newGrid.setCharacter(enemy);
+            newGrid && this.changes.push(newGrid);
         });
-        
     }
 
     public spawnBoss = () => {
         this.enemies.push(new King(new Position(4,0),10));
     }
 
-    private genericActions = () => {
+    private afterRoundActions = () => {
         this.moveEnemies();
-        this.spawnEnemy();
+        if (this.enemies.length < 3) {
+            this.spawnEnemy();
+        }
         this.updateGrid();
     }
 
@@ -179,7 +175,7 @@ export default class Grid {
     public end = () => {
         this.enemies = [];
         this.enemies.forEach((enemy: Enemy) => {
-            this.changes.push(this.getGridSquare(enemy.position))
+            this.changes.push(this.getGridSquare(enemy.position)!)
         });
     }
 
@@ -191,9 +187,9 @@ export default class Grid {
         }
     }
 
-    private getGridSquare = (position: Position): GridSquare  => {
+    private getGridSquare = (position: Position): GridSquare | null => {
         const index = position.y*10+position.x;
-        return this.grid[index];
+        return this.grid[index] ?? null;
     }
 
     private isValidPosition = (position: Position): boolean => {

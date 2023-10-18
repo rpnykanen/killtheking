@@ -15,8 +15,8 @@ export default class Game {
 
     constructor() {
         pubsub.subscribe(GameOverEvent.EVENTNAME, this.endGame);
-        this.renderer = new Renderer();
         this.grid = new Grid();
+        this.renderer = new Renderer();
         this.state = new State();
         this.boss = false;
     }

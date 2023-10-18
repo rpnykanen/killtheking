@@ -1,7 +1,6 @@
 import pubsub from "../event/PubSub.js";
 import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
 import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
-import PlayerShootEvent from "../event/events/PlayerShootEvent.js";
 import GridSquare from "../grid/GridSquare.js";
 import Position from "../grid/Position.js";
 import CanvasPosition from "./CanvasPosition.js";
@@ -41,19 +40,19 @@ export default class Renderer {
         const height = Renderer.canvasHeight;
 
         for (let x = 0; x <= width; x += Renderer.gridSquareWidth) {
-            let xFrom = 0.5 + x + padding;
-            let yFrom = padding;
+            const xFrom = 0.5 + x + padding;
+            const yFrom = padding;
 
-            let xTo = 0.5 + x + padding;
-            let yTo = height + padding;
+            const xTo = 0.5 + x + padding;
+            const yTo = height + padding;
             this.context?.moveTo(xFrom, yFrom);
             this.context?.lineTo(xTo, yTo);
         }
         for (let x = 0; x <= height; x += Renderer.gridSquareWidth) {
-            let xFrom = padding;
-            let yFrom = 0.5 + x + padding;
-            let xTo = width + padding;
-            let yTo = 0.5 + x + padding;
+            const xFrom = padding;
+            const yFrom = 0.5 + x + padding;
+            const xTo = width + padding;
+            const yTo = 0.5 + x + padding;
             this.context?.moveTo(xFrom, yFrom);
             this.context?.lineTo(xTo, yTo);
         }

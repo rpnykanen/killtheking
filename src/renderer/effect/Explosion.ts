@@ -1,5 +1,3 @@
-import pubsub from "../../event/PubSub.js";
-import Position from "../../grid/Position.js";
 import CanvasPosition from "../CanvasPosition.js";
 import IEffect from "./IEffect.js";
 import Particle from "./Particle.js";
@@ -12,8 +10,7 @@ export default class Explosion implements IEffect {
     private ttl = 300;
  
     constructor(private _position: CanvasPosition) { 
-        this.activeParticles = [];      
-        // TODO: +15 not good.        
+        this.activeParticles = [];              
         const x = this._position.x+15;
         const y = this._position.y+15;
         for(let i = 0; i <= this.particleCount; i++) {

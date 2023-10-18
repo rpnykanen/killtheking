@@ -5,7 +5,6 @@ export default class Player extends Character {
     constructor() {
         super();
         this.updatePosition = (action) => {
-            this._oldPosition = this._position.clone();
             let x = this._position.x;
             if (action == 'ArrowLeft') {
                 x -= this._position.x > 0 ? 1 : 0;
@@ -18,11 +17,11 @@ export default class Player extends Character {
         this._icon = new Icon(30, 30, '../../images/player.svg');
         this._position = new Position(0, 15);
     }
+    set position(position) {
+        this._position = position;
+    }
     get position() {
         return this._position;
-    }
-    get oldPosition() {
-        return this._oldPosition;
     }
     get icon() {
         return this._icon;
