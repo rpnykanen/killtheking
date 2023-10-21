@@ -3,16 +3,14 @@ import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
 import GridSquare from "./GridSquare.js";
 import PubSub from "../event/PubSub.js";
 import Position from "./Position.js";
-import Pawn from "../character/Pawn.js";
-import Knight from "../character/Knight.js";
 import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
-import Player from "../character/Player.js";
 import King from "../character/King.js";
 import GameOverEvent from "../event/events/GameOverEvent.js";
 import pubsub from "../event/PubSub.js";
 import PlayerShootEvent from "../event/events/PlayerShootEvent.js";
 export default class Grid {
-    constructor() {
+    constructor(characterFactory) {
+        this.characterFactory = characterFactory;
         this.grid = [];
         this.enemies = [];
         this.changes = [];
@@ -50,9 +48,9 @@ export default class Grid {
         };
         this.removeEnemy = (enemy) => {
             const gridSquare = this.getGridSquare(enemy.position);
-            gridSquare.setCharacter(null);
-            this.changes.push(gridSquare);
+            gridSquare.removeCharacter();
             this.enemies = this.enemies.filter(character => !character.position.equals(enemy.position));
+            this.changes.push(gridSquare);
             PubSub.publish(EnemyDeathEvent.create(enemy));
         };
         this.shoot = () => {
@@ -71,13 +69,11 @@ export default class Grid {
             }
         };
         this.spawnEnemy = () => {
-            const position = this.findEmptySpawn();
-            const gridSquare = this.getGridSquare(position);
-            const rand = Math.floor(Math.random() * 3);
-            const enemy = rand % 2 === 0 && rand != 0 ? new Knight(position, 1) : new Pawn(position, 1);
-            gridSquare && gridSquare.setCharacter(enemy);
-            gridSquare && this.changes.push(gridSquare);
-            enemy.setPosition(enemy.position);
+            const gridSquare = this.findEmptySpawn();
+            const enemy = this.characterFactory.createRandomEnemy();
+            gridSquare.setCharacter(enemy);
+            this.changes.push(gridSquare);
+            enemy.setPosition(gridSquare.position);
             this.enemies.push(enemy);
         };
         this.moveEnemies = () => {
@@ -140,7 +136,7 @@ export default class Grid {
             return position.x >= 0 && position.x <= 9 && position.y >= 0 && position.y <= 15;
         };
         PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.afterRoundActions);
-        this.player = new Player();
+        this.player = this.characterFactory.createPlayer();
         this.buildGrid();
         this.spawnPlayer();
         this.spawnEnemy();
@@ -154,6 +150,6 @@ export default class Grid {
         if (!square || !square.isEmpty()) {
             this.findEmptySpawn();
         }
-        return position;
+        return square;
     }
 }

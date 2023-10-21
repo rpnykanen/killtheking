@@ -13,6 +13,7 @@ export default class State {
   private endTime: number;
   private kills = 0;
   private actions = 0;
+  private _boss = false;
 
   constructor() {
     pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
@@ -31,7 +32,7 @@ export default class State {
     const actionMillisecond = (((gameActionEvent.currentTime - this.startTime) / this.actions) / 1000);
   }
 
-  start = () => {
+  start = () : void => {
     this.gameActive = true;
     if (!this.requestId) {
       this.requestId = requestAnimationFrame(this.loop);
@@ -39,7 +40,7 @@ export default class State {
     this.startTime = Date.now();
   }
 
-  end = () => {
+  end = () : void => {
     this.gameActive = false;
     cancelAnimationFrame(this.requestId);
     this.requestId = undefined;
@@ -48,20 +49,28 @@ export default class State {
     alert(`Game ended. score: ${score}`);
   }
 
-  resetCounter = () => {
+  resetCounter = (): void => {
     this.roundCurrentLength = 0;
   }
 
-  addKills = () => {
+  addKills = () : void => {
     this.kills += 1;
   }
 
-  getKills = () => {
+  getKills = (): number => {
     return this.kills;
   }
 
-  isActive = () => {
+  isActive = (): boolean => {
     return this.gameActive;
+  }
+
+  set boss(boss:boolean) {
+    this._boss = boss;
+  }
+
+  get boss(): boolean {
+    return this._boss;
   }
 
   private loop = (): void => {

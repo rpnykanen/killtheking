@@ -1,5 +1,3 @@
-import PubSub from "../event/PubSub.js";
-import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
 import Position from "../grid/Position.js";
 import Character from "./Character.js";
 import Icon from "./Icon.js";

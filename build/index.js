@@ -1,5 +1,7 @@
+import Container from "./Container.js";
 import Game from "./Game.js";
-const game = new Game();
+const container = new Container();
+const game = new Game(container.grid, container.renderer, container.state);
 document.addEventListener("keyup", (keyUpEvent) => {
-    game.action(keyUpEvent.key);
+    game.handleAction(keyUpEvent.key);
 });

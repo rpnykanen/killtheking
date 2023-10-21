@@ -6,6 +6,7 @@ export default class State {
     constructor() {
         this.kills = 0;
         this.actions = 0;
+        this._boss = false;
         this.action = (gameActionEvent) => {
             this.actions += 1;
             this.roundCurrentLength = 0;
@@ -51,5 +52,11 @@ export default class State {
         this.gameActive = false;
         this.start();
         this.requestId = undefined;
+    }
+    set boss(boss) {
+        this._boss = boss;
+    }
+    get boss() {
+        return this._boss;
     }
 }

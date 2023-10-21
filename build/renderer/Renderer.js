@@ -37,15 +37,17 @@ export default class Renderer {
         };
         this.updateGrid = (gameUpdateEvent) => {
             gameUpdateEvent.gridSquares.forEach((gridSquare) => {
-                this.clearGrid(gridSquare);
+                this.clearGridSquare(gridSquare);
                 if (gridSquare.isEmpty())
                     return;
                 this.renderGrid(gridSquare);
             });
         };
-        this.clearGrid = (gridSquare) => {
+        this.clearGridSquare = (gridSquare) => {
             const canvasPosition = new CanvasPosition(gridSquare.position);
             this.context.clearRect(canvasPosition.x - 4, canvasPosition.y - 9, 39, 39);
+        };
+        this.clearGrid = () => {
         };
         this.renderGrid = (gridSquare) => {
             const object = gridSquare.character;

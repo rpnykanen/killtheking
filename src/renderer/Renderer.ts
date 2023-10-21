@@ -66,15 +66,19 @@ export default class Renderer {
 
   updateGrid = (gameUpdateEvent: GameUpdateEvent) => {
     gameUpdateEvent.gridSquares.forEach((gridSquare: GridSquare) => {
-      this.clearGrid(gridSquare);
+      this.clearGridSquare(gridSquare);
       if (gridSquare.isEmpty()) return;
       this.renderGrid(gridSquare);
     })
   }
 
-  clearGrid = (gridSquare: GridSquare) => {
+  clearGridSquare = (gridSquare: GridSquare) => {
     const canvasPosition = new CanvasPosition(gridSquare.position);
     this.context.clearRect(canvasPosition.x - 4, canvasPosition.y - 9, 39, 39);
+  }
+
+  clearGrid = () => {
+    
   }
 
   renderGrid = (gridSquare: GridSquare) => {
