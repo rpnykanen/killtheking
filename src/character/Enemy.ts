@@ -57,7 +57,6 @@ export default abstract class Enemy extends Character {
 
   reduceHealth = (damage: number): void => {
     this._health -= damage;
-    // if (this.isDead()) PubSub.publish(EnemyDeathEvent.create(this));
   }
 
 }

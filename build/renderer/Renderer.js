@@ -5,6 +5,11 @@ import CanvasPosition from "./CanvasPosition.js";
 import Effect from "./effect/Effect.js";
 export default class Renderer {
     constructor() {
+        this.initialize = () => {
+            this.drawGrid();
+            pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid);
+            pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.doExplode);
+        };
         this.doExplode = (event) => {
             const position = event.enemy.position;
             this.effect.explosion(new CanvasPosition(position));
@@ -59,9 +64,6 @@ export default class Renderer {
         this.context = canvas.getContext("2d");
         const effectsCanvas = document.getElementById("effect");
         this.effect = new Effect(effectsCanvas.getContext("2d"));
-        this.drawGrid();
-        pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid);
-        pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.doExplode);
     }
 }
 Renderer.canvasWidth = 400;

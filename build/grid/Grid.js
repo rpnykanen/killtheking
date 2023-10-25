@@ -7,51 +7,39 @@ import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
 import King from "../character/King.js";
 import GameOverEvent from "../event/events/GameOverEvent.js";
 import pubsub from "../event/PubSub.js";
-import PlayerShootEvent from "../event/events/PlayerShootEvent.js";
 export default class Grid {
-    constructor(characterFactory) {
+    constructor(controller, characterFactory) {
+        this.controller = controller;
         this.characterFactory = characterFactory;
         this.grid = [];
         this.enemies = [];
         this.changes = [];
-        this.action = (action) => {
-            this.changes = [];
-            if (action == 'ArrowLeft' || action == 'ArrowRight') {
-                this.movePlayer(action);
-                this.afterRoundActions();
-            }
-            if (action == 'ArrowUp') {
-                pubsub.publish(new PlayerShootEvent(this.player.position));
-                this.shoot();
-                this.afterRoundActions();
-            }
+        this.initialize = () => {
+            this.player = this.characterFactory.createPlayer();
+            this.buildGrid();
+            this.spawnPlayer();
+            this.afterRoundActions();
         };
         this.spawnPlayer = () => {
             const square = this.getGridSquare(this.player.position);
             square.setCharacter(this.player);
             this.changes.push(square);
         };
-        this.movePlayer = (action) => {
-            const oldPos = this.player.position;
-            if (action == 'ArrowLeft' && oldPos.x <= 0 ||
-                action == 'ArrowRight' && oldPos.x >= 9) {
+        this.movePlayer = (movingLeft) => {
+            const currentPosition = this.player.position;
+            if (movingLeft && currentPosition.x <= 0 ||
+                !movingLeft && currentPosition.x >= 9) {
                 return;
             }
-            const newPos = oldPos.clone();
-            action == 'ArrowLeft' ? newPos.substractX() : newPos.addX();
-            this.player.position = newPos;
-            const oldGrid = this.getGridSquare(oldPos);
-            const newGrid = this.getGridSquare(newPos);
+            const newPosition = currentPosition.clone();
+            movingLeft ? newPosition.substractX() : newPosition.addX();
+            this.player.position = newPosition;
+            const oldGrid = this.getGridSquare(currentPosition);
+            const newGrid = this.getGridSquare(newPosition);
             oldGrid && oldGrid.removeCharacter();
             newGrid && newGrid.setCharacter(this.player);
             this.changes.push(oldGrid, newGrid);
-        };
-        this.removeEnemy = (enemy) => {
-            const gridSquare = this.getGridSquare(enemy.position);
-            gridSquare.removeCharacter();
-            this.enemies = this.enemies.filter(character => !character.position.equals(enemy.position));
-            this.changes.push(gridSquare);
-            PubSub.publish(EnemyDeathEvent.create(enemy));
+            this.afterRoundActions();
         };
         this.shoot = () => {
             const x = this.player.position.x;
@@ -67,6 +55,14 @@ export default class Grid {
             if (enemyHit.isDead()) {
                 this.removeEnemy(enemyHit);
             }
+            this.afterRoundActions();
+        };
+        this.removeEnemy = (enemy) => {
+            const gridSquare = this.getGridSquare(enemy.position);
+            gridSquare.removeCharacter();
+            this.enemies = this.enemies.filter(character => !character.position.equals(enemy.position));
+            this.changes.push(gridSquare);
+            PubSub.publish(EnemyDeathEvent.create(enemy));
         };
         this.spawnEnemy = () => {
             const gridSquare = this.findEmptySpawn();
@@ -136,11 +132,9 @@ export default class Grid {
             return position.x >= 0 && position.x <= 9 && position.y >= 0 && position.y <= 15;
         };
         PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.afterRoundActions);
-        this.player = this.characterFactory.createPlayer();
-        this.buildGrid();
-        this.spawnPlayer();
-        this.spawnEnemy();
-        this.updateGrid();
+        this.controller.setMove(this.movePlayer);
+        this.controller.setShoot(this.shoot);
+        this.controller.setSkip(this.afterRoundActions);
     }
     findEmptySpawn() {
         const x = Math.floor(Math.random() * 10);

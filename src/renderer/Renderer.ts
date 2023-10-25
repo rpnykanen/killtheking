@@ -23,8 +23,10 @@ export default class Renderer {
     this.context = canvas.getContext("2d")!;
     const effectsCanvas = <HTMLCanvasElement>document.getElementById("effect");
     this.effect = new Effect(effectsCanvas.getContext("2d")!);
-    this.drawGrid();
+  }
 
+  initialize = () => {
+    this.drawGrid();
     pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid)
     pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.doExplode);
   }

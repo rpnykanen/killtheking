@@ -4,8 +4,6 @@ import Enemy from "../character/Enemy.js";
 import GridSquare from "./GridSquare.js";
 import PubSub from "../event/PubSub.js";
 import Position from "./Position.js";
-import Pawn from "../character/Pawn.js";
-import Knight from "../character/Knight.js";
 import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
 import Player from "../character/Player.js";
 import King from "../character/King.js";
@@ -13,6 +11,7 @@ import GameOverEvent from "../event/events/GameOverEvent.js";
 import pubsub from "../event/PubSub.js";
 import PlayerShootEvent from "../event/events/PlayerShootEvent.js";
 import CharacterFactory from "../character/CharacterFactory.js";
+import Controller from "../Controller.js";
 
 export default class Grid {
 
@@ -24,26 +23,21 @@ export default class Grid {
 
   private changes: GridSquare[] = [];
 
-  constructor(private characterFactory: CharacterFactory) {
+  constructor(
+      private controller: Controller,
+      private characterFactory: CharacterFactory
+  ) {
     PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.afterRoundActions);
+    this.controller.setMove(this.movePlayer);
+    this.controller.setShoot(this.shoot);
+    this.controller.setSkip(this.afterRoundActions);
+  }
+
+  initialize = () => {
     this.player = this.characterFactory.createPlayer();
     this.buildGrid()
     this.spawnPlayer();
-    this.spawnEnemy();
-    this.updateGrid();
-  }
-
-  public action = (action: string) => {
-    this.changes = [];
-    if (action == 'ArrowLeft' || action == 'ArrowRight') {
-      this.movePlayer(action);
-      this.afterRoundActions();
-    }
-    if (action == 'ArrowUp') {
-      pubsub.publish(new PlayerShootEvent(this.player.position));
-      this.shoot();
-      this.afterRoundActions();
-    }
+    this.afterRoundActions();
   }
 
   private spawnPlayer = () => {
@@ -52,23 +46,45 @@ export default class Grid {
     this.changes.push(square);
   }
 
-  private movePlayer = (action: string) => {
-    const oldPos = this.player.position
+  public movePlayer = (movingLeft: boolean) => {
+    const currentPosition = this.player.position
     if (
-      action == 'ArrowLeft' && oldPos.x <= 0 ||
-      action == 'ArrowRight' && oldPos.x >= 9
+      movingLeft && currentPosition.x <= 0 ||
+      !movingLeft && currentPosition.x >= 9
     ) {
       return;
     }
-    const newPos = oldPos.clone();
-    action == 'ArrowLeft' ? newPos.substractX() : newPos.addX();
-    this.player.position = newPos;
 
-    const oldGrid = this.getGridSquare(oldPos)!;
-    const newGrid = this.getGridSquare(newPos)!;
+    const newPosition = currentPosition.clone();
+    movingLeft ? newPosition.substractX() : newPosition.addX();
+    this.player.position = newPosition;
+
+    const oldGrid = this.getGridSquare(currentPosition)!;
+    const newGrid = this.getGridSquare(newPosition)!;
+    
     oldGrid && oldGrid.removeCharacter();
     newGrid && newGrid.setCharacter(this.player);
     this.changes.push(oldGrid, newGrid);
+
+    this.afterRoundActions();
+  }
+
+  public shoot = () => {
+    const x = this.player.position.x;
+    const enemyHit = this.enemies.filter(enemy => enemy.position.x === x)
+      ?.reduce((accumulator: Enemy | null, enemy: Enemy) => {
+        accumulator = accumulator === null ? enemy : accumulator;
+        return enemy.position.y > accumulator.position.y ? enemy : accumulator;
+      }, null)
+
+    if (enemyHit) {
+      enemyHit.reduceHealth(1);
+      if (enemyHit.isDead()) {
+        this.removeEnemy(enemyHit);
+      }
+    }
+
+    this.afterRoundActions();
   }
 
   private removeEnemy = (enemy: Enemy) => {
@@ -78,24 +94,6 @@ export default class Grid {
 
     this.changes.push(gridSquare);
     PubSub.publish(EnemyDeathEvent.create(enemy));
-  }
-
-  private shoot = () => {
-    const x = this.player.position.x;
-    const enemyHit = this.enemies.filter(enemy => enemy.position.x === x)
-      ?.reduce((accumulator: Enemy | null, enemy: Enemy) => {
-        accumulator = accumulator === null ? enemy : accumulator;
-        return enemy.position.y > accumulator.position.y ? enemy : accumulator;
-      }, null)
-
-    if (!enemyHit) {
-      return;
-    }
-
-    enemyHit.reduceHealth(1);
-    if (enemyHit.isDead()) {
-      this.removeEnemy(enemyHit);
-    }
   }
 
   private spawnEnemy = () => {
@@ -158,7 +156,7 @@ export default class Grid {
     this.enemies.push(new King(new Position(4, 0), 10));
   }
 
-  private afterRoundActions = () => {
+  public afterRoundActions = () => {
     this.moveEnemies();
     if (this.enemies.length < 3) {
       this.spawnEnemy();
@@ -178,6 +176,7 @@ export default class Grid {
     });
   }
 
+  // TODO not like this
   private buildGrid = () => {
     for (let y = 0; y <= 15; y++) {
       for (let x = 0; x <= 9; x++) {

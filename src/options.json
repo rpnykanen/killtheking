@@ -1,9 +1,4 @@
-type options = {
-
-}
-
-
-export const options = {
+{
   "controls": {
     "left": "ArrowLeft",
     "right": "ArrowRight",

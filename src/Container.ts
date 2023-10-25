@@ -1,3 +1,5 @@
+import Controller from "./Controller.js";
+import Game from "./Game.js";
 import State from "./State.js";
 import CharacterFactory from "./character/CharacterFactory.js"
 import Grid from "./grid/Grid.js";
@@ -8,12 +10,20 @@ export default class Container {
   private _grid: Grid;
   private _renderer: Renderer;
   private _state: State;
+  private _controller: Controller;
+  private _game: Game;
 
   constructor(){
-    this._characterFactory = new CharacterFactory();
-    this._grid = new Grid(this._characterFactory);
+    this._controller = new Controller();
     this._renderer = new Renderer();
+    this._characterFactory = new CharacterFactory();
+
     this._state = new State();
+   
+    this._grid = new Grid(
+      this._controller, 
+      this._characterFactory
+    );
   }
 
   get characterFactory(): CharacterFactory {
@@ -28,8 +38,12 @@ export default class Container {
     return this._renderer;
   }
 
-  get state(): State{
+  get state(): State {
     return this._state;
+  }
+
+  get game(): Game {
+    return this._game;
   }
 
 }

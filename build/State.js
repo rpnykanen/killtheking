@@ -7,6 +7,13 @@ export default class State {
         this.kills = 0;
         this.actions = 0;
         this._boss = false;
+        this.initialize = () => {
+            this.roundLength = 500;
+            this.roundCurrentLength = 0;
+            this.gameActive = false;
+            this.start();
+            this.requestId = undefined;
+        };
         this.action = (gameActionEvent) => {
             this.actions += 1;
             this.roundCurrentLength = 0;
@@ -47,11 +54,6 @@ export default class State {
         pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
         pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.addKills);
         pubsub.subscribe(GameActionEvent.EVENTNAME, this.action);
-        this.roundLength = 500;
-        this.roundCurrentLength = 0;
-        this.gameActive = false;
-        this.start();
-        this.requestId = undefined;
     }
     set boss(boss) {
         this._boss = boss;

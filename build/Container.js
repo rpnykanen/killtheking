@@ -1,13 +1,15 @@
+import Controller from "./Controller.js";
 import State from "./State.js";
 import CharacterFactory from "./character/CharacterFactory.js";
 import Grid from "./grid/Grid.js";
 import Renderer from "./renderer/Renderer.js";
 export default class Container {
     constructor() {
-        this._characterFactory = new CharacterFactory();
-        this._grid = new Grid(this._characterFactory);
+        this._controller = new Controller();
         this._renderer = new Renderer();
+        this._characterFactory = new CharacterFactory();
         this._state = new State();
+        this._grid = new Grid(this._controller, this._characterFactory);
     }
     get characterFactory() {
         return this.characterFactory;
@@ -20,5 +22,8 @@ export default class Container {
     }
     get state() {
         return this._state;
+    }
+    get game() {
+        return this._game;
     }
 }

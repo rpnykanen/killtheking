@@ -1,4 +1,4 @@
-import GameActionEvent from './event/events/GameActionEvent.js';
+import Container from './Container.js';
 import GameOverEvent from './event/events/GameOverEvent.js';
 import pubsub from './event/PubSub.js';
 import Grid from "./grid/Grid.js";
@@ -7,34 +7,32 @@ import State from "./State.js";
 
 export default class Game {
 
-  constructor(
-    private grid: Grid, 
-    private renderer: Renderer, 
-    private state: State
-  ) {
+  private grid: Grid;
+  private renderer: Renderer;
+  private state: State;
+  private container: Container;
+
+  constructor() {
+    this.container = new Container();
+    this.state = this.container.state;
+    this.renderer = this.container.renderer;
+    this.grid = this.container.grid;
     pubsub.subscribe(GameOverEvent.EVENTNAME, this.endGame);
   }
 
-  handleAction = (keyName: string) => {
-    if (!this.state.isActive()) {
-      return;
-    }
-
-    this.grid.action(keyName)
-    if (this.state.getKills() === 10 && this.state.boss === false) {
-      this.grid.spawnBoss();
-      this.state.boss = true;
-    }
-    pubsub.publish(new GameActionEvent());
+  public initialize = () => {
+    this.state.initialize();
+    this.renderer.initialize();
+    this.grid.initialize();
   }
 
-  startGame = () => {
+  public startGame = () => {
     this.state.start();
   }
 
-  endGame = () => {
+  public endGame = () => {
     this.state.end();
     this.grid.end();
   }
-
+  
 }

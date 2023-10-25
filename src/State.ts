@@ -19,6 +19,9 @@ export default class State {
     pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
     pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.addKills);
     pubsub.subscribe(GameActionEvent.EVENTNAME, this.action);
+  }
+
+  public initialize = () => {
     this.roundLength = 500;
     this.roundCurrentLength = 0;
     this.gameActive = false;
@@ -26,13 +29,13 @@ export default class State {
     this.requestId = undefined;
   }
 
-  action = (gameActionEvent: GameActionEvent) => {
+  public action = (gameActionEvent: GameActionEvent) => {
     this.actions += 1;
     this.roundCurrentLength = 0;
     const actionMillisecond = (((gameActionEvent.currentTime - this.startTime) / this.actions) / 1000);
   }
 
-  start = () : void => {
+  public start = () : void => {
     this.gameActive = true;
     if (!this.requestId) {
       this.requestId = requestAnimationFrame(this.loop);
@@ -40,7 +43,7 @@ export default class State {
     this.startTime = Date.now();
   }
 
-  end = () : void => {
+  public end = () : void => {
     this.gameActive = false;
     cancelAnimationFrame(this.requestId);
     this.requestId = undefined;
@@ -49,19 +52,19 @@ export default class State {
     alert(`Game ended. score: ${score}`);
   }
 
-  resetCounter = (): void => {
+  public resetCounter = (): void => {
     this.roundCurrentLength = 0;
   }
 
-  addKills = () : void => {
+  public addKills = () : void => {
     this.kills += 1;
   }
 
-  getKills = (): number => {
+  public getKills = (): number => {
     return this.kills;
   }
 
-  isActive = (): boolean => {
+  public isActive = (): boolean => {
     return this.gameActive;
   }
 
