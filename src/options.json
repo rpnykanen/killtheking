@@ -5,22 +5,20 @@
     "shoot": "ArrowUp",
     "skip": "ArrowDown"
   },
-  "options": {
-    "difficulty": {
-      "easy": {
-        "round_length": 10000,
-        "enemy_health": 1,
-        "boss_health": 5
-      },
-      "normal": {
-        "roundlength": 500,
-        "enemy_health": 1,
-        "boss_health": 10
-      }
+  "difficulty": {
+    "easy": {
+      "round_length": 10000,
+      "enemy_health": 1,
+      "boss_health": 5
     },
-    "grid": {
-      "width": 10,
-      "height": 20
-    }    
+    "normal": {
+      "roundlength": 500,
+      "enemy_health": 1,
+      "boss_health": 10
+    }
+  },
+  "gridOptions": {
+    "width": 10,
+    "height": 20
   }
 }

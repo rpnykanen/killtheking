@@ -28,9 +28,9 @@ export default class Grid {
       private characterFactory: CharacterFactory
   ) {
     PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.afterRoundActions);
-    this.controller.setMove(this.movePlayer);
-    this.controller.setShoot(this.shoot);
-    this.controller.setSkip(this.afterRoundActions);
+    this.controller.move = this.movePlayer;
+    this.controller.shoot = this.shoot;
+    this.controller.skip = this.afterRoundActions;
   }
 
   initialize = () => {
@@ -46,7 +46,7 @@ export default class Grid {
     this.changes.push(square);
   }
 
-  public movePlayer = (movingLeft: boolean) => {
+  private movePlayer = (movingLeft: boolean) => {
     const currentPosition = this.player.position
     if (
       movingLeft && currentPosition.x <= 0 ||
@@ -69,7 +69,7 @@ export default class Grid {
     this.afterRoundActions();
   }
 
-  public shoot = () => {
+  private shoot = () => {
     const x = this.player.position.x;
     const enemyHit = this.enemies.filter(enemy => enemy.position.x === x)
       ?.reduce((accumulator: Enemy | null, enemy: Enemy) => {
@@ -156,7 +156,7 @@ export default class Grid {
     this.enemies.push(new King(new Position(4, 0), 10));
   }
 
-  public afterRoundActions = () => {
+  private afterRoundActions = () => {
     this.moveEnemies();
     if (this.enemies.length < 3) {
       this.spawnEnemy();

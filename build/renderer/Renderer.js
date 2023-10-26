@@ -52,8 +52,6 @@ export default class Renderer {
             const canvasPosition = new CanvasPosition(gridSquare.position);
             this.context.clearRect(canvasPosition.x - 4, canvasPosition.y - 9, 39, 39);
         };
-        this.clearGrid = () => {
-        };
         this.renderGrid = (gridSquare) => {
             const object = gridSquare.character;
             const icon = object.icon;

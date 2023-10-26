@@ -30,11 +30,11 @@ export default class Container {
     return this.characterFactory;
   }
   
-  get grid(): Grid{
+  get grid(): Grid {
     return this._grid;
   }
 
-  get renderer(): Renderer{
+  get renderer(): Renderer {
     return this._renderer;
   }
 

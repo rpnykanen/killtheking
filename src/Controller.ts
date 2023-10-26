@@ -13,7 +13,6 @@ export default class Controller {
 
   private handleAction = (keyUp: KeyboardEvent) => {
     const key = keyUp.key;
-    console
     switch(key) {
       case 'ArrowLeft':
         this._move(true);
@@ -30,16 +29,10 @@ export default class Controller {
     }
   }
 
-  setMove = (move: CallableFunction) => {
-    this._move = move;
-  }
+  set move(move: (boolean: boolean) => void) {this._move = move;}
 
-  setShoot = (shoot: CallableFunction) => {
-    this._shoot = shoot;
-  }
+  set shoot(shoot: () => void) { this._shoot = shoot; }
 
-  setSkip = (skip: CallableFunction) => {
-    this._skip = skip;
-  }
+  set skip(skip: () => void) { this._skip = skip; }
 
 }

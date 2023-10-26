@@ -2,7 +2,6 @@ export default class Controller {
     constructor() {
         this.handleAction = (keyUp) => {
             const key = keyUp.key;
-            console;
             switch (key) {
                 case 'ArrowLeft':
                     this._move(true);
@@ -18,15 +17,9 @@ export default class Controller {
                     break;
             }
         };
-        this.setMove = (move) => {
-            this._move = move;
-        };
-        this.setShoot = (shoot) => {
-            this._shoot = shoot;
-        };
-        this.setSkip = (skip) => {
-            this._skip = skip;
-        };
         document.addEventListener('keyup', this.handleAction);
     }
+    set move(move) { this._move = move; }
+    set shoot(shoot) { this._shoot = shoot; }
+    set skip(skip) { this._skip = skip; }
 }

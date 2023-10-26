@@ -48,12 +48,11 @@ export default class Grid {
                 accumulator = accumulator === null ? enemy : accumulator;
                 return enemy.position.y > accumulator.position.y ? enemy : accumulator;
             }, null);
-            if (!enemyHit) {
-                return;
-            }
-            enemyHit.reduceHealth(1);
-            if (enemyHit.isDead()) {
-                this.removeEnemy(enemyHit);
+            if (enemyHit) {
+                enemyHit.reduceHealth(1);
+                if (enemyHit.isDead()) {
+                    this.removeEnemy(enemyHit);
+                }
             }
             this.afterRoundActions();
         };
@@ -132,9 +131,9 @@ export default class Grid {
             return position.x >= 0 && position.x <= 9 && position.y >= 0 && position.y <= 15;
         };
         PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.afterRoundActions);
-        this.controller.setMove(this.movePlayer);
-        this.controller.setShoot(this.shoot);
-        this.controller.setSkip(this.afterRoundActions);
+        this.controller.move = this.movePlayer;
+        this.controller.shoot = this.shoot;
+        this.controller.skip = this.afterRoundActions;
     }
     findEmptySpawn() {
         const x = Math.floor(Math.random() * 10);
