@@ -20,17 +20,17 @@ export default class Game {
     pubsub.subscribe(GameOverEvent.EVENTNAME, this.endGame);
   }
 
-  public initialize = () => {
+  public initialize = (): void => {
     this.state.initialize();
     this.renderer.initialize();
     this.grid.initialize();
   }
 
-  public startGame = () => {
+  public startGame = (): void => {
     this.state.start();
   }
 
-  public endGame = () => {
+  public endGame = (): void => {
     this.state.end();
     this.grid.end();
   }

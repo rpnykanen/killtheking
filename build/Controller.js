@@ -1,18 +1,19 @@
 export default class Controller {
-    constructor() {
+    constructor(controls) {
+        this.controls = controls;
         this.handleAction = (keyUp) => {
             const key = keyUp.key;
             switch (key) {
-                case 'ArrowLeft':
+                case this.controls.left:
                     this._move(true);
                     break;
-                case 'ArrowRight':
+                case this.controls.right:
                     this._move(false);
                     break;
-                case 'ArrowUp':
+                case this.controls.shoot:
                     this._shoot();
                     break;
-                case 'ArrowDown':
+                case this.controls.skip:
                     this._skip();
                     break;
             }

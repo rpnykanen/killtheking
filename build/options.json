@@ -1,4 +1,4 @@
-export default {
+{
     "controls": {
         "left": "ArrowLeft",
         "right": "ArrowRight",
@@ -12,6 +12,6 @@ export default {
     },
     "gridOptions": {
         "width": 10,
-        "height": 15
+        "height": 20
     }
-};
+}

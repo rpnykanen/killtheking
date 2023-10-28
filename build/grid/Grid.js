@@ -4,13 +4,13 @@ import GridSquare from "./GridSquare.js";
 import PubSub from "../event/PubSub.js";
 import Position from "./Position.js";
 import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
-import King from "../character/King.js";
 import GameOverEvent from "../event/events/GameOverEvent.js";
 import pubsub from "../event/PubSub.js";
 export default class Grid {
-    constructor(controller, characterFactory) {
+    constructor(controller, characterFactory, gridOptions) {
         this.controller = controller;
         this.characterFactory = characterFactory;
+        this.gridOptions = gridOptions;
         this.grid = [];
         this.enemies = [];
         this.changes = [];
@@ -28,7 +28,7 @@ export default class Grid {
         this.movePlayer = (movingLeft) => {
             const currentPosition = this.player.position;
             if (movingLeft && currentPosition.x <= 0 ||
-                !movingLeft && currentPosition.x >= 9) {
+                !movingLeft && currentPosition.x >= (this.gridOptions.width - 1)) {
                 return;
             }
             const newPosition = currentPosition.clone();
@@ -75,7 +75,7 @@ export default class Grid {
             this.enemies.forEach((enemy) => {
                 if (!enemy.position)
                     return;
-                if (enemy.position.y >= 14 && enemy.movement.y > 0) {
+                if (enemy.position.y >= (this.gridOptions.height - 1) && enemy.movement.y > 0) {
                     pubsub.publish(new GameOverEvent());
                     return;
                 }
@@ -97,7 +97,12 @@ export default class Grid {
             });
         };
         this.spawnBoss = () => {
-            this.enemies.push(new King(new Position(4, 0), 10));
+            const gridSquare = this.findEmptySpawn();
+            const king = this.characterFactory.createKing();
+            gridSquare.setCharacter(king);
+            this.changes.push(gridSquare);
+            king.setPosition(gridSquare.position);
+            this.enemies.push(king);
         };
         this.afterRoundActions = () => {
             this.moveEnemies();
@@ -117,18 +122,19 @@ export default class Grid {
             });
         };
         this.buildGrid = () => {
-            for (let y = 0; y <= 15; y++) {
-                for (let x = 0; x <= 9; x++) {
+            for (let y = 0; y <= this.gridOptions.height; y++) {
+                for (let x = 0; x < this.gridOptions.width; x++) {
                     this.grid.push(new GridSquare(x, y));
                 }
             }
         };
         this.getGridSquare = (position) => {
-            const index = position.y * 10 + position.x;
+            const index = position.y * this.gridOptions.width + position.x;
             return this.grid[index] ?? null;
         };
         this.isValidPosition = (position) => {
-            return position.x >= 0 && position.x <= 9 && position.y >= 0 && position.y <= 15;
+            return position.x >= 0 && position.x < this.gridOptions.width &&
+                position.y >= 0 && position.y <= this.gridOptions.height;
         };
         PubSub.subscribe(RoundSkipEvent.EVENTNAME, this.afterRoundActions);
         this.controller.move = this.movePlayer;

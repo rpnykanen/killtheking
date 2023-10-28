@@ -1,3 +1,4 @@
+import { Controls } from "./types/Options";
 
 export default class Controller {
 
@@ -7,29 +8,29 @@ export default class Controller {
 
   private _skip: CallableFunction;
 
-  constructor() {
+  constructor(private readonly controls: Controls) {
     document.addEventListener('keyup', this.handleAction)
   }
 
   private handleAction = (keyUp: KeyboardEvent) => {
     const key = keyUp.key;
     switch(key) {
-      case 'ArrowLeft':
+      case this.controls.left:
         this._move(true);
         break;
-      case 'ArrowRight':
+      case this.controls.right:
         this._move(false);
         break;
-      case 'ArrowUp':
+      case this.controls.shoot:
         this._shoot();
         break;
-      case 'ArrowDown':
+      case this.controls.skip:
         this._skip();
         break;
     }
   }
 
-  set move(move: (boolean: boolean) => void) {this._move = move;}
+  set move(move: (boolean: boolean) => void) { this._move = move; }
 
   set shoot(shoot: () => void) { this._shoot = shoot; }
 

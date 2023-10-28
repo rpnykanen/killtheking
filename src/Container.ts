@@ -4,6 +4,7 @@ import State from "./State.js";
 import CharacterFactory from "./character/CharacterFactory.js"
 import Grid from "./grid/Grid.js";
 import Renderer from "./renderer/Renderer.js";
+import _options from "./options.js"; 
 
 export default class Container {
   private _characterFactory: CharacterFactory
@@ -14,7 +15,8 @@ export default class Container {
   private _game: Game;
 
   constructor(){
-    this._controller = new Controller();
+    const options = _options;
+    this._controller = new Controller(options.controls);
     this._renderer = new Renderer();
     this._characterFactory = new CharacterFactory();
 
@@ -22,7 +24,8 @@ export default class Container {
    
     this._grid = new Grid(
       this._controller, 
-      this._characterFactory
+      this._characterFactory,
+      options.gridOptions
     );
   }
 

@@ -10,7 +10,7 @@ export default class CanvasPosition {
         this._x = (this._position.x* Renderer.gridSquareWidth + 15)
         this._y = (this._position.y* Renderer.gridSquareWidth + 20)
     }
-    get x() { return this._x }
-    get y() { return this._y } 
-    get origin() {return this._origin}
+    get x(): number { return this._x }
+    get y(): number { return this._y } 
+    get origin(): Position {return this._origin}
 }
