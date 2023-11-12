@@ -15,8 +15,11 @@ interface Difficulty {
   bossHealth:  number;
 }
 interface GridOptions {
-  width:  number;
-  height: number;
+  width:  number; // how many gridsquares on grid
+  height: number; // how many gridsquares on grid
+  gridSquareWidth: number; // single square size
+  gridSquareHeight: number; // single square size
+  elementId: string; // html element id to render the game
 }
 
 export {Options, Controls, Difficulty, GridOptions}

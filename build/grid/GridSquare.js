@@ -8,7 +8,7 @@ export default class GridSquare {
         this._character = null;
     }
     get position() { return this._position; }
-    get character() { return this._character; }
     get x() { return this._position.x; }
     get y() { return this._position.y; }
+    get icon() { return this._character?.icon ?? null; }
 }

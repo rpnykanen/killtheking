@@ -1,6 +1,5 @@
 import Position from "../grid/Position.js";
 import Enemy from "./Enemy.js";
-import Icon from "./Icon.js";
 import King from "./King.js";
 import Knight from "./Knight.js";
 import Pawn from "./Pawn.js";
@@ -30,21 +29,5 @@ export default class CharacterFactory {
 
   public createPlayer = (): Player => {
     return new Player();
-  }
-
-  protected _position: Position;
-  protected _oldPosition: Position;
-  protected _icon: Icon;
-
-  get position(): Position {
-    return this._position;
-  }
-
-  get oldPosition(): Position {
-    return this._oldPosition;
-  }
-
-  get icon(): Icon {
-    return this._icon;
   }
 }

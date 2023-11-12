@@ -1,4 +1,4 @@
-import CanvasPosition from "../CanvasPosition.js";
+import CanvasPosition from "../../CanvasPosition.js";
 import IEffect from "./IEffect.js";
 import Particle from "./Particle.js";
 
@@ -35,5 +35,7 @@ export default class Explosion implements IEffect {
       return [];
     }
   }
+
+  get particles(): Particle[] { return this.activeParticles; }
 
 }

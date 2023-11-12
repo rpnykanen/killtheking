@@ -1,15 +1,16 @@
 import Enemy from "../../character/Enemy.js";
+import Icon from "../../character/Icon.js";
 
-export default class EnemyHitEvent implements IEvent {
+export default class EnemyHitEvent implements IGridEvent {
   static EVENTNAME = 'enemy.hit';
 
   constructor(private _enemy: Enemy) { }
 
-  static create = (enemy: Enemy) => new EnemyHitEvent(enemy);
+  get icon() : Icon { return this._enemy.icon }
 
-  get enemy() { return this._enemy; }
+  get x(): number { return this._enemy.position.x }
 
-  get position() { return this._enemy.position }
+  get y(): number { return this._enemy.position.y }
 
   get eventName() { return EnemyHitEvent.EVENTNAME; }
 }

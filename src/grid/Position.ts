@@ -7,6 +7,6 @@ export default class Position {
     addX = () => this._x += 1;
     substractX = () => this._x -= 1;
     equals = (position: Position) => this._x === position.x && this._y === position.y;
+    equalsXY = (x: number, y: number) => this._x === x && this._y === y;
     clone = () => new Position(this._x, this._y);
-
 }

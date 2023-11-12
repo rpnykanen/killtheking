@@ -3,9 +3,7 @@ export default class GameActionEvent implements IEvent {
 
   private _currentTime = 0;
 
-  constructor() {
-    this._currentTime = Date.now();
-  }
+  constructor() { this._currentTime = Date.now(); }
 
   get currentTime(): number {
     return this._currentTime;

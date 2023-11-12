@@ -61,7 +61,7 @@ export default class Grid {
             gridSquare.removeCharacter();
             this.enemies = this.enemies.filter(character => !character.position.equals(enemy.position));
             this.changes.push(gridSquare);
-            PubSub.publish(EnemyDeathEvent.create(enemy));
+            PubSub.publish(new EnemyDeathEvent(enemy));
         };
         this.spawnEnemy = () => {
             const gridSquare = this.findEmptySpawn();
@@ -112,7 +112,7 @@ export default class Grid {
             this.updateGrid();
         };
         this.updateGrid = () => {
-            PubSub.publish(GameUpdateEvent.create(this.changes));
+            PubSub.publish(new GameUpdateEvent(this.changes));
             this.changes = [];
         };
         this.end = () => {
@@ -142,9 +142,9 @@ export default class Grid {
         this.controller.skip = this.afterRoundActions;
     }
     findEmptySpawn() {
-        const x = Math.floor(Math.random() * 10);
+        const randomX = Math.floor(Math.random() * 10);
         const y = 0;
-        const position = new Position(x, y);
+        const position = new Position(randomX, y);
         const square = this.getGridSquare(position);
         if (!square || !square.isEmpty()) {
             this.findEmptySpawn();

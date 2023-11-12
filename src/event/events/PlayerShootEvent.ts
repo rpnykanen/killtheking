@@ -1,14 +1,14 @@
 import Position from "../../grid/Position";
 
-export default class PlayerShootEvent implements IEvent {
+export default class PlayerShootEvent implements IGridEvent {
 
   static EVENTNAME = 'player.shoot';
 
   constructor(private _position: Position) { }
 
-  static create = (position: Position) => new PlayerShootEvent(position);
+  get x(): number { return this._position.x }
 
-  get position() { return this._position; }
+  get y(): number { return this._position.y }
 
   get eventName() { return PlayerShootEvent.EVENTNAME; }
 }

@@ -6,9 +6,7 @@ export default class GameStartEvent implements IEvent {
 
   private startTime: number;
 
-  constructor() {
-    this.startTime = Date.now();
-  }
+  constructor() { this.startTime = Date.now(); }
 
   get getStartTime() { return this.startTime; }
 

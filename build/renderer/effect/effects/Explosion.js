@@ -30,4 +30,5 @@ export default class Explosion {
             this.activeParticles.push(new Particle(x, y, dx, dy, up, right, this.ttl));
         }
     }
+    get particles() { return this.activeParticles; }
 }

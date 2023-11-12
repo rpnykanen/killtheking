@@ -6,7 +6,6 @@ import PubSub from "../event/PubSub.js";
 import Position from "./Position.js";
 import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
 import Player from "../character/Player.js";
-import King from "../character/King.js";
 import GameOverEvent from "../event/events/GameOverEvent.js";
 import pubsub from "../event/PubSub.js";
 import CharacterFactory from "../character/CharacterFactory.js";
@@ -93,7 +92,7 @@ export default class Grid {
     this.enemies = this.enemies.filter(character => !character.position.equals(enemy.position));
 
     this.changes.push(gridSquare);
-    PubSub.publish(EnemyDeathEvent.create(enemy));
+    PubSub.publish(new EnemyDeathEvent(enemy));
   }
 
   private spawnEnemy = () => {
@@ -108,9 +107,9 @@ export default class Grid {
   }
 
   private findEmptySpawn(): GridSquare {
-    const x = Math.floor(Math.random() * 10);
+    const randomX = Math.floor(Math.random() * 10);
     const y = 0;
-    const position = new Position(x, y);
+    const position = new Position(randomX, y);
     const square = this.getGridSquare(position);
     if (!square || !square.isEmpty()) {
       this.findEmptySpawn();
@@ -171,7 +170,7 @@ export default class Grid {
   }
 
   public updateGrid = () => {
-    PubSub.publish(GameUpdateEvent.create(this.changes));
+    PubSub.publish(new GameUpdateEvent(this.changes));
     this.changes = [];
   }
 

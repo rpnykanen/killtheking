@@ -6,4 +6,3 @@ export default class GameUpdateEvent {
     get eventName() { return GameUpdateEvent.EVENTNAME; }
 }
 GameUpdateEvent.EVENTNAME = 'game.update';
-GameUpdateEvent.create = (gridSquares) => new GameUpdateEvent(gridSquares);
