@@ -10,7 +10,7 @@ export default class EffectCanvas {
 
   private animations: IEffect[] = [];
 
-  private running: boolean = false;
+  private running = false;
 
   constructor(private options: GridOptions) {
     const canvas = document.createElement("canvas");
@@ -19,20 +19,19 @@ export default class EffectCanvas {
     canvas.style.top = '100px';
     canvas.style.left = '10px';
 
-    this.context = canvas.getContext("2d")!
+    const context = canvas.getContext("2d")
+    context && (this.context = context);
     document.getElementById(this.options.elementId)?.append(canvas);
 
     const canvasHeight = this.options.height * this.options.gridSquareHeight;
     const canvasWidth = this.options.width * this.options.gridSquareWidth + (2 * 10);
     this.context.canvas.width = canvasWidth;
-    this.context.canvas.height = canvasHeight + 100;;
-
+    this.context.canvas.height = canvasHeight + 100;
   }
 
   public addAnimation = (canvasPosition: CanvasPosition, effectName: string) => {
     const effect = this.getEffect(canvasPosition, effectName);
     effect && this.animations.push(effect);
-    console.log(this.animations);
     this.requestAnimation();
   }
 

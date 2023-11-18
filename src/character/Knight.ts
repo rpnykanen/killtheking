@@ -1,7 +1,7 @@
-import Position from "../grid/Position.js";
 import Enemy from "./Enemy.js";
 import Icon from "./Icon.js";
 import Movement from "./Movement.js";
+import Position from "../board/Position.js";
 
 export default class Knight extends Enemy {
   constructor(position: Position, health: number) {

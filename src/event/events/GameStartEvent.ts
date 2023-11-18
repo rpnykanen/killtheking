@@ -1,5 +1,3 @@
-import Enemy from "../../character/Enemy.js";
-
 export default class GameStartEvent implements IEvent {
 
   static EVENTNAME = 'game.start';
@@ -10,8 +8,6 @@ export default class GameStartEvent implements IEvent {
 
   get getStartTime() { return this.startTime; }
 
-  get eventName(): string {
-    return GameStartEvent.EVENTNAME;
-  }
+  get eventName(): string {return GameStartEvent.EVENTNAME; }
 
 }

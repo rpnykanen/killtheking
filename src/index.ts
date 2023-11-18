@@ -1,3 +1,7 @@
 import Game from "./Game.js";
-const game = new Game();
-game.initialize();
+
+(()=>{
+  const game = new Game();
+  game.initialize();
+})()
+

@@ -1,10 +1,11 @@
-import pubsub from "../event/PubSub.js";
+import Enemy from "./Enemy.js";
 import EnemyHitEvent from "../event/events/EnemyHitEvent.js";
 import GameOverEvent from "../event/events/GameOverEvent.js";
-import Position from "../grid/Position.js";
-import Enemy from "./Enemy.js";
 import Icon from "./Icon.js";
 import Movement from "./Movement.js";
+import Position from "../board/Position.js";
+import Pubsub from "../event/PubSub.js";
+
 
 export default class King extends Enemy {
   constructor(position: Position, health: number) {
@@ -19,8 +20,8 @@ export default class King extends Enemy {
 
   reduceHealth = (damage: number): void => {
     this._health -= damage;
-    pubsub.publish(new EnemyHitEvent(this));
-    if (this.isDead()) pubsub.publish(new GameOverEvent());
+    Pubsub.publish(new EnemyHitEvent(this));
+    if (this.isDead()) Pubsub.publish(new GameOverEvent());
   }
 
 }

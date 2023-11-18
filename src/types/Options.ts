@@ -20,6 +20,8 @@ interface GridOptions {
   gridSquareWidth: number; // single square size
   gridSquareHeight: number; // single square size
   elementId: string; // html element id to render the game
+  gameCanvas: string;
+  effectCanvas: string;
 }
 
 export {Options, Controls, Difficulty, GridOptions}

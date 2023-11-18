@@ -1,17 +1,19 @@
-import Controller from "./Controller.js";
-import Game from "./Game.js";
-import State from "./State.js";
-import CharacterFactory from "./character/CharacterFactory.js"
-import GameGrid from "./grid/Grid.js";
-import Renderer from "./renderer/Renderer.js";
-import _options from "./options.js";
-import RendererGrid from "./renderer/grid/Grid.js"
-import Effect from "./renderer/effect/Effect.js";
+import Board from "./board/Board.js";
 import CanvasPositionMapper from "./renderer/CanvasPositionMapper.js";
+import CharacterFactory from "./character/CharacterFactory.js"
+import Controller from "./Controller.js";
+import Effect from "./renderer/effect/Effect.js";
+import Game from "./Game.js";
+import Grid from "./board/Grid.js";
+import Renderer from "./renderer/Renderer.js";
+import RendererGrid from "./renderer/grid/Grid.js"
+import State from "./State.js";
+import _options from "./options.js";
+
 
 export default class Container {
   private _characterFactory: CharacterFactory
-  private _grid: GameGrid;
+  private _board: Board;
   private _renderer: Renderer;
   private _state: State;
   private _controller: Controller;
@@ -30,10 +32,10 @@ export default class Container {
 
     this._state = new State();
    
-    this._grid = new GameGrid(
+    this._board = new Board(
+      new Grid(options.gridOptions),
       this._controller, 
       this._characterFactory,
-      options.gridOptions
     );
   }
 
@@ -41,8 +43,8 @@ export default class Container {
     return this.characterFactory;
   }
   
-  get grid(): GameGrid {
-    return this._grid;
+  get board(): Board {
+    return this._board;
   }
 
   get renderer(): Renderer {

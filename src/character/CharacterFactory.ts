@@ -1,12 +1,11 @@
-import Position from "../grid/Position.js";
 import Enemy from "./Enemy.js";
 import King from "./King.js";
 import Knight from "./Knight.js";
 import Pawn from "./Pawn.js";
 import Player from "./Player.js";
+import Position from "../board/Position.js";
 
 export default class CharacterFactory {
-
   public createRandomEnemy = (): Enemy => {
     const rand = Math.floor(Math.random() * 3);
     return rand % 2 === 0 && rand != 0 ? this.createKnight() : this.createPawn();

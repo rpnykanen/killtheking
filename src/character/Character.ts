@@ -1,5 +1,5 @@
-import Position from "../grid/Position.js";
 import Icon from "./Icon.js";
+import Position from "../board/Position.js";
 
 export default class Character {
   protected _position: Position;

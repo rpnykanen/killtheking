@@ -12,12 +12,13 @@ export default class Grid {
   constructor(private options: GridOptions) {
     this.canvasPadding = 10;
     this.canvas = document.createElement("canvas");
-    this.canvas.id = "game";
+    this.canvas.id = options.gameCanvas;
     this.canvas.style.position = 'absolute';
     this.canvas.style.top = '100px';
     this.canvas.style.left = '10px';
 
-    this.context = this.canvas.getContext("2d")!;
+    const context = this.canvas.getContext("2d");
+    context && (this.context = context);
     this.context.canvas.width = this.options.width * this.options.gridSquareWidth + (2 * this.canvasPadding);
     this.context.canvas.height = this.options.height * this.options.gridSquareHeight + 100;
   }
@@ -59,7 +60,7 @@ export default class Grid {
     this.drawHorizontal(padding, width, height);
     this.drawVertital(padding, width, height);
 
-    this.context!.strokeStyle = "black";
+    this.context.strokeStyle = "black";
     this.context?.stroke();
   }
 

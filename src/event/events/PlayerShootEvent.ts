@@ -1,7 +1,6 @@
-import Position from "../../grid/Position";
+import Position from "../../board/Position";
 
 export default class PlayerShootEvent implements IGridEvent {
-
   static EVENTNAME = 'player.shoot';
 
   constructor(private _position: Position) { }

@@ -1,14 +1,16 @@
 import EnemyDeathEvent from "./event/events/EnemyDeathEvent.js";
 import GameUpdateEvent from "./event/events/GameUpdateEvent.js";
-import pubsub from "./event/PubSub.js";
 import GameActionEvent from "./event/events/GameActionEvent.js";
+import RoundSkipEvent from "./event/events/RoundSkipEvent.js";
+import Pubsub from "./event/PubSub.js";
+
 
 export default class State {
 
   private roundLength: number;
   private roundCurrentLength: number;
   private gameActive: boolean;
-  private requestId: any;
+  private requestId: number;
   private startTime: number;
   private endTime: number;
   private kills = 0;
@@ -16,9 +18,9 @@ export default class State {
   private _boss = false;
 
   constructor() {
-    pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
-    pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.addKills);
-    pubsub.subscribe(GameActionEvent.EVENTNAME, this.action);
+    Pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
+    Pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.addKills);
+    Pubsub.subscribe(GameActionEvent.EVENTNAME, this.action);
   }
 
   public initialize = () => {
@@ -26,13 +28,13 @@ export default class State {
     this.roundCurrentLength = 0;
     this.gameActive = false;
     this.start();
-    this.requestId = undefined;
+    this.requestId = 0;
   }
 
   public action = (gameActionEvent: GameActionEvent) => {
     this.actions += 1;
     this.roundCurrentLength = 0;
-    const actionMillisecond = (((gameActionEvent.currentTime - this.startTime) / this.actions) / 1000);
+    // const actionMillisecond = (((gameActionEvent.currentTime - this.startTime) / this.actions) / 1000);
   }
 
   public start = () : void => {
@@ -46,7 +48,7 @@ export default class State {
   public end = () : void => {
     this.gameActive = false;
     cancelAnimationFrame(this.requestId);
-    this.requestId = undefined;
+    this.requestId = 0;
     this.endTime = Date.now();
     const score = (((this.endTime - this.startTime) / this.actions));
     alert(`Game ended. score: ${score}`);
@@ -78,14 +80,14 @@ export default class State {
 
   private loop = (): void => {
     if (!this.gameActive) return;
-    /*
+    
     if (this.roundCurrentLength >= this.roundLength) {
         this.roundCurrentLength = 0;
-        pubsub.publish(RoundSkipEvent.create());
+        pubsub.publish(new RoundSkipEvent());
     }
     
     this.roundCurrentLength += 5;
-    */
+    
     requestAnimationFrame(this.loop);
   }
 }

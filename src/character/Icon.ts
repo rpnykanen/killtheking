@@ -1,5 +1,4 @@
 export default class Icon {
-
   private _image: HTMLImageElement;
 
   constructor(private _width: number, private _height: number, imageUrl: string) {
