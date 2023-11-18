@@ -83,7 +83,7 @@ export default class State {
     
     if (this.roundCurrentLength >= this.roundLength) {
         this.roundCurrentLength = 0;
-        pubsub.publish(new RoundSkipEvent());
+        Pubsub.publish(new RoundSkipEvent());
     }
     
     this.roundCurrentLength += 5;

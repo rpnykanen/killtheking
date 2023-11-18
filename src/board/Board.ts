@@ -1,16 +1,16 @@
-import CharacterFactory from "../character/CharacterFactory.js";
-import Controller from "../Controller.js";
-import Enemy from "../character/Enemy.js";
-import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
-import GameOverEvent from "../event/events/GameOverEvent.js";
-import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
-import GridSquare from "./GridSquare.js";
-import Grid from "./Grid.js";
-import Player from "../character/Player.js";
-import Position from "./Position.js";
-import Pubsub from "../event/PubSub.js";
-import RoundSkipEvent from "../event/events/RoundSkipEvent.js";
-import { randomNumber } from "../utils/RandomHelper.js";
+import CharacterFactory from "../character/CharacterFactory";
+import Controller from "../Controller";
+import Enemy from "../character/Enemy";
+import EnemyDeathEvent from "../event/events/EnemyDeathEvent";
+import GameOverEvent from "../event/events/GameOverEvent";
+import GameUpdateEvent from "../event/events/GameUpdateEvent";
+import GridSquare from "./GridSquare";
+import Grid from "./Grid";
+import Player from "../character/Player";
+import Position from "./Position";
+import Pubsub from "../event/PubSub";
+import RoundSkipEvent from "../event/events/RoundSkipEvent";
+import { randomNumber } from "../utils/RandomHelper";
 
 export default class Board {
 
@@ -46,6 +46,7 @@ export default class Board {
     square.notNull() && this.changes.push(square);
   }
 
+  // wronk with the gridoption.width. something is out of place.
   private movePlayer = (movingLeft: boolean) => {
     const currentPosition = this.player.position
     if (
@@ -164,12 +165,12 @@ export default class Board {
   }
 
   public end = () => {
-    this.enemies = [];
     /*
     this.enemies.forEach((enemy: Enemy) => {
       this.changes.push(this.grid.getGridSquare(enemy.position))
     });
     */
+    this.enemies = [];
   }
 
 }

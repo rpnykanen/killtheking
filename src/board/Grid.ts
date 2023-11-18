@@ -8,16 +8,19 @@ export default class Grid {
   private grid: GridSquare[] = [];
 
   constructor(private gridOptions: GridOptions) {
-  }
-
-  public initialize = () => {
+    this.grid = [];
     this.buildGrid();
   }
 
-  private buildGrid = () => {
-    for (let y = 0; y <= this.gridOptions.height; y++) {
-      for (let x = 0; x < this.gridOptions.width; x++) {
-        const position = new Position(x,y);
+  public initialize = () => {
+    // this.grid = [];
+    //this.buildGrid();
+  }
+
+  private buildGrid = (): void => {
+    for (let height = 0; height <= this.gridOptions.height; height++) {
+      for (let width = 0; width < this.gridOptions.width; width++) {
+        const position = new Position(width,height);
         this.grid.push(new GridSquare(position));
       }
     }

@@ -1,5 +1,5 @@
-import Character from "../character/Character.js";
-import Position from "./Position.js";
+import Character from "../character/Character";
+import Position from "./Position";
 
 export default class GridSquare {
 
@@ -26,7 +26,7 @@ export default class GridSquare {
     get icon () {return this._character?.icon ?? null}
 
     public static createNullGrid = () => {
-      return new this(-1, -1);
+      return new this(Position.createNullPosition());
     }
 
 }
