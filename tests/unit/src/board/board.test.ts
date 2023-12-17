@@ -1,9 +1,7 @@
 import {describe, expect, test} from "@jest/globals"
-// import Grid from "@board/Grid";
-// import Position from "@board/Position"
-import Grid from "../../../../src/board/Grid";
-import GridSquare from "../../../../src/board/GridSquare";
-import Position from "../../../../src/board/Position";
+import Grid from "@board/Grid";
+import GridSquare from "@board/GridSquare";
+import Position from "@board/Position"
 
 describe('Position', () => {
   
@@ -86,24 +84,18 @@ describe('Grid', () => {
     expect(nullGridSquare.notNull()).toBeFalsy();
   })
 
-  test('Grid', () => {
-    const lastSquare = grid.getGridSquare(lastPosition);
-    expect(lastSquare.isEmpty()).toBeTruthy();
-
+  test('Grid bounds', () => {
     expect(grid.isEmpty(lastPosition)).toBeTruthy();
     expect(grid.isOutOfBoundsX(badPosition)).toBeTruthy();
     expect(grid.isOutOfBoundsY(badPosition)).toBeTruthy();
 
     expect(grid.isOutOfBoundsX(lastPosition)).toBeFalsy();
     expect(grid.isOutOfBoundsY(lastPosition)).toBeFalsy();
-
-    const spawn = grid.getEmptySpawn()
-    expect(spawn.isEmpty()).toBeTruthy();
   });
 
-  /*
-  test('', () => {
+  test('Grid spawn', () => {
+    const emptyGridSquare = grid.getEmptySpawn()
+    expect(emptyGridSquare.isEmpty()).toBeTruthy();
+  })
 
-  });
-  */
 });

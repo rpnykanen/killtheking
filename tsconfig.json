@@ -14,13 +14,12 @@
     "skipLibCheck": true,    
     "strictNullChecks": true,
     "strictFunctionTypes": true, 
-    "baseUrl": "src",
     "paths": {
-      "@board/*": ["board/*"],
-      // "@renderer/*": ["renderer/*"],
-      // "@utils/*": ["utils/*"],
+      "@board/*": ["./src/board/*"],
+      "@renderer/*": ["./src/renderer/*"],
+      "@utils/*": ["./src/utils/*"],
     }
   },
-  "include": ["tests"],
-  "exclude": ["node_modules", "tests"],
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist"],
 }
