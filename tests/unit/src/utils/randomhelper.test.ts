@@ -1,7 +1,5 @@
 import {describe, expect, test} from "@jest/globals"
-// import Grid from "@board/Grid";
-// import Position from "@board/Position"
-import { randomNumber } from "../../../../src/utils/RandomHelper"
+import { randomNumber } from "@utils/RandomHelper"
 
 describe('Random number helper test', () => {
   test('Get random number between 0 and given number', () => {
