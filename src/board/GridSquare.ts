@@ -1,4 +1,4 @@
-import Character from "../character/Character";
+import Character from "./character/Character";
 import Position from "./Position";
 
 export default class GridSquare {

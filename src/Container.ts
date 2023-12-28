@@ -1,6 +1,6 @@
 import Board from "./board/Board.js";
 import CanvasPositionMapper from "./renderer/CanvasPositionMapper.js";
-import CharacterFactory from "./character/CharacterFactory.js"
+import CharacterFactory from "./board/character/CharacterFactory.js"
 import Controller from "./Controller.js";
 import Effect from "./renderer/effect/Effect.js";
 import Game from "./Game.js";

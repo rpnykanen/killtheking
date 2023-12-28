@@ -1,5 +1,5 @@
-import Enemy from "../../character/Enemy.js";
-import Icon from "../../character/Icon.js";
+import Enemy from "../../board/character/Enemy.js";
+import Icon from "../../board/character/Icon.js";
 
 export default class EnemyHitEvent implements IGridEvent {
   static EVENTNAME = 'enemy.hit';

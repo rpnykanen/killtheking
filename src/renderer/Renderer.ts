@@ -1,11 +1,11 @@
-import pubsub from "../event/PubSub.js";
-import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
-import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
-import GridSquare from "../board/GridSquare.js";
 import CanvasPosition from "./CanvasPosition.js";
 import CanvasPositionMapper from "./CanvasPositionMapper.js";
 import Effect from "./effect/Effect.js";
+import EnemyDeathEvent from "../event/events/EnemyDeathEvent.js";
+import GameUpdateEvent from "../event/events/GameUpdateEvent.js";
 import Grid from "./grid/Grid.js"
+import GridSquare from "../board/GridSquare.js";
+import pubsub from "../event/PubSub.js";
 
 export default class Renderer {
 

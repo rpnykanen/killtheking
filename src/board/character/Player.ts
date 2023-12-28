@@ -1,6 +1,6 @@
 import Character from "./Character.js";
 import Icon from "./Icon.js";
-import Position from "../board/Position.js";
+import Position from "../Position.js";
 
 export default class Player extends Character {
   constructor() {

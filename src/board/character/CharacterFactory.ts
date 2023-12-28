@@ -3,7 +3,7 @@ import King from "./King.js";
 import Knight from "./Knight.js";
 import Pawn from "./Pawn.js";
 import Player from "./Player.js";
-import Position from "../board/Position.js";
+import Position from "../Position.js";
 
 export default class CharacterFactory {
   public createRandomEnemy = (): Enemy => {

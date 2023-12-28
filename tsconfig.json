@@ -16,6 +16,7 @@
     "strictFunctionTypes": true, 
     "paths": {
       "@board/*": ["./src/board/*"],
+      "@event/*": ["./src/event/*"],
       "@renderer/*": ["./src/renderer/*"],
       "@utils/*": ["./src/utils/*"],
     }

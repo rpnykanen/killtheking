@@ -1,12 +1,12 @@
-import CharacterFactory from "../character/CharacterFactory";
+import CharacterFactory from "./character/CharacterFactory";
 import Controller from "../Controller";
-import Enemy from "../character/Enemy";
+import Enemy from "./character/Enemy";
 import EnemyDeathEvent from "../event/events/EnemyDeathEvent";
 import GameOverEvent from "../event/events/GameOverEvent";
 import GameUpdateEvent from "../event/events/GameUpdateEvent";
 import GridSquare from "./GridSquare";
 import Grid from "./Grid";
-import Player from "../character/Player";
+import Player from "./character/Player";
 import Position from "./Position";
 import Pubsub from "../event/PubSub";
 import RoundSkipEvent from "../event/events/RoundSkipEvent";
@@ -19,8 +19,6 @@ export default class Board {
   private enemies: Enemy[] = [];
 
   private changes: GridSquare[] = [];
-
-  private killCount = 0;
 
   constructor(
     private grid: Grid,

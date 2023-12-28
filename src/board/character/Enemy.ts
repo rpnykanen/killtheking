@@ -1,7 +1,7 @@
 import Character from "./Character.js";
 import Icon from "./Icon.js";
 import Movement from "./Movement.js";
-import Position from "../board/Position.js";
+import Position from "../Position.js";
 
 export default abstract class Enemy extends Character {
 
