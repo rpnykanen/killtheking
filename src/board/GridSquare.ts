@@ -25,7 +25,7 @@ export default class GridSquare {
 
     get icon () {return this._character?.icon ?? null}
 
-    public static createNullGrid = () => {
+    public static create = () => {
       return new this(Position.createNullPosition());
     }
 

@@ -46,7 +46,7 @@ export default class Grid {
 
   public getGridSquare = (position: Position): GridSquare => {
     const index = position.y * this.gridOptions.width + position.x;
-    return this.grid[index] ?? GridSquare.createNullGrid();
+    return this.grid[index] ?? GridSquare.create();
   }
 
   public getEmptySpawn = (): GridSquare => {

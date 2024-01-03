@@ -4,7 +4,6 @@ import GridSquare from "@board/GridSquare";
 import Position from "@board/Position"
 
 describe('Position', () => {
-  
   const position1 = new Position(1,2);
   const position2 = Position.createNullPosition();
   const position3 = position1.clone();
@@ -38,7 +37,7 @@ describe('GridSquare', () => {
   const gridSquare = new GridSquare(position);
   
   test('Null grid', () => {
-    const nullGridsquare = GridSquare.createNullGrid();
+    const nullGridsquare = GridSquare.create();
     expect(nullGridsquare.isEmpty()).toBeTruthy();
     expect(nullGridsquare.notNull()).toBeFalsy();
     expect(nullGridsquare.icon).toBeNull();
