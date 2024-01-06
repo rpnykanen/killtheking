@@ -17,8 +17,10 @@ export default {
     "height": 15,
     "gridSquareWidth": 40,
     "gridSquareHeight": 40,
+    "iconHeight": 35,
+    "iconWidth": 30,
     "elementId": "game-container",
     "gameCanvas": "game",
-    "effectCanvas": "effect"
+    "effectCanvas": "effect",
   }
 }

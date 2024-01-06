@@ -32,7 +32,6 @@ export default class Board {
   }
 
   initialize = () => {
-    this.grid.initialize();
     this.player = this.characterFactory.createPlayer();
     this.spawnPlayer();
     this.afterRoundActions();

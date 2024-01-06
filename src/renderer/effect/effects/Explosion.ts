@@ -9,8 +9,8 @@ export default class Explosion implements IEffect {
 
   constructor(private _position: CanvasPosition) {
     this.activeParticles = [];
-    const x = this._position.x + 15;
-    const y = this._position.y + 15;
+    const x = this._position.iconPositionX + 15;
+    const y = this._position.iconPositionY + 15;
     for (let i = 0; i <= this.particleCount; i++) {
       const dx = (Math.random() - 0.5) * 2;
       const dy = (Math.random() - 0.5) * 2;

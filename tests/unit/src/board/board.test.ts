@@ -54,6 +54,8 @@ describe('Grid', () => {
     "height": 10,
     "gridSquareWidth": 40,
     "gridSquareHeight": 40,
+    "iconHeight": 25,
+    "iconWidth": 20,
     "elementId": "game-container",
     "gameCanvas": "game",
     "effectCanvas": "effect"

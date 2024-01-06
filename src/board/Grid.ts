@@ -12,11 +12,6 @@ export default class Grid {
     this.buildGrid();
   }
 
-  public initialize = () => {
-    // this.grid = [];
-    //this.buildGrid();
-  }
-
   private buildGrid = (): void => {
     for (let height = 0; height <= this.gridOptions.height; height++) {
       for (let width = 0; width < this.gridOptions.width; width++) {

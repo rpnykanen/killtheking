@@ -10,18 +10,20 @@ interface Controls {
   skip:  string;
 }
 interface Difficulty {
-  roundLength: number;
-  enemyHealth: number;
-  bossHealth:  number;
+  roundLength: number; // Length of the round in ms.
+  enemyHealth: number; // How many hits enemies endure.
+  bossHealth:  number; // How many hits the boss endures.
 }
 interface GridOptions {
-  width:  number; // how many gridsquares on grid
-  height: number; // how many gridsquares on grid
-  gridSquareWidth: number; // single square size
-  gridSquareHeight: number; // single square size
-  elementId: string; // html element id to render the game
-  gameCanvas: string;
-  effectCanvas: string;
+  width:  number; // How many gridsquares on grid.
+  height: number; // How many gridsquares on grid.
+  gridSquareWidth: number; // Single square size.
+  gridSquareHeight: number; // Single square size.
+  iconWidth: number; // Width of the character drawn on grid.
+  iconHeight: number; // Height of the character drawn on grid.
+  elementId: string; // Html element wrapper for the canvases.
+  gameCanvas: string; // Id for the game canvas.
+  effectCanvas: string; // Id for the effect canvas.
 }
 
 export {Options, Controls, Difficulty, GridOptions}

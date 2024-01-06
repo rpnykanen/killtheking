@@ -31,29 +31,31 @@ export default class Grid {
     this.context.clearRect(0, 0, 1000, 1000)
   }
 
-  public clearPosition = (canvasPositions: CanvasPosition[]): void => {
-    canvasPositions.forEach(
-      (canvasPosition: CanvasPosition) : void => this.context.clearRect(canvasPosition.gridPositionX, canvasPosition.gridPositionY, 39, 39)
-    );
+  public clearPosition = (canvasPosition: CanvasPosition): void => {
+    this.context.clearRect(
+      canvasPosition.iconPositionX-1,
+      canvasPosition.iconPositionY-1,
+      this.options.gridSquareWidth-5,
+      this.options.gridSquareHeight-2
+    )
   }
 
-  public renderIcon = (canvasPositions: CanvasPosition[]) => {
-    canvasPositions.forEach((canvasPosition) => {
-      const icon = canvasPosition.icon;
-      icon && this.context.drawImage(
-        icon.image,
-        canvasPosition.iconPositionX,
-        canvasPosition.iconPositionY,
-        icon.width,
-        icon.height
-      );
-    });
+  public renderIcon = (canvasPosition: CanvasPosition) => {
+    const icon = canvasPosition.icon;
+    icon && this.context.drawImage(
+      icon.image,
+      canvasPosition.iconPositionX,
+      canvasPosition.iconPositionY,
+      icon.width,
+      icon.height
+    );
   }
 
   private draw = () => {
     document.getElementById(this.options.elementId)?.append(this.canvas);
 
-    const padding = 10;
+    const padding = 0;
+    
     const width = this.options.width * this.options.gridSquareWidth;
     const height = this.options.height * this.options.gridSquareHeight;
 

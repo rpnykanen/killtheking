@@ -1,8 +1,8 @@
-import { GridOptions } from "../../types/Options.js";
-import CanvasPosition from "../CanvasPosition.js";
-import Explosion from "./effects/Explosion.js";
-import IEffect from "./effects/IEffect.js";
-import Particle from "./effects/Particle.js";
+import { GridOptions } from "../../types/Options";
+import CanvasPosition from "../CanvasPosition";
+import IEffect from "./effects/IEffect";
+import Particle from "./effects/Particle";
+import EffectFactory from "./effects/EffectFactory"
 
 export default class EffectCanvas {
 
@@ -12,7 +12,10 @@ export default class EffectCanvas {
 
   private running = false;
 
-  constructor(private options: GridOptions) {
+  constructor(
+    private options: GridOptions,
+    private effectFactory: EffectFactory
+    ) {
     const canvas = document.createElement("canvas");
     canvas.id = 'effect';
     canvas.style.position = 'absolute';
@@ -30,26 +33,12 @@ export default class EffectCanvas {
   }
 
   public addAnimation = (canvasPosition: CanvasPosition, effectName: string) => {
-    const effect = this.getEffect(canvasPosition, effectName);
+    const effect = this.effectFactory.getEffect(effectName, canvasPosition);
     effect && this.animations.push(effect);
     this.requestAnimation();
   }
 
-  // not like this.
-  private getEffect = (pos: CanvasPosition, effectName: string): IEffect | null => {
-    switch(effectName) {
-      case 'explosion': 
-        return new Explosion(pos);
-        break;
-    }
-    return null;
-  }
-
   private requestAnimation = (): void => {
-    !this.running && this.runEffects();
-  }
-
-  private runEffects = (): void => {
     if (!this.hasAnimations()) {
       this.running = false;
       return;
@@ -62,8 +51,7 @@ export default class EffectCanvas {
       this.drawParticles(effect)
     });
     this.removeAnimations();
-    requestAnimationFrame(this.runEffects);
-
+    requestAnimationFrame(this.requestAnimation);
   }
 
   private hasAnimations = () => this.animations.length != 0;

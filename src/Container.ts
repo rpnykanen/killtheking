@@ -1,5 +1,5 @@
 import Board from "./board/Board.js";
-import CanvasPositionMapper from "./renderer/CanvasPositionMapper.js";
+import GridToCanvasPositionMapper from "./renderer/GridToCanvasPositionMapper.js";
 import CharacterFactory from "./board/character/CharacterFactory.js"
 import Controller from "./Controller.js";
 import Effect from "./renderer/effect/Effect.js";
@@ -9,6 +9,7 @@ import Renderer from "./renderer/Renderer.js";
 import RendererGrid from "./renderer/grid/Grid.js"
 import State from "./State.js";
 import _options from "./options.js";
+import EffectFactory from "@renderer/effect/effects/EffectFactory.js";
 
 
 export default class Container {
@@ -22,11 +23,12 @@ export default class Container {
   constructor(){
     const options = _options;
     this._controller = new Controller(options.controls);
+    const effectFactory = new EffectFactory();
     
     const rendererGrid = new RendererGrid(options.gridOptions);
-    const effect = new Effect(options.gridOptions);
-    const canvasPositionMapper = new CanvasPositionMapper(options.gridOptions);
-    this._renderer = new Renderer(rendererGrid, effect, canvasPositionMapper);
+    const effect = new Effect(options.gridOptions, effectFactory);
+    const PositionMapper = new GridToCanvasPositionMapper(options.gridOptions);
+    this._renderer = new Renderer(rendererGrid, effect, PositionMapper);
 
     this._characterFactory = new CharacterFactory();
 
