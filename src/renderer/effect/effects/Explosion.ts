@@ -9,8 +9,9 @@ export default class Explosion implements IEffect {
 
   constructor(private _position: CanvasPosition) {
     this.activeParticles = [];
-    const x = this._position.iconPositionX + 15;
-    const y = this._position.iconPositionY + 15;
+    const x = this._position.centerX;
+    const y = this._position.centerY;
+
     for (let i = 0; i <= this.particleCount; i++) {
       const dx = (Math.random() - 0.5) * 2;
       const dy = (Math.random() - 0.5) * 2;
@@ -20,9 +21,9 @@ export default class Explosion implements IEffect {
     }
   }
 
-  isDead = (): boolean => this.activeParticles.length === 0;
+  public isDead = (): boolean => this.activeParticles.length === 0;
 
-  update = (): Particle[] => {
+  public update = (): Particle[] => {
     if (this.activeParticles.length > 0) {
       this.activeParticles.forEach((particle: Particle) => {
         particle.update();

@@ -31,6 +31,7 @@ export default class Grid {
     this.context.clearRect(0, 0, 1000, 1000)
   }
 
+  // todo fix
   public clearPosition = (canvasPosition: CanvasPosition): void => {
     this.context.clearRect(
       canvasPosition.iconPositionX-1,

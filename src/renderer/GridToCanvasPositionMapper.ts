@@ -12,13 +12,15 @@ export default class GridToCanvasPositionMapper {
   private gridPaddingY: number;
 
   constructor(private gridOptions: GridOptions) {
-    this.gridPaddingX = (this.gridOptions.gridSquareWidth-this.gridOptions.iconWidth)/2;
-    this.gridPaddingY = (this.gridOptions.gridSquareHeight-this.gridOptions.iconHeight)/2;
+    this.gridPaddingX = (this.gridOptions.gridSquareWidth - this.gridOptions.iconWidth) / 2;
+    this.gridPaddingY = (this.gridOptions.gridSquareHeight - this.gridOptions.iconHeight) / 2;
   }
 
   public map = (x: number,y: number, icon: Icon | null): CanvasPosition => {
     const canvasX = (x * this.gridOptions.gridSquareWidth) + this.gridPaddingX;
     const canvasY = (y * this.gridOptions.gridSquareHeight) + this.gridPaddingY;
-    return new CanvasPosition(canvasX,canvasY, icon); 
+    const centerX = (x * this.gridOptions.gridSquareWidth) + (this.gridOptions.gridSquareWidth / 2);
+    const centerY = (y * this.gridOptions.gridSquareHeight) + (this.gridOptions.gridSquareHeight / 2);;
+    return new CanvasPosition(canvasX,canvasY, centerX, centerY, icon); 
   }
 }

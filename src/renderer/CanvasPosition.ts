@@ -1,10 +1,11 @@
 import Icon from "../board/character/Icon.js";
 
 export default class CanvasPosition {
-
   constructor(
     private _canvasX: number, 
-    private _canvasY: number, 
+    private _canvasY: number,
+    private _centerX: number,
+    private _centerY: number,
     private _icon: Icon | null,
   ) {
   }
@@ -13,4 +14,7 @@ export default class CanvasPosition {
 
     get iconPositionX(): number { return this._canvasX }
     get iconPositionY(): number { return this._canvasY }
+    
+    get centerX(): number { return this._centerX }
+    get centerY(): number { return this._centerY }
 }

@@ -10,7 +10,6 @@ export default class Player extends Character {
   }
 
   public updatePosition = (action: string) => {
-    // this._oldPosition = this._position.clone();
     let x = this._position.x;
     if (action == 'ArrowLeft') {
       x -= this._position.x > 0 ? 1 : 0;
