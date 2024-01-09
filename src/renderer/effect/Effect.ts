@@ -17,7 +17,9 @@ export default class EffectCanvas {
     private effectFactory: EffectFactory
     ) {
     const canvas = document.createElement("canvas");
-    canvas.id = 'effect';
+
+    // todo
+    canvas.id = options.effectCanvas;
     canvas.style.position = 'absolute';
     canvas.style.top = '100px';
     canvas.style.left = '10px';

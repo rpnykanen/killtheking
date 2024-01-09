@@ -11,8 +11,11 @@ export default class Grid {
 
   constructor(private options: GridOptions) {
     this.canvasPadding = 10;
+
     this.canvas = document.createElement("canvas");
     this.canvas.id = options.gameCanvas;
+
+    // todo
     this.canvas.style.position = 'absolute';
     this.canvas.style.top = '100px';
     this.canvas.style.left = '10px';

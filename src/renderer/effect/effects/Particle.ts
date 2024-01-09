@@ -42,9 +42,8 @@ export default class Particle {
     this._x += this.right == true ? + -this.dx : this.dx;
     this._y += this.up == true ? + -this.dy : this.dy;
     this._ttl -= 10;
-    // this._alpha -= 0.03;
+    this._alpha -= 0.02;
   }
-
 
   isDead = () => this.ttl <= 0;
 }

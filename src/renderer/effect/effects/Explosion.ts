@@ -1,6 +1,6 @@
-import CanvasPosition from "../../CanvasPosition.js";
-import IEffect from "./IEffect.js";
-import Particle from "./Particle.js";
+import CanvasPosition from "../../CanvasPosition";
+import IEffect from "./IEffect";
+import Particle from "./Particle";
 
 export default class Explosion implements IEffect {
   private activeParticles: Particle[];
@@ -11,8 +11,8 @@ export default class Explosion implements IEffect {
     this.activeParticles = [];
     const x = this._position.centerX;
     const y = this._position.centerY;
-
-    for (let i = 0; i <= this.particleCount; i++) {
+    
+    for (let i = 0; i < this.particleCount; i++) {
       const dx = (Math.random() - 0.5) * 2;
       const dy = (Math.random() - 0.5) * 2;
       const up = Math.floor((Math.random() * 10)) % 2 == 0 ? true : false;
