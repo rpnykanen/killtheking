@@ -1,9 +1,9 @@
-import Board from './board/Board.js';
-import Container from './Container.js';
-import GameOverEvent from './event/events/GameOverEvent.js';
-import Pubsub from './event/PubSub.js';
-import Renderer from "./renderer/Renderer.js";
-import State from "./State.js";
+import Board from './board/Board';
+import Container from './Container';
+import GameOverEvent from './event/events/GameOverEvent';
+import Pubsub from './event/PubSub';
+import Renderer from "./renderer/Renderer";
+import State from "./State";
 
 export default class Game {
 

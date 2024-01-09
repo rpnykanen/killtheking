@@ -1,6 +1,6 @@
-import EnemyDeathEvent from '../event/events/EnemyDeathEvent.js';
-import PlayerShootEvent from '../event/events/PlayerShootEvent.js';
-import pubsub from '../event/PubSub.js';
+import EnemyDeathEvent from '../event/events/EnemyDeathEvent';
+import PlayerShootEvent from '../event/events/PlayerShootEvent';
+import pubsub from '../event/PubSub';
 
 export default class Sounds {
 

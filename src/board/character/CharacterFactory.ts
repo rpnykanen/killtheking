@@ -1,9 +1,9 @@
-import Enemy from "./Enemy.js";
-import King from "./King.js";
-import Knight from "./Knight.js";
-import Pawn from "./Pawn.js";
-import Player from "./Player.js";
-import Position from "../Position.js";
+import Enemy from "./Enemy";
+import King from "./King";
+import Knight from "./Knight";
+import Pawn from "./Pawn";
+import Player from "./Player";
+import Position from "../Position";
 
 export default class CharacterFactory {
   public createRandomEnemy = (): Enemy => {

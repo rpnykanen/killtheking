@@ -1,4 +1,4 @@
-import GridSquare from "../../board/GridSquare.js";
+import GridSquare from "../../board/GridSquare";
 
 export default class GameUpdateEvent implements IEvent {
   static EVENTNAME = 'game.update';

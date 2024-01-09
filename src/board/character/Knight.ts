@@ -1,7 +1,7 @@
-import Enemy from "./Enemy.js";
-import Icon from "./Icon.js";
-import Movement from "./Movement.js";
-import Position from "../Position.js";
+import Enemy from "./Enemy";
+import Icon from "./Icon";
+import Movement from "./Movement";
+import Position from "../Position";
 
 export default class Knight extends Enemy {
   constructor(position: Position, health: number) {

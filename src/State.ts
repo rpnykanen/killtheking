@@ -1,8 +1,8 @@
-import EnemyDeathEvent from "./event/events/EnemyDeathEvent.js";
-import GameUpdateEvent from "./event/events/GameUpdateEvent.js";
-import GameActionEvent from "./event/events/GameActionEvent.js";
-import RoundSkipEvent from "./event/events/RoundSkipEvent.js";
-import Pubsub from "./event/PubSub.js";
+import EnemyDeathEvent from "./event/events/EnemyDeathEvent";
+import GameUpdateEvent from "./event/events/GameUpdateEvent";
+import GameActionEvent from "./event/events/GameActionEvent";
+import RoundSkipEvent from "./event/events/RoundSkipEvent";
+import Pubsub from "./event/PubSub";
 
 
 export default class State {

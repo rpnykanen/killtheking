@@ -1,10 +1,10 @@
-import Enemy from "./Enemy.js";
-import EnemyHitEvent from "../../event/events/EnemyHitEvent.js";
-import GameOverEvent from "../../event/events/GameOverEvent.js";
-import Icon from "./Icon.js";
-import Movement from "./Movement.js";
-import Position from "../Position.js";
-import Pubsub from "../../event/PubSub.js";
+import Enemy from "./Enemy";
+import EnemyHitEvent from "../../event/events/EnemyHitEvent";
+import GameOverEvent from "../../event/events/GameOverEvent";
+import Icon from "./Icon";
+import Movement from "./Movement";
+import Position from "../Position";
+import Pubsub from "../../event/PubSub";
 
 
 export default class King extends Enemy {

@@ -1,15 +1,15 @@
-import Board from "./board/Board.js";
-import GridToCanvasPositionMapper from "./renderer/GridToCanvasPositionMapper.js";
-import CharacterFactory from "./board/character/CharacterFactory.js"
-import Controller from "./Controller.js";
-import Effect from "./renderer/effect/Effect.js";
-import Game from "./Game.js";
-import Grid from "./board/Grid.js";
-import Renderer from "./renderer/Renderer.js";
-import RendererGrid from "./renderer/grid/Grid.js"
-import State from "./State.js";
-import _options from "./options.js";
-import EffectFactory from "@renderer/effect/effects/EffectFactory.js";
+import Board from "./board/Board";
+import GridToCanvasPositionMapper from "./renderer/GridToCanvasPositionMapper";
+import CharacterFactory from "./board/character/CharacterFactory"
+import Controller from "./Controller";
+import Effect from "./renderer/effect/Effect";
+import Game from "./Game";
+import Grid from "./board/Grid";
+import Renderer from "./renderer/Renderer";
+import RendererGrid from "./renderer/grid/Grid"
+import State from "./State";
+import _options from "./options";
+import EffectFactory from "@renderer/effect/effects/EffectFactory";
 
 
 export default class Container {

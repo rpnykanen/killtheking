@@ -1,4 +1,4 @@
-import Enemy from "../../board/character/Enemy.js";
+import Enemy from "../../board/character/Enemy";
 
 export default class EnemyDeathEvent implements IGridEvent {
 

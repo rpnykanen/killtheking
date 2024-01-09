@@ -1,5 +1,5 @@
-import Icon from "./Icon.js";
-import Position from "../Position.js";
+import Icon from "./Icon";
+import Position from "../Position";
 
 export default class Character {
   protected _position: Position;

@@ -1,4 +1,4 @@
-import Icon from "../board/character/Icon.js";
+import Icon from "../board/character/Icon";
 
 export default class CanvasPosition {
   constructor(
