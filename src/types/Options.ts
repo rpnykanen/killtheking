@@ -8,11 +8,13 @@ interface Controls {
   right: string;
   shoot: string;
   skip:  string;
+  reset: string;
 }
 interface Difficulty {
   roundLength: number; // Length of the round in ms.
   enemyHealth: number; // How many hits enemies endure.
   bossHealth:  number; // How many hits the boss endures.
+  enemyAmount: number; // How many enemies before boss spawn.
 }
 interface GridOptions {
   width:  number; // How many gridsquares on grid.

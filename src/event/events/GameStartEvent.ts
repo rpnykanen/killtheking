@@ -8,6 +8,6 @@ export default class GameStartEvent implements IEvent {
 
   get getStartTime() { return this.startTime; }
 
-  get eventName(): string {return GameStartEvent.EVENTNAME; }
+  get eventName(): string {return 'game.start'; }
 
 }

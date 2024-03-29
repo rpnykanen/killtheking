@@ -9,7 +9,5 @@ export default class GameActionEvent implements IEvent {
     return this._currentTime;
   }
 
-  get eventName(): string {
-    return GameActionEvent.EVENTNAME;
-  }
+  get eventName(): string { return  'game.action'; }
 }

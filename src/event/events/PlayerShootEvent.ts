@@ -9,5 +9,5 @@ export default class PlayerShootEvent implements IGridEvent {
 
   get y(): number { return this._position.y }
 
-  get eventName() { return PlayerShootEvent.EVENTNAME; }
+  get eventName() { return 'player.shoot'; }
 }

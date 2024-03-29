@@ -20,7 +20,7 @@ export default class GridToCanvasPositionMapper {
     const canvasX = (x * this.gridOptions.gridSquareWidth) + this.gridPaddingX;
     const canvasY = (y * this.gridOptions.gridSquareHeight) + this.gridPaddingY;
     const centerX = (x * this.gridOptions.gridSquareWidth) + (this.gridOptions.gridSquareWidth / 2);
-    const centerY = (y * this.gridOptions.gridSquareHeight) + (this.gridOptions.gridSquareHeight / 2);;
+    const centerY = (y * this.gridOptions.gridSquareHeight) + (this.gridOptions.gridSquareHeight / 2);
     return new CanvasPosition(canvasX,canvasY, centerX, centerY, icon); 
   }
 }

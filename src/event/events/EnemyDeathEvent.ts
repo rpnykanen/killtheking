@@ -12,5 +12,5 @@ export default class EnemyDeathEvent implements IGridEvent {
 
   get y () { return this._enemy.position.y; }
 
-  get eventName() { return EnemyDeathEvent.EVENTNAME; }
+  get eventName() { return 'enemy.death'; }
 }

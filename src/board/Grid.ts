@@ -8,7 +8,6 @@ export default class Grid {
   private grid: GridSquare[] = [];
 
   constructor(private gridOptions: GridOptions) {
-    this.grid = [];
     this.buildGrid();
   }
 
@@ -21,14 +20,18 @@ export default class Grid {
     }
   }
 
-  // Can I expect it to be valid or throw error if ..?
-  public isEmpty = (position: Position): boolean => {
-    return this.getGridSquare(position).isEmpty();
+  public getGridSquare = (position: Position): GridSquare => {
+    const index = position.y * this.gridOptions.width + position.x;
+    return this.grid[index] ?? GridSquare.create();
   }
 
   public isValidPosition = (position: Position): boolean => {
     return position.x >= 0 && position.x < this.gridOptions.width &&
       position.y >= 0 && position.y <= this.gridOptions.height;
+  }
+
+  public isEmpty = (position: Position): boolean => {
+    return this.getGridSquare(position).isEmpty();
   }
 
   public isOutOfBoundsX = (position: Position): boolean => {
@@ -39,15 +42,12 @@ export default class Grid {
     return position.y >= this.gridOptions.height;
   }
 
-  public getGridSquare = (position: Position): GridSquare => {
-    const index = position.y * this.gridOptions.width + position.x;
-    return this.grid[index] ?? GridSquare.create();
-  }
-
   public getEmptySpawn = (): GridSquare => {
-    const empties = this.grid.slice(0, (this.gridOptions.width-1))
+    const empties = this.grid.slice(0, (this.getMaxX))
       .filter((gridSquare: GridSquare) => gridSquare.isEmpty());
     return empties[randomNumber(empties.length-1)];
   }
+
+  get getMaxX(): number { return this.gridOptions.width -1; }
 
 }

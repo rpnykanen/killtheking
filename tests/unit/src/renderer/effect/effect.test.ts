@@ -5,8 +5,7 @@ describe('test effects', () => {
 
   const canvasPosition = new CanvasPosition(100,100, 125, 125, null); 
 
-  test('Test exlosion', ()=>{
-
+  test('Test explosion', () => {
     const effect = new Explosion(canvasPosition);
 
     expect(effect.particles.length).toBe(20);
@@ -18,6 +17,5 @@ describe('test effects', () => {
 
     expect(effect.particles.length).toBe(0);
     expect(effect.isDead()).toBeTruthy();
-
   });
 });

@@ -1,12 +1,13 @@
 import Enemy from "../../board/character/Enemy";
-import Icon from "../../board/character/Icon";
 
 export default class EnemyHitEvent implements IGridEvent {
   static EVENTNAME = 'enemy.hit';
 
   constructor(private _enemy: Enemy) { }
 
-  get icon() : Icon { return this._enemy.icon }
+  get enemy(): Enemy { return this._enemy}
+
+  get type(): string { return this._enemy.constructor.name }
 
   get x(): number { return this._enemy.position.x }
 

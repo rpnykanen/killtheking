@@ -1,7 +1,7 @@
 import Game from "./Game";
 
 (()=>{
-  const game = new Game();
+  const game: Game | undefined = new Game();
   game.initialize();
-})()
+})();
 

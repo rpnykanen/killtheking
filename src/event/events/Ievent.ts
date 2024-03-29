@@ -1,3 +1,3 @@
-interface IEvent {
+export default interface IEvent {
   get eventName(): string;
 }

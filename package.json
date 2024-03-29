@@ -5,7 +5,7 @@
     "build": "esbuild src/index.ts --bundle --minify --outfile=dist/game.js",
     "test": "jest --coverage"
   },
-  "directories": {
+    "directories": {
     "test": "tests"
   },
   "devDependencies": {

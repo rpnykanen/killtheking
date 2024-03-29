@@ -1,7 +1,23 @@
-import {describe, expect, test} from "@jest/globals"
+import {describe, expect, test, jest} from "@jest/globals";
+import Board from "@board/Board";
+import CharacterFactory from "@board/character/CharacterFactory";
+import EventManager from "@event/EventManager";
 import Grid from "@board/Grid";
 import GridSquare from "@board/GridSquare";
 import Position from "@board/Position"
+
+const gridOptions = {
+  "width": 5,
+  "height": 10,
+  "gridSquareWidth": 40,
+  "gridSquareHeight": 40,
+  "iconHeight": 25,
+  "iconWidth": 20,
+  "elementId": "game-container",
+  "gameCanvas": "game",
+  "effectCanvas": "effect"
+}
+
 
 describe('Position', () => {
   const position1 = new Position(1,2);
@@ -99,4 +115,48 @@ describe('Grid', () => {
     expect(emptyGridSquare.isEmpty()).toBeTruthy();
   })
 
+  /*
+  describe('Board', () => {
+
+    const eventManager = new EventManager();
+
+    jest.mock('@board/Grid', () => {
+      return {
+        Grid: function () {
+          return {
+            f1: () => "mock value",
+            f2: () => ({mock: "value"})
+          }
+        }
+      }
+    })
+
+    jest.mock('@board/character/CharacterFactory', () => {
+      return {
+        Grid: function () {
+          return {
+            f1: () => "mock value",
+            f2: () => ({mock: "value"})
+          }
+        }
+      }
+    })
+
+    const board = new Board(
+      new Grid(gridOptions),
+      new CharacterFactory(),
+      
+    );
+
+    
+
+    board.initialize();
+
+    test('Move', () => {
+
+    })
+
+  });
+  */
+ 
 });

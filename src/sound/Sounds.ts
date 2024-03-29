@@ -1,12 +1,10 @@
 import EnemyDeathEvent from '../event/events/EnemyDeathEvent';
 import PlayerShootEvent from '../event/events/PlayerShootEvent';
-import pubsub from '../event/PubSub';
+import EventManager from '@event/EventManager';
 
 export default class Sounds {
 
   constructor() {
-    pubsub.subscribe(PlayerShootEvent.EVENTNAME, this.shoot);
-    pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.explode)
   }
 
   shoot() {

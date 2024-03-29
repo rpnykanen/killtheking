@@ -1,15 +1,16 @@
 import Board from "./board/Board";
-import GridToCanvasPositionMapper from "./renderer/GridToCanvasPositionMapper";
 import CharacterFactory from "./board/character/CharacterFactory"
-import Controller from "./Controller";
+import Controller from "./control/Controller";
 import Effect from "./renderer/effect/Effect";
 import Game from "./Game";
 import Grid from "./board/Grid";
+import GridToCanvasPositionMapper from "./renderer/GridToCanvasPositionMapper";
 import Renderer from "./renderer/Renderer";
 import RendererGrid from "./renderer/grid/Grid"
 import State from "./State";
 import _options from "./options";
 import EffectFactory from "@renderer/effect/effects/EffectFactory";
+import EventManager from "@event/EventManager";
 
 
 export default class Container {
@@ -19,32 +20,38 @@ export default class Container {
   private _state: State;
   private _controller: Controller;
   private _game: Game;
+  private _eventManager: EventManager;
 
-  constructor(){
+  constructor() {
     const options = _options;
-    this._controller = new Controller(options.controls);
     const effectFactory = new EffectFactory();
-    
-    const rendererGrid = new RendererGrid(options.gridOptions);
-    const effect = new Effect(options.gridOptions, effectFactory);
-    const PositionMapper = new GridToCanvasPositionMapper(options.gridOptions);
-    this._renderer = new Renderer(rendererGrid, effect, PositionMapper);
+    this._eventManager = new EventManager();
 
+    this._renderer = new Renderer(
+      new RendererGrid(options.gridOptions),
+      new Effect(options.gridOptions, effectFactory),
+      new GridToCanvasPositionMapper(options.gridOptions),
+      this._eventManager
+    );
+
+    this._controller = new Controller(options.controls);
     this._characterFactory = new CharacterFactory();
-
-    this._state = new State();
-   
+    this._state = new State(this._eventManager);
     this._board = new Board(
       new Grid(options.gridOptions),
-      this._controller, 
-      this._characterFactory,
+      new CharacterFactory(),
+      this._eventManager
     );
   }
 
-  get characterFactory(): CharacterFactory {
-    return this.characterFactory;
+  get eventManager(): EventManager {
+    return this._eventManager;
   }
-  
+
+  get controller() : Controller {
+    return this._controller;
+  }
+
   get board(): Board {
     return this._board;
   }
@@ -56,9 +63,5 @@ export default class Container {
   get state(): State {
     return this._state;
   }
-
-  get game(): Game {
-    return this._game;
-  }
-
+  
 }

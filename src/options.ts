@@ -3,13 +3,15 @@ export default {
     "left": "ArrowLeft",
     "right": "ArrowRight",
     "shoot": "ArrowUp",
-    "skip": "ArrowDown"
+    "skip": "ArrowDown",
+    "reset": "Space"
   },
   "difficulty": [
     {
-      "round_length": 10000,
-      "enemy_health": 1,
-      "boss_health": 5
+      "roundLength": 10000,
+      "enemyHealth": 1,
+      "bossHealth": 5,
+      "enemyAmount": 20,
     }
   ],
   "gridOptions": {
@@ -22,5 +24,8 @@ export default {
     "elementId": "game-container",
     "gameCanvas": "game",
     "effectCanvas": "effect",
-  }
+  },
+  "misc": {
+    "autoplay": false,
+  },
 }

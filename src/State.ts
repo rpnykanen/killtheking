@@ -2,8 +2,8 @@ import EnemyDeathEvent from "./event/events/EnemyDeathEvent";
 import GameUpdateEvent from "./event/events/GameUpdateEvent";
 import GameActionEvent from "./event/events/GameActionEvent";
 import RoundSkipEvent from "./event/events/RoundSkipEvent";
-import Pubsub from "./event/PubSub";
-
+import EventManager from "@event/EventManager";
+import NewGameEvent from "@event/events/NewGameEvent";
 
 export default class State {
 
@@ -17,14 +17,14 @@ export default class State {
   private actions = 0;
   private _boss = false;
 
-  constructor() {
-    Pubsub.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
-    Pubsub.subscribe(EnemyDeathEvent.EVENTNAME, this.addKills);
-    Pubsub.subscribe(GameActionEvent.EVENTNAME, this.action);
+  constructor(private eventManager: EventManager) {
+    this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
+    // this.eventManager.subscribe(EnemyDeathEvent, this.addKills);
+    // this.eventManager.subscribe(GameActionEvent, this.action);
   }
 
   public initialize = () => {
-    this.roundLength = 500;
+    this.roundLength = 1000;
     this.roundCurrentLength = 0;
     this.gameActive = false;
     this.start();
@@ -45,13 +45,17 @@ export default class State {
     this.startTime = Date.now();
   }
 
-  public end = () : void => {
+  public end = (win: boolean) : void => {
     this.gameActive = false;
     cancelAnimationFrame(this.requestId);
     this.requestId = 0;
     this.endTime = Date.now();
-    const score = (((this.endTime - this.startTime) / this.actions));
-    alert(`Game ended. score: ${score}`);
+    // const score = (((this.endTime - this.startTime) / this.actions));
+
+    const winOrLose = win ? 'win' : 'lose';
+
+    confirm(`You ${winOrLose}!`)
+    location.reload();
   }
 
   public resetCounter = (): void => {
@@ -70,24 +74,15 @@ export default class State {
     return this.gameActive;
   }
 
-  set boss(boss:boolean) {
-    this._boss = boss;
-  }
-
-  get boss(): boolean {
-    return this._boss;
-  }
-
   private loop = (): void => {
     if (!this.gameActive) return;
-    
+
     if (this.roundCurrentLength >= this.roundLength) {
-        this.roundCurrentLength = 0;
-        Pubsub.publish(new RoundSkipEvent());
+      this.roundCurrentLength = 0;
+      this.eventManager.publish(new RoundSkipEvent());
     }
     
     this.roundCurrentLength += 5;
-    
     requestAnimationFrame(this.loop);
   }
 }

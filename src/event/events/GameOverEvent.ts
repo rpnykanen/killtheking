@@ -4,11 +4,14 @@ export default class GameOverEvent implements IEvent {
 
   private endTime: number;
 
-  constructor() { this.endTime = Date.now(); }
+  constructor(private _win: boolean) { this.endTime = Date.now(); }
 
   get getEndTime() { return this.endTime; }
 
-  get eventName(): string {
-    return GameOverEvent.EVENTNAME;
+  get eventName(): string { return 'game.over'; }
+
+  get win(): boolean {
+    return this._win
   }
+
 }
