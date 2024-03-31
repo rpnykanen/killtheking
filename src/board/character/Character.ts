@@ -3,13 +3,13 @@ import Position from "../Position";
 
 export default class Character {
   protected _position: Position;
-  protected _icon: Icon;
+  protected _icon: HTMLImageElement;
 
   get position(): Position {
     return this._position;
   }
 
-  get icon(): Icon {
+  get icon(): HTMLImageElement {
     return this._icon;
   }
 }

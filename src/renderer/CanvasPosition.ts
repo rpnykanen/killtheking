@@ -1,3 +1,4 @@
+import Character from "@board/character/Character";
 import Icon from "../board/character/Icon";
 
 export default class CanvasPosition {
@@ -6,11 +7,11 @@ export default class CanvasPosition {
     private _canvasY: number,
     private _centerX: number,
     private _centerY: number,
-    private _icon: Icon | null,
+    private _icon: HTMLImageElement | null,
   ) {
   }
     public isEmpty = (): boolean => { return this.icon === null }
-    get icon(): Icon | null { return this._icon }
+    get icon() { return this._icon }
 
     get iconPositionX(): number { return this._canvasX }
     get iconPositionY(): number { return this._canvasY }

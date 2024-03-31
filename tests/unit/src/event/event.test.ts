@@ -19,26 +19,26 @@ describe('Event', () => {
     expect(JSON.stringify(eventManager.events)).toBe('{}')
     
     // Subscribe to an event
-    eventManager.subscribe(event, testFunction2);
+    eventManager.subscribe(RoundSkipEvent.EVENTNAME, testFunction2);
     expect(Object.keys(eventManager.events).length).toBe(1);
     expect(Object.keys(eventManager.events[theEventName]).length).toBe(1);
 
     // Subscribe to another event
-    eventManager.subscribe(event, testFunction1);
+    eventManager.subscribe(RoundSkipEvent.EVENTNAME, testFunction1);
     expect(Object.keys(eventManager.events).length).toBe(1);
     expect(Object.keys(eventManager.events[theEventName]).length).toBe(2);
     
     // Unsubscribe.
-    eventManager.unsubscribe(event, testFunction1);
+    eventManager.unsubscribe(RoundSkipEvent.EVENTNAME, testFunction1);
     expect(Object.keys(eventManager.events[theEventName]).length).toBe(1);
 
-    eventManager.unsubscribe(event, testFunction2);
+    eventManager.unsubscribe(RoundSkipEvent.EVENTNAME, testFunction2);
     expect(Object.keys(eventManager.events[theEventName]).length).toBe(0);
   });
 
   test('Test publishing', () => {
     expect(JSON.stringify(eventManager.events)).not.toBe('{}');
-    eventManager.subscribe(event, testFunction1);
+    eventManager.subscribe(RoundSkipEvent.EVENTNAME, testFunction1);
     eventManager.publish(event);
   });
 

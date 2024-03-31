@@ -1,3 +1,4 @@
+import GridSquare from "@board/GridSquare";
 import Icon from "../board/character/Icon";
 import { GridOptions } from "../types/Options";
 import CanvasPosition from "./CanvasPosition";
@@ -16,7 +17,7 @@ export default class GridToCanvasPositionMapper {
     this.gridPaddingY = (this.gridOptions.gridSquareHeight - this.gridOptions.iconHeight) / 2;
   }
 
-  public map = (x: number,y: number, icon: Icon | null): CanvasPosition => {
+  public map = (x: number,y: number, icon: HTMLImageElement | null): CanvasPosition => {
     const canvasX = (x * this.gridOptions.gridSquareWidth) + this.gridPaddingX;
     const canvasY = (y * this.gridOptions.gridSquareHeight) + this.gridPaddingY;
     const centerX = (x * this.gridOptions.gridSquareWidth) + (this.gridOptions.gridSquareWidth / 2);

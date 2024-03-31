@@ -66,8 +66,8 @@ describe('GridSquare', () => {
 
 describe('Grid', () => {
   const gridOptions = {
-    "width": 5,
-    "height": 10,
+    "width": 3,
+    "height": 3,
     "gridSquareWidth": 40,
     "gridSquareHeight": 40,
     "iconHeight": 25,
@@ -113,50 +113,47 @@ describe('Grid', () => {
   test('Grid spawn', () => {
     const emptyGridSquare = grid.getEmptySpawn()
     expect(emptyGridSquare.isEmpty()).toBeTruthy();
-  })
+  }) 
+});
 
-  /*
-  describe('Board', () => {
+describe('Board', () => {
 
-    const eventManager = new EventManager();
+  let board: Board;
+  let em: EventManager;
+  let publish: any;
 
-    jest.mock('@board/Grid', () => {
-      return {
-        Grid: function () {
-          return {
-            f1: () => "mock value",
-            f2: () => ({mock: "value"})
-          }
-        }
-      }
-    })
+  beforeEach(()=>{
+    const grid = new Grid(gridOptions);
+    const cf = new CharacterFactory();
+    em = new EventManager();
 
-    jest.mock('@board/character/CharacterFactory', () => {
-      return {
-        Grid: function () {
-          return {
-            f1: () => "mock value",
-            f2: () => ({mock: "value"})
-          }
-        }
-      }
-    })
-
-    const board = new Board(
-      new Grid(gridOptions),
-      new CharacterFactory(),
-      
+    board = new Board(
+      grid, cf, em
     );
 
-    
+    publish = jest.spyOn(em, 'publish');
+    publish.mockReset()
+  });
 
+  /*
+  test('Test board initialization', () => {
     board.initialize();
-
-    test('Move', () => {
-
-    })
-
+    expect(publish).toHaveBeenCalledTimes(0);
   });
   */
- 
+
+  test('Test move player', () => {
+    board.movePlayer(true);
+    expect(publish).toHaveBeenCalledTimes(0);
+    board.movePlayer(false);
+    expect(publish).toHaveBeenCalledTimes(1);
+    board.movePlayer(true);
+    expect(publish).toHaveBeenCalledTimes(2);
+  });
+
+  test('Test shoot', () => {
+    board.shoot();
+    expect(publish).toHaveBeenCalledTimes(1);
+  });
+
 });

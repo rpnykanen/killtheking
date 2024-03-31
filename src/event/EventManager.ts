@@ -1,4 +1,4 @@
-import IEvent from "./events/Ievent";
+import IEvent from "./events/IEvent";
 
 type Events = {
   [index: string]: CallableFunction[];
@@ -13,9 +13,9 @@ export default class EventManager {
     this.events[eventname].push(callback);
   }
 
-  unsubscribe = (event: IEvent, callback: CallableFunction): void => {
-    if (this.events[event.eventName]) {
-      this.events[event.eventName] = this.events[event.eventName].filter(fn => fn !== callback);
+  unsubscribe = (eventname: string, callback: CallableFunction): void => {
+    if (this.events[eventname]) {
+      this.events[eventname] = this.events[eventname].filter(fn => fn !== callback);
     }
   }
 

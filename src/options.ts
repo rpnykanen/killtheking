@@ -8,7 +8,7 @@ export default {
   },
   "difficulty": [
     {
-      "roundLength": 10000,
+      "roundLength": 1000,
       "enemyHealth": 1,
       "bossHealth": 5,
       "enemyAmount": 20,

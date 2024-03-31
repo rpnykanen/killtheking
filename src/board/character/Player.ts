@@ -5,7 +5,7 @@ import Position from "../Position";
 export default class Player extends Character {
   constructor() {
     super();
-    this._icon = new Icon(30, 30, '../../images/player.svg');
+    this._icon = document.getElementById('player') as HTMLImageElement;
     this._position = new Position(0, 15);
   }
 
@@ -25,9 +25,5 @@ export default class Player extends Character {
 
   get position(): Position {
     return this._position;
-  }
-
-  get icon(): Icon {
-    return this._icon;
   }
 }

@@ -1,12 +1,12 @@
 import Board from './board/Board';
 import Container from './Container';
+import Controller from './control/Controller';
+import EventManager from '@event/EventManager';
 import GameOverEvent from './event/events/GameOverEvent';
 import Renderer from "./renderer/Renderer";
-import State from "./State";
-import EventManager from '@event/EventManager';
-import Controller from './control/Controller';
-import NewGameEvent from '@event/events/NewGameEvent';
 import RoundSkipEvent from '@event/events/RoundSkipEvent';
+import State from "./State";
+import Timer from './Timer';
 
 export default class Game {
 
@@ -16,6 +16,7 @@ export default class Game {
   private container: Container;
   private eventManager: EventManager;
   private controller: Controller;
+  private timer: Timer;
 
   constructor() {
     this.container = new Container();
@@ -25,6 +26,7 @@ export default class Game {
     this.state = this.container.state;
     this.renderer = this.container.renderer;
     this.board = this.container.board;
+    this.timer = this.container.timer;
 
     this.controller.setupPlayerControls(
       this.board.movePlayer,
@@ -36,19 +38,19 @@ export default class Game {
     this.update();
   }
 
-  update(): void {
+  private update(): void {
     this.eventManager.subscribe(RoundSkipEvent.EVENTNAME, this.board.afterRoundActions);
     this.eventManager.subscribe(GameOverEvent.EVENTNAME, this.endGame);
   }
 
   public initialize = (): void => {
-    this.state.initialize();
     this.renderer.initialize();
     this.board.initialize();
-    this.state.start();
+    this.timer.start();
   }
 
   private endGame = (gameOverEvent: GameOverEvent): void => {
+    this.timer.stop();
     this.state.end(gameOverEvent.win);
   }
 

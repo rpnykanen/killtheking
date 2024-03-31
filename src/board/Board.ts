@@ -45,11 +45,11 @@ export default class Board {
     private characterFactory: CharacterFactory,
     private eventManager: EventManager
   ) {
+    this.player = this.characterFactory.createPlayer();
+    this.spawnPlayer();
   }
 
   public initialize = (): void  => {
-    this.player = this.characterFactory.createPlayer();
-    this.spawnPlayer();
     this.afterRoundActions();
   }
 
@@ -93,11 +93,11 @@ export default class Board {
         return enemy.position.y > accumulator.position.y ? enemy : accumulator;
       }, null);
     
-    if (!enemyHit) return;
-
-    enemyHit.reduceHealth(1);
-
-    this.eventManager.publish(new EnemyHitEvent(enemyHit));
+    if (enemyHit) {
+      enemyHit.reduceHealth(1);
+      this.afterRoundActions();
+      this.eventManager.publish(new EnemyHitEvent(enemyHit));
+    }
 
     this.afterRoundActions();
   }

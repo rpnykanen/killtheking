@@ -1,3 +1,5 @@
+import IEvent from "./IEvent";
+
 export default class GameActionEvent implements IEvent {
   static EVENTNAME = 'game.action';
 

@@ -15,7 +15,6 @@ export default class Grid {
     this.canvas = document.createElement("canvas");
     this.canvas.id = options.gameCanvas;
 
-    // todo
     this.canvas.style.position = 'absolute';
     this.canvas.style.top = '100px';
     this.canvas.style.left = '10px';
@@ -45,9 +44,10 @@ export default class Grid {
   }
 
   public renderIcon = (canvasPosition: CanvasPosition) => {
-    const icon = canvasPosition.icon;
-    icon && this.context.drawImage(
-      icon.image,
+    const icon = canvasPosition?.icon
+    icon && 
+    this.context.drawImage(
+      icon,
       canvasPosition.iconPositionX,
       canvasPosition.iconPositionY,
       icon.width,

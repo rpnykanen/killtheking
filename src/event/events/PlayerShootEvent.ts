@@ -1,4 +1,5 @@
 import Position from "../../board/Position";
+import IGridEvent from "./IGridEvent";
 
 export default class PlayerShootEvent implements IGridEvent {
   static EVENTNAME = 'player.shoot';
