@@ -1,5 +1,4 @@
 import Enemy from "../../board/character/Enemy";
-import Icon from "../../board/character/Icon";
 import IGridEvent from "./IGridEvent";
 
 export default class EnemyHitEvent implements IGridEvent {
@@ -7,7 +6,7 @@ export default class EnemyHitEvent implements IGridEvent {
 
   constructor(private _enemy: Enemy) { }
 
-  get icon() : Icon { return this._enemy.icon }
+  get icon() : HTMLImageElement { return this._enemy.icon }
 
   get x(): number { return this._enemy.position.x }
 

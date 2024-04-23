@@ -11,4 +11,7 @@ export default class Knight extends Enemy {
       [new Movement(0, 0), new Movement(-1, 2)]
     ];
   }
+  get difficulty(): number {
+    return 2;
+  }
 }

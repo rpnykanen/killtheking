@@ -8,18 +8,18 @@ export default class EventManager {
 
   private _events: Events = {};
 
-  subscribe = (eventname: string, callback: CallableFunction): void => {
+  public subscribe = (eventname: string, callback: CallableFunction): void => {
     this.events[eventname] = this.events[eventname] || [];
     this.events[eventname].push(callback);
   }
 
-  unsubscribe = (eventname: string, callback: CallableFunction): void => {
+  public unsubscribe = (eventname: string, callback: CallableFunction): void => {
     if (this.events[eventname]) {
       this.events[eventname] = this.events[eventname].filter(fn => fn !== callback);
     }
   }
 
-  publish = (event: IEvent): void => {
+  public publish = (event: IEvent): void => {
     if (!this.events[event.eventName]) return;
     this.events[event.eventName]
       .forEach(callback => callback(event));

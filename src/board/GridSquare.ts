@@ -1,9 +1,10 @@
 import Character from "./character/Character";
+import Enemy from "./character/Enemy";
 import Position from "./Position";
 
 export default class GridSquare {
 
-    private _character: Character | null;
+    private _character: Character | Enemy | null;
 
     constructor(private _position: Position) {
         this._character = null;
@@ -13,7 +14,7 @@ export default class GridSquare {
 
     public isEmpty = () => this._character === null;
 
-    public setCharacter = (character: Character | null) => this._character = character;
+    public setCharacter = (character: Character | Enemy | null) => this._character = character;
 
     public removeCharacter = () => this._character = null;
 

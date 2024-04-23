@@ -21,4 +21,8 @@ export default class King extends Enemy {
   get isBoss(): boolean {
     return true;
   }
+
+  get difficulty(): number {
+    return 3;
+  }
 }

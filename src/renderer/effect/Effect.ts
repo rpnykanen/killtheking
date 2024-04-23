@@ -18,14 +18,12 @@ export default class EffectCanvas {
     ) {
     const canvas = document.createElement("canvas");
 
-    // todo
     canvas.id = options.effectCanvas;
     canvas.style.position = 'absolute';
     canvas.style.top = '100px';
     canvas.style.left = '10px';
 
-    const context = canvas.getContext("2d")
-    context && (this.context = context);
+    this.context = canvas.getContext("2d")!
     document.getElementById(this.options.elementId)?.append(canvas);
 
     const canvasHeight = this.options.height * this.options.gridSquareHeight;

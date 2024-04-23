@@ -1,7 +1,7 @@
 import Enemy from "../../board/character/Enemy";
 import IGridEvent from "./IGridEvent";
 
-export default class EnemyHitEvent implements IGridEvent {
+export default class EnemySpawnEvent implements IGridEvent {
   static EVENTNAME = 'enemy.hit';
 
   constructor(private _enemy: Enemy) { }

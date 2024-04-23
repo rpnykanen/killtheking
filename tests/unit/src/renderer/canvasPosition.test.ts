@@ -1,6 +1,6 @@
 import {describe, expect, test} from "@jest/globals";
 import CanvasPosition from "@renderer/CanvasPosition";
-import GridToCanvasPositionMapper from "@renderer/GridToCanvasPositionMapper";
+import PositionConverter from "@renderer/PositionConverter";
 
 describe('Canvas position and mapper test', () => {
   const gridOptions = {
@@ -15,7 +15,7 @@ describe('Canvas position and mapper test', () => {
     "effectCanvas": "effect"
   };
 
-  const mapper = new GridToCanvasPositionMapper(gridOptions);
+  const mapper = new PositionConverter(gridOptions);
 
   test('Canvas position', ()=>{
     const canvasPosition: CanvasPosition = mapper.map(1,2,null);

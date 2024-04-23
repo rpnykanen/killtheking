@@ -77,7 +77,7 @@ export default abstract class Enemy extends Character {
     });
   }
 
-  get icon(): Icon {
+  get icon(): HTMLImageElement {
     return this._icon;
   }
 
@@ -87,6 +87,10 @@ export default abstract class Enemy extends Character {
 
   get isBoss(): boolean {
     return false;
+  }
+
+  get difficulty(): number {
+    return 1;
   }
 
 }

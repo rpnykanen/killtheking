@@ -4,8 +4,6 @@ import CanvasPosition from "../CanvasPosition";
 export default class Grid {
  
   private canvasPadding: number; 
-  private elementId: string;
-
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
 
@@ -19,10 +17,9 @@ export default class Grid {
     this.canvas.style.top = '100px';
     this.canvas.style.left = '10px';
 
-    const context = this.canvas.getContext("2d");
-    context && (this.context = context);
-    this.context.canvas.width = this.options.width * this.options.gridSquareWidth + (2 * this.canvasPadding);
-    this.context.canvas.height = this.options.height * this.options.gridSquareHeight + 100;
+    this.context = this.canvas.getContext("2d")!;
+    this.context.canvas.width = (this.options.width * this.options.gridSquareWidth + (2 * this.canvasPadding));
+    this.context.canvas.height = (this.options.height * this.options.gridSquareHeight + 100);
   }
 
   public initialize = (): void => {
@@ -33,14 +30,14 @@ export default class Grid {
     this.context.clearRect(0, 0, 1000, 1000)
   }
 
-  // todo fix
   public clearPosition = (canvasPosition: CanvasPosition): void => {
+    // Must be smaller than gridsquare and away from the lines.
     this.context.clearRect(
-      canvasPosition.iconPositionX-1,
-      canvasPosition.iconPositionY-1,
-      this.options.gridSquareWidth-5,
-      this.options.gridSquareHeight-2
-    )
+      canvasPosition.iconPositionX+2,
+      canvasPosition.iconPositionY+2,
+      this.options.gridSquareWidth-3,
+      this.options.gridSquareHeight-3
+    );
   }
 
   public renderIcon = (canvasPosition: CanvasPosition) => {
@@ -48,8 +45,8 @@ export default class Grid {
     icon && 
     this.context.drawImage(
       icon,
-      canvasPosition.iconPositionX,
-      canvasPosition.iconPositionY,
+      canvasPosition.iconPositionXWithPadding,
+      canvasPosition.iconPositionYWithPadding,
       icon.width,
       icon.height
     );
@@ -58,36 +55,34 @@ export default class Grid {
   private draw = () => {
     document.getElementById(this.options.elementId)?.append(this.canvas);
 
-    const padding = 0;
-    
     const width = this.options.width * this.options.gridSquareWidth;
     const height = this.options.height * this.options.gridSquareHeight;
 
-    this.drawHorizontal(padding, width, height);
-    this.drawVertital(padding, width, height);
+    this.drawHorizontal(width, height);
+    this.drawVertital(width, height);
 
     this.context.strokeStyle = "black";
     this.context?.stroke();
   }
 
-  private drawHorizontal = (padding: number, width: number, height: number) => {
+  private drawHorizontal = (width: number, height: number) => {
     for (let x = 0; x <= width; x += this.options.gridSquareWidth) {
-      const xFrom = 0.5 + x + padding;
-      const yFrom = padding;
-      const xTo = 0.5 + x + padding;
-      const yTo = height + padding;
+      const xFrom = 0.5 + x;
+      const yFrom = 0;
+      const xTo = 0.5 + x;
+      const yTo = height;
 
       this.context?.moveTo(xFrom, yFrom);
       this.context?.lineTo(xTo, yTo);
     }
   }
 
-  private drawVertital = (padding: number, width: number, height: number) => {
+  private drawVertital = (width: number, height: number) => {
     for (let x = 0; x <= height; x += this.options.gridSquareHeight) {
-      const xFrom = padding;
-      const yFrom = 0.5 + x + padding;
-      const xTo = width + padding;
-      const yTo = 0.5 + x + padding;
+      const xFrom = 0;
+      const yFrom = 0.5 + x;
+      const xTo = width;
+      const yTo = 0.5 + x;
       this.context?.moveTo(xFrom, yFrom);
       this.context?.lineTo(xTo, yTo);
     }

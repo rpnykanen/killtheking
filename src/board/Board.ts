@@ -10,6 +10,9 @@ import Position from "./Position";
 import EventManager from "@event/EventManager";
 import { randomNumber } from "../utils/RandomHelper";
 import EnemyHitEvent from "@event/events/EnemyHitEvent";
+import PlayerShootEvent from "@event/events/PlayerShootEvent";
+import EnemySpawnEvent from "@event/events/EnemySpawnEvent";
+import PlayerSpawnEvent from "@event/events/PlayerSpawnEvent";
 
 export default class Board {
 
@@ -59,7 +62,8 @@ export default class Board {
    * @param movingLeft
    *   Is player moving left.
    */
-  public movePlayer = (movingLeft: boolean): void  => {
+  public 
+  movePlayer = (movingLeft: boolean): void  => {
     const currentPosition = this.player.position
     if (
       movingLeft && currentPosition.x <= 0 ||
@@ -86,6 +90,7 @@ export default class Board {
    * Action allowing player to remove enemies from the board.
    */
   public shoot = (): void  => {
+    this.eventManager.publish(new PlayerShootEvent(this.player.position));
     // TODO Reducer null, why ?
     const enemyHit = this.enemies.filter(enemy => enemy.position.x === this.player.position.x)
       ?.reduce((accumulator: Enemy | null, enemy: Enemy) => {
@@ -95,7 +100,6 @@ export default class Board {
     
     if (enemyHit) {
       enemyHit.reduceHealth(1);
-      this.afterRoundActions();
       this.eventManager.publish(new EnemyHitEvent(enemyHit));
     }
 
@@ -117,7 +121,7 @@ export default class Board {
 
     this.moveEnemies();
     
-    this.handleEndgameState();
+    // this.handleEndgameState();
     this.spawnEnemy();
     
     this.eventManager.publish(new GameUpdateEvent(this.changes));
@@ -153,7 +157,6 @@ export default class Board {
     });
   } 
 
-  // TODO rename
   private removeEnemy = (enemy: Enemy): void  => {
     const gridSquare = this.grid.getGridSquare(enemy.position);
     gridSquare.removeCharacter();
@@ -173,8 +176,6 @@ export default class Board {
         return;
       } 
       
-      // TODO check if it's necessary to track enemy position in multiple places.
-      // Should character know it's own position?
       this.removeEnemy(enemy)
       const position = allowed[randomNumber(allowed.length)];
       enemy.setPosition(position);
@@ -189,6 +190,9 @@ export default class Board {
     const square = this.grid.getGridSquare(this.player.position);
     square.setCharacter(this.player);
     this.changes.push(square);
+
+    const event = new PlayerSpawnEvent(this.player);
+    this.eventManager.publish(event);
   }
 
   private spawnEnemy = (): void => {
@@ -203,6 +207,8 @@ export default class Board {
     enemy.setPosition(gridSquare.position, false);
     this.enemies.push(enemy);
     this.changes.push(gridSquare);
+    
+    this.eventManager.publish(new EnemySpawnEvent(enemy));
   }
 
   private isBoardFull(): boolean {
@@ -210,6 +216,10 @@ export default class Board {
   }
 
   private handleEndgameState = (): void  => {
+    // Todo refactor
+    const params = new URLSearchParams(window.location.search)
+    if (params.has('infinite')) return;
+
     if (this.deadEnemyCount !== 20 || this.boss) return;
   
     this.boss = this.characterFactory.createKing();

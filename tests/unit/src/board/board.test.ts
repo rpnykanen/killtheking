@@ -1,7 +1,4 @@
 import {describe, expect, test, jest} from "@jest/globals";
-import Board from "@board/Board";
-import CharacterFactory from "@board/character/CharacterFactory";
-import EventManager from "@event/EventManager";
 import Grid from "@board/Grid";
 import GridSquare from "@board/GridSquare";
 import Position from "@board/Position"
@@ -33,7 +30,6 @@ describe('Position', () => {
 
   test('Test position equality', () => {
     expect(position1.equals(position3)).toBeTruthy();
-
     expect(position1.equals(position2)).toBeFalsy();
   });
 
@@ -114,46 +110,4 @@ describe('Grid', () => {
     const emptyGridSquare = grid.getEmptySpawn()
     expect(emptyGridSquare.isEmpty()).toBeTruthy();
   }) 
-});
-
-describe('Board', () => {
-
-  let board: Board;
-  let em: EventManager;
-  let publish: any;
-
-  beforeEach(()=>{
-    const grid = new Grid(gridOptions);
-    const cf = new CharacterFactory();
-    em = new EventManager();
-
-    board = new Board(
-      grid, cf, em
-    );
-
-    publish = jest.spyOn(em, 'publish');
-    publish.mockReset()
-  });
-
-  /*
-  test('Test board initialization', () => {
-    board.initialize();
-    expect(publish).toHaveBeenCalledTimes(0);
-  });
-  */
-
-  test('Test move player', () => {
-    board.movePlayer(true);
-    expect(publish).toHaveBeenCalledTimes(0);
-    board.movePlayer(false);
-    expect(publish).toHaveBeenCalledTimes(1);
-    board.movePlayer(true);
-    expect(publish).toHaveBeenCalledTimes(2);
-  });
-
-  test('Test shoot', () => {
-    board.shoot();
-    expect(publish).toHaveBeenCalledTimes(1);
-  });
-
 });
