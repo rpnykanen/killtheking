@@ -1,5 +1,5 @@
 import Board from './board/Board';
-import Container from './Container';
+import Bootstrap from './Bootstrap';
 import EventManager from '@event/EventManager';
 import GameOverEvent from './event/events/GameOverEvent';
 import Renderer from "./renderer/Renderer";
@@ -11,19 +11,19 @@ export default class Game {
 
   private board: Board;
   private renderer: Renderer;
-  private container: Container;
+  private bootstrap: Bootstrap;
   private eventManager: EventManager;
   private controller: Control;
   private timer: Timer;
 
   constructor() {
-    this.container = new Container();
-    this.controller = this.container.controller;
-    this.eventManager = this.container.eventManager;
+    this.bootstrap = new Bootstrap();
+    this.controller = this.bootstrap.controller;
+    this.eventManager = this.bootstrap.eventManager;
 
-    this.renderer = this.container.renderer;
-    this.board = this.container.board;
-    this.timer = this.container.timer;
+    this.renderer = this.bootstrap.renderer;
+    this.board = this.bootstrap.board;
+    this.timer = this.bootstrap.timer;
 
     this.setControls();
     this.update();

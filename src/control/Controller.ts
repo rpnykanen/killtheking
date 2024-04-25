@@ -1,4 +1,4 @@
-import { Controls } from "../types/Options";
+import { Controls } from "../types/Configurations";
 import Control from "./Control";
 
 /**

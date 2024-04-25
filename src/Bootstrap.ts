@@ -1,7 +1,7 @@
-import _options from "./options";
 import Autoplay from "./control/Autoplay";
 import Board from "./board/Board";
 import CharacterFactory from "./board/character/CharacterFactory"
+import ConfigurationManager from "./ConfigurationManager";
 import Control from "./control/Control";
 import Controller from "./control/Controller";
 import Effect from "./renderer/effect/Effect";
@@ -14,47 +14,42 @@ import RendererGrid from "./renderer/grid/Grid"
 import State from "./State";
 import Timer from "./Timer";
 
-
-export default class Container {
+export default class Bootstrap {
   private _board: Board;
   private _renderer: Renderer;
   private _state: State;
   private _controller: Control;
   private _eventManager: EventManager;
   private _timer: Timer;
+  private _configurationManager: ConfigurationManager
 
   constructor() {
-    const params = new URLSearchParams(window.location.search)
-
-    const options = _options;
-
-    if (params.has('infinite')) {
-      options.difficulty[0].enemyAmount = 99999;
-    }
-
+    this._configurationManager = new ConfigurationManager();
     const effectFactory = new EffectFactory();
     this._eventManager = new EventManager();
     this._timer = new Timer(this._eventManager);
 
     this._renderer = new Renderer(
-      new RendererGrid(options.gridOptions),
-      new Effect(options.gridOptions, effectFactory),
-      new GridToCanvasPositionMapper(options.gridOptions),
+      new RendererGrid(this._configurationManager.getGridConfigurations()),
+      new Effect(this._configurationManager.getGridConfigurations(), effectFactory),
+      new GridToCanvasPositionMapper(this._configurationManager.getGridConfigurations()),
       this._eventManager
     );
 
-
-    if (params.has('autoplay') && params.get('autoplay') === 'true') {
-      this._controller = new Autoplay(this._eventManager);
-    } else {
-      this._controller = new Controller(options.controls);
-    }
+    this._controller = this._configurationManager.getMiscConfiguration('autoplay') ? 
+      new Autoplay(this._eventManager) : 
+      new Controller(this._configurationManager.getControlConfigurations());
 
     this._board = new Board(
-      new Grid(options.gridOptions),
+      new Grid(this._configurationManager.getGridConfigurations()),
       new CharacterFactory(),
-      this._eventManager
+      this._eventManager,
+      this._configurationManager,
     );
+  }
+
+  get configurationManager(): ConfigurationManager {
+    return this._configurationManager;
   }
 
   get eventManager(): EventManager {

@@ -13,6 +13,7 @@ import EnemyHitEvent from "@event/events/EnemyHitEvent";
 import PlayerShootEvent from "@event/events/PlayerShootEvent";
 import EnemySpawnEvent from "@event/events/EnemySpawnEvent";
 import PlayerSpawnEvent from "@event/events/PlayerSpawnEvent";
+import ConfigurationManager from "../ConfigurationManager";
 
 export default class Board {
 
@@ -46,7 +47,8 @@ export default class Board {
   constructor(
     private grid: Grid,
     private characterFactory: CharacterFactory,
-    private eventManager: EventManager
+    private eventManager: EventManager,
+    private configurationManager: ConfigurationManager
   ) {
     this.player = this.characterFactory.createPlayer();
     this.spawnPlayer();
@@ -62,8 +64,7 @@ export default class Board {
    * @param movingLeft
    *   Is player moving left.
    */
-  public 
-  movePlayer = (movingLeft: boolean): void  => {
+  public movePlayer = (movingLeft: boolean): void  => {
     const currentPosition = this.player.position
     if (
       movingLeft && currentPosition.x <= 0 ||
@@ -109,7 +110,7 @@ export default class Board {
   /**
    * Procedure to wrap up an in-game round.
    */
-  public afterRoundActions = (): void  => {
+  public afterRoundActions = (): void => {
     const win = this.checkWincondition();
     this.removeDeadEnemies();
     const lose = this.checkLosecondition();
@@ -120,8 +121,6 @@ export default class Board {
     }
 
     this.moveEnemies();
-    
-    // this.handleEndgameState();
     this.spawnEnemy();
     
     this.eventManager.publish(new GameUpdateEvent(this.changes));
@@ -199,7 +198,9 @@ export default class Board {
     if (this.isBoardFull()) return;
 
     const gridSquare = this.grid.getEmptySpawn();
-    const enemy = this.characterFactory.createRandomEnemy();
+    const enemy = this.spawnBoss() ? 
+      this.characterFactory.createKing() :
+      this.characterFactory.createRandomEnemy();
 
     gridSquare.setCharacter(enemy);
     this.changes.push(gridSquare);
@@ -211,19 +212,11 @@ export default class Board {
     this.eventManager.publish(new EnemySpawnEvent(enemy));
   }
 
-  private isBoardFull(): boolean {
-    return this.enemies.length >= this.maxEnemies;
-  }
+  private spawnBoss = (): boolean => (
+    this.deadEnemyCount === this.configurationManager.getDifficultyConfigurations().enemyAmount && 
+    !this.boss
+  )
 
-  private handleEndgameState = (): void  => {
-    // Todo refactor
-    const params = new URLSearchParams(window.location.search)
-    if (params.has('infinite')) return;
-
-    if (this.deadEnemyCount !== 20 || this.boss) return;
-  
-    this.boss = this.characterFactory.createKing();
-    this.enemies.push(this.boss);
-  }
+  private isBoardFull = (): boolean => this.enemies.length >= this.maxEnemies;
 
 }

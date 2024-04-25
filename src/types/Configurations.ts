@@ -1,22 +1,26 @@
-interface Options {
+export default interface Configuration {
   controls: Controls,
-  gridOptions: GridOptions,
-  difficulty: Difficulty[]
+  gridOptions: GridConfiguration,
+  difficulty: Difficulty[],
+  misc: Misc
 }
-interface Controls {
+export interface Controls {
+  [key: string]: string
   left:  string;
   right: string;
   shoot: string;
   skip:  string;
   reset: string;
 }
-interface Difficulty {
+export interface Difficulty {
+  [key: string]: number;
   roundLength: number; // Length of the round in ms.
   enemyHealth: number; // How many hits enemies endure.
   bossHealth:  number; // How many hits the boss endures.
   enemyAmount: number; // How many enemies before boss spawn.
 }
-interface GridOptions {
+export interface GridConfiguration {
+  [key: string]: number|string;
   width:  number; // How many gridsquares on grid.
   height: number; // How many gridsquares on grid.
   gridSquareWidth: number; // Single square size.
@@ -27,5 +31,8 @@ interface GridOptions {
   gameCanvas: string; // Id for the game canvas.
   effectCanvas: string; // Id for the effect canvas.
 }
-
-export {Options, Controls, Difficulty, GridOptions}
+export interface Misc {
+  [key: string]: boolean
+  autoplay: boolean,
+  infinite: boolean,
+}

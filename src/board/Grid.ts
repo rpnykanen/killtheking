@@ -1,6 +1,6 @@
 import GridSquare from "./GridSquare";
 import Position from "./Position";
-import { GridOptions } from "../types/Options";
+import { GridOptions } from "../types/Configurations";
 import { randomNumber } from "../utils/RandomHelper";
 
 export default class Grid {

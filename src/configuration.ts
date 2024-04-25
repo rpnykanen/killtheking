@@ -27,5 +27,6 @@ export default {
   },
   "misc": {
     "autoplay": false,
+    "infinite": false
   },
 }

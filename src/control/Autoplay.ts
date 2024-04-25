@@ -38,7 +38,7 @@ export default class Autoplay extends Control {
     setTimeout(()=>{
       left !== undefined ? doAction(left) : doAction();
       return;
-    }, 150)
+    }, 175)
   }
 
   private findBiggerThreat = (): Enemy => {

@@ -1,4 +1,5 @@
-import { GridOptions } from "../../types/Options";
+import Configuration from "../../ConfigurationManager";
+import { GridConfiguration } from "../../types/Configurations";
 import CanvasPosition from "../CanvasPosition";
 
 export default class Grid {
@@ -7,19 +8,20 @@ export default class Grid {
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
 
-  constructor(private options: GridOptions) {
+  constructor(private gridConfiguration: GridConfiguration) {
     this.canvasPadding = 10;
 
     this.canvas = document.createElement("canvas");
-    this.canvas.id = options.gameCanvas;
+    // this.canvas.id = options.gameCanvas;
+    this.canvas.id = gridConfiguration.elementId;
 
     this.canvas.style.position = 'absolute';
     this.canvas.style.top = '100px';
     this.canvas.style.left = '10px';
 
     this.context = this.canvas.getContext("2d")!;
-    this.context.canvas.width = (this.options.width * this.options.gridSquareWidth + (2 * this.canvasPadding));
-    this.context.canvas.height = (this.options.height * this.options.gridSquareHeight + 100);
+    this.context.canvas.width = (gridConfiguration.width * gridConfiguration.gridSquareWidth + (2 * this.canvasPadding));
+    this.context.canvas.height = (gridConfiguration.height * gridConfiguration.gridSquareHeight + 100);
   }
 
   public initialize = (): void => {
@@ -35,8 +37,8 @@ export default class Grid {
     this.context.clearRect(
       canvasPosition.iconPositionX+2,
       canvasPosition.iconPositionY+2,
-      this.options.gridSquareWidth-3,
-      this.options.gridSquareHeight-3
+      this.gridConfiguration.gridSquareWidth-3,
+      this.gridConfiguration.gridSquareHeight-3
     );
   }
 
@@ -53,10 +55,10 @@ export default class Grid {
   }
 
   private draw = () => {
-    document.getElementById(this.options.elementId)?.append(this.canvas);
+    document.getElementById(this.gridConfiguration.elementId)?.append(this.canvas);
 
-    const width = this.options.width * this.options.gridSquareWidth;
-    const height = this.options.height * this.options.gridSquareHeight;
+    const width = this.gridConfiguration.width * this.gridConfiguration.gridSquareWidth;
+    const height = this.gridConfiguration.height * this.gridConfiguration.gridSquareHeight;
 
     this.drawHorizontal(width, height);
     this.drawVertital(width, height);
@@ -66,7 +68,7 @@ export default class Grid {
   }
 
   private drawHorizontal = (width: number, height: number) => {
-    for (let x = 0; x <= width; x += this.options.gridSquareWidth) {
+    for (let x = 0; x <= width; x += this.gridConfiguration.gridSquareWidth) {
       const xFrom = 0.5 + x;
       const yFrom = 0;
       const xTo = 0.5 + x;
@@ -78,7 +80,7 @@ export default class Grid {
   }
 
   private drawVertital = (width: number, height: number) => {
-    for (let x = 0; x <= height; x += this.options.gridSquareHeight) {
+    for (let x = 0; x <= height; x += this.gridConfiguration.gridSquareHeight) {
       const xFrom = 0;
       const yFrom = 0.5 + x;
       const xTo = width;

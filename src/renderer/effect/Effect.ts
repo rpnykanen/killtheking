@@ -1,4 +1,4 @@
-import { GridOptions } from "../../types/Options";
+import { GridOptions } from "../../types/Configurations";
 import CanvasPosition from "../CanvasPosition";
 import IEffect from "./effects/IEffect";
 import Particle from "./effects/Particle";
@@ -9,8 +9,6 @@ export default class EffectCanvas {
   private context: CanvasRenderingContext2D
 
   private animations: IEffect[] = [];
-
-  private running = false;
 
   constructor(
     private options: GridOptions,
@@ -40,11 +38,9 @@ export default class EffectCanvas {
 
   private requestAnimation = (): void => {
     if (!this.hasAnimations()) {
-      this.running = false;
       return;
     }
     
-    this.running = true;
     this.context.clearRect(0, 0, 1000, 1000);
     this.animations.forEach((effect: IEffect) => {
       effect.update();
