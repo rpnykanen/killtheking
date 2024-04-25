@@ -1,5 +1,5 @@
 import _configuration from "./configuration";
-import Configuration, { Controls, Difficulty, GridOptions, Misc } from "./types/Configurations";
+import Configuration, { Controls, Difficulty, GridConfiguration, Misc } from "./types/Configurations";
 
 export default class ConfigurationManager {
   private configurations: Configuration
@@ -26,7 +26,7 @@ export default class ConfigurationManager {
   public getDifficultyConfigurations = (): Difficulty => this.configurations.difficulty[0];
 
   public getGridConfiguration = (name: string) => this.configurations.gridOptions[name];
-  public getGridConfigurations = (): GridOptions => this.configurations.gridOptions;
+  public getGridConfigurations = (): GridConfiguration => this.configurations.gridOptions;
 
   public getMiscConfiguration = (name: string) => this.configurations.misc[name];
   public getMiscConfigurations = (): Misc => this.configurations.misc;

@@ -1,4 +1,4 @@
-import { GridOptions } from "../../types/Configurations";
+import { GridConfiguration } from "../../types/Configurations";
 import CanvasPosition from "../CanvasPosition";
 import IEffect from "./effects/IEffect";
 import Particle from "./effects/Particle";
@@ -11,21 +11,21 @@ export default class EffectCanvas {
   private animations: IEffect[] = [];
 
   constructor(
-    private options: GridOptions,
+    private configurations: GridConfiguration,
     private effectFactory: EffectFactory
     ) {
     const canvas = document.createElement("canvas");
 
-    canvas.id = options.effectCanvas;
+    canvas.id = configurations.effectCanvas;
     canvas.style.position = 'absolute';
     canvas.style.top = '100px';
     canvas.style.left = '10px';
 
     this.context = canvas.getContext("2d")!
-    document.getElementById(this.options.elementId)?.append(canvas);
+    document.getElementById(this.configurations.elementId)?.append(canvas);
 
-    const canvasHeight = this.options.height * this.options.gridSquareHeight;
-    const canvasWidth = this.options.width * this.options.gridSquareWidth + (2 * 10);
+    const canvasHeight = this.configurations.height * this.configurations.gridSquareHeight;
+    const canvasWidth = this.configurations.width * this.configurations.gridSquareWidth + (2 * 10);
     this.context.canvas.width = canvasWidth;
     this.context.canvas.height = canvasHeight + 100;
   }
