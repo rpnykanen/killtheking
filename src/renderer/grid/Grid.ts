@@ -12,7 +12,7 @@ export default class Grid {
     this.canvasPadding = 10;
 
     this.canvas = document.createElement("canvas");
-    // this.canvas.id = options.gameCanvas;
+    // this.canvas.id = gridConfiguration.gameCanvas;
     this.canvas.id = gridConfiguration.elementId;
 
     this.canvas.style.position = 'absolute';

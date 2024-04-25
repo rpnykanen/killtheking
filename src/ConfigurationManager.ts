@@ -6,10 +6,10 @@ export default class ConfigurationManager {
 
   constructor() {
     this.configurations = _configuration;
-    this.configableOptions();
+    this.configableConfiguration();
   }
 
-  private configableOptions = (): void => {
+  private configableConfiguration = (): void => {
     const params = new URLSearchParams(window.location.search);
     params.has('autoplay') && (this.configurations.misc.autoplay = !!params.get('autoplay'));
     params.has('infinite') && this.setInfinite()
@@ -25,8 +25,8 @@ export default class ConfigurationManager {
   public getDifficultyConfiguration = (name: string) => this.configurations.difficulty[0][name];
   public getDifficultyConfigurations = (): Difficulty => this.configurations.difficulty[0];
 
-  public getGridConfiguration = (name: string) => this.configurations.gridOptions[name];
-  public getGridConfigurations = (): GridConfiguration => this.configurations.gridOptions;
+  public getGridConfiguration = (name: string) => this.configurations.gridConfiguration[name];
+  public getGridConfigurations = (): GridConfiguration => this.configurations.gridConfiguration;
 
   public getMiscConfiguration = (name: string) => this.configurations.misc[name];
   public getMiscConfigurations = (): Misc => this.configurations.misc;

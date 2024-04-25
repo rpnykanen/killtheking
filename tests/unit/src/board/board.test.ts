@@ -3,7 +3,7 @@ import Grid from "@board/Grid";
 import GridSquare from "@board/GridSquare";
 import Position from "@board/Position"
 
-const gridOptions = {
+const gridConfiguration = {
   "width": 5,
   "height": 10,
   "gridSquareWidth": 40,
@@ -61,7 +61,7 @@ describe('GridSquare', () => {
 });
 
 describe('Grid', () => {
-  const gridOptions = {
+  const gridConfiguration = {
     "width": 3,
     "height": 3,
     "gridSquareWidth": 40,
@@ -72,9 +72,9 @@ describe('Grid', () => {
     "gameCanvas": "game",
     "effectCanvas": "effect"
   }
-  const {width, height} = gridOptions;
+  const {width, height} = gridConfiguration;
 
-  const grid = new Grid(gridOptions);
+  const grid = new Grid(gridConfiguration);
  
   const nullPosition = Position.createNullPosition();
   const badPosition = new Position(99,99);

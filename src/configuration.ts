@@ -14,7 +14,7 @@ export default {
       "enemyAmount": 20,
     }
   ],
-  "gridOptions": {
+  "gridConfiguration": {
     "width": 10,
     "height": 15,
     "gridSquareWidth": 40,

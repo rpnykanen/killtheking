@@ -3,7 +3,7 @@ import CanvasPosition from "@renderer/CanvasPosition";
 
 describe('test effects', () => {
 
-  const canvasPosition = new CanvasPosition(100,100, 125, 125, null); 
+  const canvasPosition = new CanvasPosition(100,100, 10, 10, 125, 125, null); 
 
   test('Test explosion', () => {
     const effect = new Explosion(canvasPosition);

@@ -1,6 +1,6 @@
 export default interface Configuration {
   controls: Controls,
-  gridOptions: GridConfiguration,
+  gridConfiguration: GridConfiguration,
   difficulty: Difficulty[],
   misc: Misc
 }

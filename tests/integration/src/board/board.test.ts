@@ -1,6 +1,7 @@
 import {describe, expect, test, jest} from "@jest/globals";
 import Board from "@board/Board";
 import CharacterFactory from "@board/character/CharacterFactory";
+import ConfigurationManager from "./../../../../src/ConfigurationManager";
 import EventManager from "@event/EventManager";
 import GameUpdateEvent from "@event/events/GameUpdateEvent";
 import Grid from "@board/Grid";
@@ -12,7 +13,7 @@ import Position from "@board/Position";
 
 describe('Board', ()=>{
 
-  const gridOptions = {
+  const gridConfiguration = {
     "width": 5,
     "height": 10,
     "gridSquareWidth": 40,
@@ -29,7 +30,7 @@ describe('Board', ()=>{
 
   /*
   const board = new Board(
-    new Grid(gridOptions),
+    new Grid(gridConfiguration),
     new CharacterFactory(),
     eventManager
   );
@@ -38,9 +39,10 @@ describe('Board', ()=>{
 
   beforeEach(()=>{
     board = new Board(
-      new Grid(gridOptions),
+      new Grid(gridConfiguration),
       new CharacterFactory(),
-      eventManager
+      eventManager,
+      new ConfigurationManager(),
     );
     board.initialize();
     spy.mockClear()
@@ -103,9 +105,10 @@ describe('Board', ()=>{
     });
     
     board = new Board(
-      new Grid(gridOptions),
+      new Grid(gridConfiguration),
       new CharacterFactory(),
-      eventManager
+      eventManager,
+      new ConfigurationManager(),
     );
     board.initialize();
 
