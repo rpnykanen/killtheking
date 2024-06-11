@@ -13,6 +13,7 @@ import Renderer from "./renderer/Renderer";
 import RendererGrid from "./renderer/grid/Grid"
 import State from "./State";
 import Timer from "./Timer";
+import CanvasManager from "@renderer/CanvasManager";
 
 export default class Bootstrap {
   private _board: Board;
@@ -28,10 +29,12 @@ export default class Bootstrap {
     const effectFactory = new EffectFactory();
     this._eventManager = new EventManager();
     this._timer = new Timer(this._eventManager);
+    
+    const cm = new CanvasManager(this._configurationManager);
 
     this._renderer = new Renderer(
-      new RendererGrid(this._configurationManager.getGridConfigurations()),
-      new Effect(this._configurationManager.getGridConfigurations(), effectFactory),
+      new RendererGrid(this._configurationManager.getGridConfigurations(), cm),
+      new Effect(this._configurationManager.getGridConfigurations(), effectFactory, cm),
       new GridToCanvasPositionMapper(this._configurationManager.getGridConfigurations()),
       this._eventManager
     );
@@ -39,6 +42,7 @@ export default class Bootstrap {
     this._controller = this._configurationManager.getMiscConfiguration('autoplay') ? 
       new Autoplay(this._eventManager) : 
       new Controller(this._configurationManager.getControlConfigurations());
+
 
     this._board = new Board(
       new Grid(this._configurationManager.getGridConfigurations()),

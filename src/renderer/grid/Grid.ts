@@ -1,27 +1,18 @@
-import Configuration from "../../ConfigurationManager";
+import CanvasManager from "@renderer/CanvasManager";
 import { GridConfiguration } from "../../types/Configurations";
 import CanvasPosition from "../CanvasPosition";
 
 export default class Grid {
  
-  private canvasPadding: number; 
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D;
 
-  constructor(private gridConfiguration: GridConfiguration) {
-    this.canvasPadding = 10;
-
-    this.canvas = document.createElement("canvas");
-    // this.canvas.id = gridConfiguration.gameCanvas;
-    this.canvas.id = gridConfiguration.elementId;
-
-    this.canvas.style.position = 'absolute';
-    this.canvas.style.top = '100px';
-    this.canvas.style.left = '10px';
-
-    this.context = this.canvas.getContext("2d")!;
-    this.context.canvas.width = (gridConfiguration.width * gridConfiguration.gridSquareWidth + (2 * this.canvasPadding));
-    this.context.canvas.height = (gridConfiguration.height * gridConfiguration.gridSquareHeight + 100);
+  constructor(
+    private gridConfiguration: GridConfiguration,
+    canvasManager: CanvasManager
+  ) {
+    this.canvas = canvasManager.createCanvas('game');
+    this.context = this.canvas.getContext('2d')!;
   }
 
   public initialize = (): void => {

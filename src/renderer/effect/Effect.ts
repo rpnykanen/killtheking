@@ -1,33 +1,28 @@
-import { GridConfiguration } from "../../types/Configurations";
 import CanvasPosition from "../CanvasPosition";
 import IEffect from "./effects/IEffect";
 import Particle from "./effects/Particle";
 import EffectFactory from "./effects/EffectFactory"
+import CanvasManager from "@renderer/CanvasManager";
+import { GridConfiguration } from "../../types/Configurations";
 
 export default class EffectCanvas {
 
+  private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D
 
   private animations: IEffect[] = [];
 
   constructor(
-    private configurations: GridConfiguration,
-    private effectFactory: EffectFactory
-    ) {
-    const canvas = document.createElement("canvas");
+    private gridConfiguration: GridConfiguration,
+    private effectFactory: EffectFactory,
+    private canvasManager: CanvasManager
+  ) {
+    this.canvas = this.canvasManager.createCanvas('effect');
+    this.context = this.canvas.getContext('2d')!;
+  }
 
-    canvas.id = configurations.effectCanvas;
-    canvas.style.position = 'absolute';
-    canvas.style.top = '100px';
-    canvas.style.left = '10px';
-
-    this.context = canvas.getContext("2d")!
-    document.getElementById(this.configurations.elementId)?.append(canvas);
-
-    const canvasHeight = this.configurations.height * this.configurations.gridSquareHeight;
-    const canvasWidth = this.configurations.width * this.configurations.gridSquareWidth + (2 * 10);
-    this.context.canvas.width = canvasWidth;
-    this.context.canvas.height = canvasHeight + 100;
+  public draw = () => {
+    document.getElementById(this.gridConfiguration.elementId)?.append(this.canvas);
   }
 
   public addAnimation = (canvasPosition: CanvasPosition, effectName: string) => {
@@ -41,6 +36,7 @@ export default class EffectCanvas {
       return;
     }
     
+    //todo maybe only the square ? 
     this.context.clearRect(0, 0, 1000, 1000);
     this.animations.forEach((effect: IEffect) => {
       effect.update();

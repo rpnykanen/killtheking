@@ -28,8 +28,6 @@ export interface GridConfiguration {
   iconWidth: number; // Width of the character drawn on grid.
   iconHeight: number; // Height of the character drawn on grid.
   elementId: string; // Html element wrapper for the canvases.
-  gameCanvas: string; // Id for the game canvas.
-  effectCanvas: string; // Id for the effect canvas.
 }
 export interface Misc {
   [key: string]: boolean

@@ -17,18 +17,13 @@ export default class Renderer {
   ) {}
 
   public initialize = () : void => {
-    this.update();
-    this.grid.initialize();
-  }
-
-  public end = () => {
-    this.grid.clearCanvas();
-  }
-
-  private update = () : void => {
     this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid)
     this.eventManager.subscribe(EnemyDeathEvent.EVENTNAME, this.addEffect);
+    this.grid.initialize();
+    this.effect.draw();
   }
+
+  public end = () => this.grid.clearCanvas();
 
   private addEffect = (event: EnemyDeathEvent) : void => {
     const canvasPosition = this.positionConverter.map(event.x, event.y, null);

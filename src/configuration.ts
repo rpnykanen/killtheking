@@ -22,8 +22,6 @@ export default {
     "iconHeight": 35,
     "iconWidth": 30,
     "elementId": "game-container",
-    "gameCanvas": "game",
-    "effectCanvas": "effect",
   },
   "misc": {
     "autoplay": false,
