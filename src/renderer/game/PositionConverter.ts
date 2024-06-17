@@ -1,4 +1,4 @@
-import { GridConfiguration } from "../types/Configurations";
+import { GridConfiguration } from "../../types/Configurations";
 import CanvasPosition from "./CanvasPosition";
 
 /**

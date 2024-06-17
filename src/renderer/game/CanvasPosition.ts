@@ -1,5 +1,4 @@
 import Character from "@board/character/Character";
-import Icon from "../board/character/Icon";
 
 export default class CanvasPosition {
   constructor(

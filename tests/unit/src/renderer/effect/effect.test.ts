@@ -1,5 +1,5 @@
-import Explosion from "@renderer/effect/effects/Explosion";
-import CanvasPosition from "@renderer/CanvasPosition";
+import Explosion from "@renderer/game/effect/effects/Explosion";
+import CanvasPosition from "@renderer/game/CanvasPosition";
 
 describe('test effects', () => {
 

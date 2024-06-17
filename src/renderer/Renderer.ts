@@ -1,9 +1,9 @@
-import CanvasPosition from "./CanvasPosition";
-import PositionConverter from "./PositionConverter";
-import Effect from "./effect/Effect";
+import CanvasPosition from "@renderer/CanvasPosition";
+import PositionConverter from "./game/PositionConverter";
+import Effect from "./game/effect/Effect";
 import EnemyDeathEvent from "../event/events/EnemyDeathEvent";
 import GameUpdateEvent from "../event/events/GameUpdateEvent";
-import Grid from "./grid/Grid"
+import Grid from "./game/grid/Grid"
 import GridSquare from "../board/GridSquare";
 import EventManager from "@event/EventManager";
 

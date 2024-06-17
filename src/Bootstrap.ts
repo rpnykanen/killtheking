@@ -4,13 +4,13 @@ import CharacterFactory from "./board/character/CharacterFactory"
 import ConfigurationManager from "./ConfigurationManager";
 import Control from "./control/Control";
 import Controller from "./control/Controller";
-import Effect from "./renderer/effect/Effect";
-import EffectFactory from "@renderer/effect/effects/EffectFactory";
+import Effect from "./renderer/game/effect/Effect";
+import EffectFactory from "@renderer/game/effect/effects/EffectFactory";
 import EventManager from "@event/EventManager";
 import Grid from "./board/Grid";
-import GridToCanvasPositionMapper from "./renderer/PositionConverter";
+import GridToCanvasPositionMapper from "./renderer/game/PositionConverter";
 import Renderer from "./renderer/Renderer";
-import RendererGrid from "./renderer/grid/Grid"
+import RendererGrid from "./renderer/game/grid/Grid"
 import State from "./State";
 import Timer from "./Timer";
 import CanvasManager from "@renderer/CanvasManager";

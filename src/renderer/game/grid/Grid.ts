@@ -1,6 +1,6 @@
 import CanvasManager from "@renderer/CanvasManager";
-import { GridConfiguration } from "../../types/Configurations";
-import CanvasPosition from "../CanvasPosition";
+import { GridConfiguration } from "../../../types/Configurations";
+import CanvasPosition from "@renderer/CanvasPosition";
 
 export default class Grid {
  

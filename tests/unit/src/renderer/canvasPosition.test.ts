@@ -1,6 +1,6 @@
 import {describe, expect, test} from "@jest/globals";
-import CanvasPosition from "@renderer/CanvasPosition";
-import PositionConverter from "@renderer/PositionConverter";
+import CanvasPosition from "@renderer/game/CanvasPosition";
+import PositionConverter from "@renderer/game/PositionConverter";
 
 describe('Canvas position and mapper test', () => {
   const gridConfiguration = {

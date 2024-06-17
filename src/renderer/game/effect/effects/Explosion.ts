@@ -1,4 +1,4 @@
-import CanvasPosition from "../../CanvasPosition";
+import CanvasPosition from "@renderer/CanvasPosition";
 import IEffect from "./IEffect";
 import Particle from "./Particle";
 
