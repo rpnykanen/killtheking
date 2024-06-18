@@ -17,5 +17,4 @@ export default class Position {
     notNull = () => this._x !== -1 || this._y !== -1;
 
     clone = () => new Position(this._x, this._y);
-
 }

@@ -29,5 +29,4 @@ export default class GridSquare {
     public static create = () => {
       return new this(Position.createNullPosition());
     }
-
 }

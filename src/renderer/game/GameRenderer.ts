@@ -1,14 +1,14 @@
-import CanvasPosition from "@renderer/CanvasPosition";
-import PositionConverter from "./game/PositionConverter";
-import Effect from "./game/effect/Effect";
-import EnemyDeathEvent from "../event/events/EnemyDeathEvent";
-import GameUpdateEvent from "../event/events/GameUpdateEvent";
-import Grid from "./game/grid/Grid"
-import GridSquare from "../board/GridSquare";
+import CanvasPosition from "@renderer/game/CanvasPosition";
+import PositionConverter from "./PositionConverter";
+import Effect from "./effect/Effect";
+import EnemyDeathEvent from "../../event/events/EnemyDeathEvent";
+import GameUpdateEvent from "../../event/events/GameUpdateEvent";
+import Grid from "./grid/Grid"
+import GridSquare from "../../board/GridSquare";
 import EventManager from "@event/EventManager";
 
 
-export default class Renderer {
+export default class GameRenderer {
   constructor(
     private grid: Grid,
     private effect: Effect,
@@ -46,5 +46,4 @@ export default class Renderer {
       .map((gridSquare: GridSquare): CanvasPosition => this.positionConverter.map(gridSquare.x, gridSquare.y, gridSquare.icon))
       .forEach((canvasPosition: CanvasPosition) => this.grid.renderIcon(canvasPosition));
   }
-
 }

@@ -49,5 +49,4 @@ export default class Grid {
   }
 
   get getMaxX(): number { return this.gridConfiguration.width -1; }
-
 }

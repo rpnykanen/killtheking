@@ -218,5 +218,4 @@ export default class Board {
   )
 
   private isBoardFull = (): boolean => this.enemies.length >= this.maxEnemies;
-
 }

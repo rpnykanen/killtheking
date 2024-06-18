@@ -2,8 +2,6 @@ export default class State {
 
   private kills = 0;
 
-
-
   public addKills = () : void => {
     this.kills += 1;
   }

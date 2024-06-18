@@ -9,11 +9,14 @@ import EffectFactory from "@renderer/game/effect/effects/EffectFactory";
 import EventManager from "@event/EventManager";
 import Grid from "./board/Grid";
 import GridToCanvasPositionMapper from "./renderer/game/PositionConverter";
-import Renderer from "./renderer/Renderer";
+import Renderer from "./renderer/game/GameRenderer";
 import RendererGrid from "./renderer/game/grid/Grid"
 import State from "./State";
 import Timer from "./Timer";
 import CanvasManager from "@renderer/CanvasManager";
+import GameScene from "./scene/GameScene";
+import SceneManager from "./scene/SceneManager";
+import MenuScene from "./scene/MenuScene";
 
 export default class Bootstrap {
   private _board: Board;
@@ -23,6 +26,7 @@ export default class Bootstrap {
   private _eventManager: EventManager;
   private _timer: Timer;
   private _configurationManager: ConfigurationManager
+  private _sceneManager: SceneManager;
 
   constructor() {
     this._configurationManager = new ConfigurationManager();
@@ -43,41 +47,33 @@ export default class Bootstrap {
       new Autoplay(this._eventManager) : 
       new Controller(this._configurationManager.getControlConfigurations());
 
-
     this._board = new Board(
       new Grid(this._configurationManager.getGridConfigurations()),
       new CharacterFactory(),
       this._eventManager,
       this._configurationManager,
     );
+
+    this._sceneManager = new SceneManager(
+      new GameScene(this._eventManager, this._board, this._controller, this._timer),
+      new MenuScene()
+    );
   }
 
-  get configurationManager(): ConfigurationManager {
-    return this._configurationManager;
-  }
+  get board(): Board { return this._board; }
 
-  get eventManager(): EventManager {
-    return this._eventManager;
-  }
+  get configurationManager(): ConfigurationManager { return this._configurationManager; }
 
-  get controller() : Control {
-    return this._controller;
-  }
+  get controller() : Control { return this._controller; }
 
-  get board(): Board {
-    return this._board;
-  }
+  get eventManager(): EventManager { return this._eventManager; }
 
-  get renderer(): Renderer {
-    return this._renderer;
-  }
+  get renderer(): Renderer { return this._renderer; }
 
-  get state(): State {
-    return this._state;
-  }
+  get sceneManager(): SceneManager { return this._sceneManager }
+  
+  get state(): State { return this._state; }
 
-  get timer(): Timer {
-    return this._timer;
-  }
+  get timer(): Timer { return this._timer; }
   
 }
