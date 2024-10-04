@@ -1,5 +1,6 @@
 import Autoplay from "./control/Autoplay";
 import Board from "./board/Board";
+import CanvasFactory from "@renderer/CanvasFactory";
 import CharacterFactory from "./board/character/CharacterFactory"
 import ConfigurationManager from "./ConfigurationManager";
 import Control from "./control/Control";
@@ -7,24 +8,25 @@ import Controller from "./control/Controller";
 import Effect from "./renderer/game/effect/Effect";
 import EffectFactory from "@renderer/game/effect/effects/EffectFactory";
 import EventManager from "@event/EventManager";
+import GameRenderer from "@renderer/game/GameRenderer";
+import GameScene from "./scene/GameScene";
 import Grid from "./board/Grid";
 import GridToCanvasPositionMapper from "./renderer/game/PositionConverter";
-import Renderer from "./renderer/game/GameRenderer";
-import RendererGrid from "./renderer/game/grid/Grid"
-import State from "./State";
-import Timer from "./Timer";
-import CanvasManager from "@renderer/CanvasManager";
-import GameScene from "./scene/GameScene";
-import SceneManager from "./scene/SceneManager";
 import MenuScene from "./scene/MenuScene";
+import MenuRenderer from "@renderer/menu/MenuRenderer";
+import Renderer from "./renderer/Renderer";
+import RendererGrid from "./renderer/game/grid/Grid"
+import SceneManager from "./scene/SceneManager";
+import State from "./State";
+import Api from "./api/Api";
 
 export default class Bootstrap {
   private _board: Board;
-  private _renderer: Renderer;
+  private _gameRenderer: Renderer;
+  private _menuRenderer: Renderer;
   private _state: State;
   private _controller: Control;
   private _eventManager: EventManager;
-  private _timer: Timer;
   private _configurationManager: ConfigurationManager
   private _sceneManager: SceneManager;
 
@@ -32,15 +34,23 @@ export default class Bootstrap {
     this._configurationManager = new ConfigurationManager();
     const effectFactory = new EffectFactory();
     this._eventManager = new EventManager();
-    this._timer = new Timer(this._eventManager);
-    
-    const cm = new CanvasManager(this._configurationManager);
+    this._state = new State(this._eventManager);
+    const api = new Api();
+    const canvasFactory = new CanvasFactory(this._configurationManager);
 
-    this._renderer = new Renderer(
-      new RendererGrid(this._configurationManager.getGridConfigurations(), cm),
-      new Effect(this._configurationManager.getGridConfigurations(), effectFactory, cm),
+    this._gameRenderer = new GameRenderer(
+      canvasFactory,
+      new RendererGrid(canvasFactory, this._configurationManager.getGridConfigurations()),
+      new Effect(this._configurationManager.getGridConfigurations(), effectFactory, canvasFactory),
       new GridToCanvasPositionMapper(this._configurationManager.getGridConfigurations()),
       this._eventManager
+    );
+
+    this._menuRenderer = new MenuRenderer(
+      this._eventManager,
+      canvasFactory,
+      this._configurationManager.getGridConfigurations(),
+      api
     );
 
     this._controller = this._configurationManager.getMiscConfiguration('autoplay') ? 
@@ -55,8 +65,9 @@ export default class Bootstrap {
     );
 
     this._sceneManager = new SceneManager(
-      new GameScene(this._eventManager, this._board, this._controller, this._timer),
-      new MenuScene()
+      this._eventManager,
+      new GameScene(this._eventManager, this._board, this._controller, this._state, this._gameRenderer, api),
+      new MenuScene(this._eventManager, this._menuRenderer, this._state)
     );
   }
 
@@ -68,12 +79,8 @@ export default class Bootstrap {
 
   get eventManager(): EventManager { return this._eventManager; }
 
-  get renderer(): Renderer { return this._renderer; }
-
   get sceneManager(): SceneManager { return this._sceneManager }
   
   get state(): State { return this._state; }
-
-  get timer(): Timer { return this._timer; }
   
 }

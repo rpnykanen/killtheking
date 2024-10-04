@@ -7,7 +7,7 @@ export default class EnemyDeathEvent implements IGridEvent {
 
   constructor(private _enemy: Enemy) { }
 
-  get enemy() { return this._enemy; }
+  get enemy(): Enemy { return this._enemy; }
 
   get x () { return this._enemy.position.x; }
 

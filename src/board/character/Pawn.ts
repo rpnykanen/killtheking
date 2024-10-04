@@ -9,5 +9,6 @@ export default class Pawn extends Enemy {
     this._movements = [
       [new Movement(0, 0), new Movement(0, 1)]
     ];
+    this._score = 1;
   }
 }

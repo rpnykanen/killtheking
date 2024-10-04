@@ -16,7 +16,7 @@ export default abstract class Enemy extends Character {
   protected _movements: Array<Movement[]>;
 
   /**
-   * How valuable is the character.
+   * The score value of the enemy.
    */
   protected _score: number;
 
@@ -91,6 +91,10 @@ export default abstract class Enemy extends Character {
 
   get difficulty(): number {
     return 1;
+  }
+
+  get score(): number {
+    return this._score;
   }
 
 }

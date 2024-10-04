@@ -1,7 +1,7 @@
 import ConfigurationManager from "../ConfigurationManager";
 import { GridConfiguration } from "../types/Configurations";
 
-export default class CanvasManager {
+export default class CanvasFactory {
 
   private gridConfiguration: GridConfiguration;
 
@@ -11,7 +11,6 @@ export default class CanvasManager {
     this.gridConfiguration = this.configuration.getGridConfigurations();
   }
 
-  // createCanvas = (name: string): CanvasRenderingContext2D => {
   createCanvas = (name: string): HTMLCanvasElement => {
     const canvas = document.createElement("canvas");
 

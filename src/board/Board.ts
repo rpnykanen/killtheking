@@ -59,7 +59,7 @@ export default class Board {
   }
 
   /**
-   * Action allowing the player to update the player-character position.
+   * Action allowing updating the player character position.
    * 
    * @param movingLeft
    *   Is player moving left.
@@ -88,7 +88,7 @@ export default class Board {
   }
 
   /**
-   * Action allowing player to remove enemies from the board.
+   * Action to remove enemies from the board.
    */
   public shoot = (): void  => {
     this.eventManager.publish(new PlayerShootEvent(this.player.position));

@@ -2,7 +2,6 @@ import Enemy from "./Enemy";
 import Movement from "./Movement";
 import Position from "../Position";
 
-
 export default class King extends Enemy {
   constructor(position: Position, health: number) {
     super(position, health);
@@ -12,6 +11,7 @@ export default class King extends Enemy {
       [new Movement(0, 0), new Movement(0, 0), new Movement(0, 1)],
       [new Movement(0, 0), new Movement(0, 0), new Movement(1, 1)],
     ]
+    this._score = 5;
   }
 
   reduceHealth = (damage: number): void => {

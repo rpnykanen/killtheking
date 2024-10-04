@@ -6,21 +6,36 @@ import GameUpdateEvent from "../../event/events/GameUpdateEvent";
 import Grid from "./grid/Grid"
 import GridSquare from "../../board/GridSquare";
 import EventManager from "@event/EventManager";
+import Renderer from "@renderer/Renderer";
+import CanvasFactory from "@renderer/CanvasFactory";
 
 
-export default class GameRenderer {
+export default class GameRenderer extends Renderer {
+
+
   constructor(
+    protected canvasFactory: CanvasFactory,
     private grid: Grid,
     private effect: Effect,
     private positionConverter: PositionConverter,
     private eventManager: EventManager
-  ) {}
+  ) {
+    super(canvasFactory);
+  }
 
   public initialize = () : void => {
     this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid)
     this.eventManager.subscribe(EnemyDeathEvent.EVENTNAME, this.addEffect);
+    this.draw();
+  }
+
+  protected draw(): void {
     this.grid.initialize();
     this.effect.draw();
+  }
+
+  protected destroy(): void {
+    throw new Error("Method not implemented.");
   }
 
   public end = () => this.grid.clearCanvas();
@@ -46,4 +61,5 @@ export default class GameRenderer {
       .map((gridSquare: GridSquare): CanvasPosition => this.positionConverter.map(gridSquare.x, gridSquare.y, gridSquare.icon))
       .forEach((canvasPosition: CanvasPosition) => this.grid.renderIcon(canvasPosition));
   }
+
 }

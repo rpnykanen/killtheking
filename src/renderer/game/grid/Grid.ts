@@ -1,22 +1,22 @@
-import CanvasManager from "@renderer/CanvasManager";
+import CanvasFactory from "@renderer/CanvasFactory";
 import { GridConfiguration } from "../../../types/Configurations";
 import CanvasPosition from "@renderer/CanvasPosition";
+import Renderer from "@renderer/Renderer";
 
-export default class Grid {
+export default class Grid extends Renderer {
  
-  private canvas: HTMLCanvasElement;
-  private context: CanvasRenderingContext2D;
-
-  constructor(
-    private gridConfiguration: GridConfiguration,
-    canvasManager: CanvasManager
-  ) {
-    this.canvas = canvasManager.createCanvas('game');
-    this.context = this.canvas.getContext('2d')!;
+  constructor(protected canvasFactory: CanvasFactory, private gridConfiguration: GridConfiguration) {
+    super(canvasFactory);
   }
 
   public initialize = (): void => {
+    this.canvas = this.canvasFactory.createCanvas('game');
+    this.context = this.canvas.getContext('2d')!;
     this.draw();
+  }
+
+  protected destroy(): void {
+    throw new Error("Method not implemented.");
   }
   
   public clearCanvas = (): void => {
@@ -45,7 +45,7 @@ export default class Grid {
     );
   }
 
-  private draw = () => {
+  protected draw = (): void => {
     document.getElementById(this.gridConfiguration.elementId)?.append(this.canvas);
 
     const width = this.gridConfiguration.width * this.gridConfiguration.gridSquareWidth;
@@ -58,7 +58,7 @@ export default class Grid {
     this.context?.stroke();
   }
 
-  private drawHorizontal = (width: number, height: number) => {
+  private drawHorizontal = (width: number, height: number): void => {
     for (let x = 0; x <= width; x += this.gridConfiguration.gridSquareWidth) {
       const xFrom = 0.5 + x;
       const yFrom = 0;
@@ -70,7 +70,7 @@ export default class Grid {
     }
   }
 
-  private drawVertital = (width: number, height: number) => {
+  private drawVertital = (width: number, height: number): void => {
     for (let x = 0; x <= height; x += this.gridConfiguration.gridSquareHeight) {
       const xFrom = 0;
       const yFrom = 0.5 + x;

@@ -2,7 +2,7 @@ import CanvasPosition from "../CanvasPosition";
 import IEffect from "./effects/IEffect";
 import Particle from "./effects/Particle";
 import EffectFactory from "./effects/EffectFactory"
-import CanvasManager from "@renderer/CanvasManager";
+import CanvasFactory from "@renderer/CanvasFactory";
 import { GridConfiguration } from "../../types/Configurations";
 
 export default class EffectCanvas {
@@ -15,9 +15,9 @@ export default class EffectCanvas {
   constructor(
     private gridConfiguration: GridConfiguration,
     private effectFactory: EffectFactory,
-    private canvasManager: CanvasManager
+    private canvasFactory: CanvasFactory
   ) {
-    this.canvas = this.canvasManager.createCanvas('effect');
+    this.canvas = this.canvasFactory.createCanvas('eFfect');
     this.context = this.canvas.getContext('2d')!;
   }
 

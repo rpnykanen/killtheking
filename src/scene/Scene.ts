@@ -10,9 +10,6 @@ export default interface Scene {
    */
   update(): void;
 
-  
-  draw(): void;
-
   /**
    * Destroy the scene.
    */

@@ -3,21 +3,44 @@ import Scene from "./Scene";
 import EventManager from "@event/EventManager";
 import RoundSkipEvent from "@event/events/RoundSkipEvent";
 import Control from "../control/Control";
-import Timer from "../Timer";
 import GameOverEvent from "@event/events/GameOverEvent";
+import Renderer from "@renderer/Renderer";
+import State from "../State";
+import Api from "../api/Api";
 
 export default class GameScene implements Scene {
 
-  constructor(private eventManager: EventManager, private board: Board, private controller: Control, private timer: Timer){}
+  constructor(
+    private eventManager: EventManager,
+    private board: Board,
+    private controller: Control,
+    private state: State,
+    private renderer: Renderer,
+    private api: Api
+  ){}
 
   init(): void {
     this.board.initialize();
-    this.eventManager.subscribe(RoundSkipEvent.EVENTNAME, this.board.afterRoundActions);
-    this.eventManager.subscribe(GameOverEvent.EVENTNAME, this.endGame);
     this.setControls();
+    this.update();
+    this.state.start();
+    this.renderer.initialize();
   }
 
-  // todo: not supposed to be here.
+  destroy() : void {
+    this.state.stop();
+    this.eventManager.unsubscribe(RoundSkipEvent.EVENTNAME, this.board.afterRoundActions);
+    this.eventManager.unsubscribe(GameOverEvent.EVENTNAME, this.endGame);
+    // this.renderer.draw();
+    // this.board.destroy();
+  }
+
+  update = () => {
+    this.eventManager.subscribe(RoundSkipEvent.EVENTNAME, this.board.afterRoundActions);
+    this.eventManager.subscribe(GameOverEvent.EVENTNAME, this.endGame);
+  }
+
+  // todo: Maybe not supposed to be here.
   private setControls = (): void => {
     this.controller.setupControls(
       this.board.movePlayer,
@@ -27,24 +50,20 @@ export default class GameScene implements Scene {
     );
   }
 
-  update(): void {
-    throw new Error("Method not implemented.");
-  }
-  draw(): void {
-    throw new Error("Method not implemented.");
-  }
-  destroy(): void {
-    this.timer.stop();
-    // this.board.destroy();
-  }
-
   private endGame = (gameOverEvent: GameOverEvent): void => {
-    this.timer.stop();
+    this.state.stop();
+    // Jump to end game menu scene or something
     this.end(gameOverEvent.win);
   }
 
-  private end = (win: boolean) : void => {
+  private end = async (win: boolean) => {
+    // POISTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+    // console.log(`end score: ${this.state.score()}`);
     const winOrLose = win ? 'win' : 'lose';
+    try {
+      await this.api.highscore(this.state.score());
+    }
+    catch(err) {}
     confirm(`You ${winOrLose}!`)
     location.reload();
   }
