@@ -31,4 +31,7 @@ export default class ConfigurationManager {
   public getMiscConfiguration = (name: string) => this.configurations.misc[name];
   public getMiscConfigurations = (): Misc => this.configurations.misc;
 
+  public getHsConfiguration = (index: number): string => this.configurations.hs[index];
+  public getHsConfigurations = (): string[] => this.configurations.hs;
+
 }

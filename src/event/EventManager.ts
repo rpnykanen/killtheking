@@ -14,10 +14,9 @@ export default class EventManager {
   }
 
   public unsubscribe = (eventname: string, callback: CallableFunction): void => {
+    // TODO
     if (this.events[eventname]) {
-      console.log(this.events[eventname]);
       this.events[eventname] = this.events[eventname].filter(fn => fn !== callback);
-      console.log(this.events[eventname]);
     }
   }
 

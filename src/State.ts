@@ -7,17 +7,17 @@ export default class State {
 
   private loopId: number;
   private isActive = false;
-  private currentRoundLength = 0;
   private roundLength = 500;
+  private currentRoundLength = 0;
   private kills = 0;
   private _score = 0;
 
-  constructor(private eventManager: EventManager) {
-    this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
-    this.eventManager.subscribe(EnemyDeathEvent.EVENTNAME, this.addScore);
-  }
+  constructor(private eventManager: EventManager) {}
 
   start = (): void => {
+    this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
+    this.eventManager.subscribe(EnemyDeathEvent.EVENTNAME, this.addScore);
+
     this.isActive = true;
     if (!this.loopId) {
       this.loopId = requestAnimationFrame(this.loop);
@@ -25,8 +25,17 @@ export default class State {
   }
 
   stop = (): void => {
+    this.eventManager.unsubscribe(GameUpdateEvent.EVENTNAME, this.resetCounter);
+    this.eventManager.unsubscribe(EnemyDeathEvent.EVENTNAME, this.addScore);
+
     this.isActive = false;
     this.loopId = 0;
+  }
+
+  reset = (): void => {
+    this._score = 0;
+    this.kills = 0;
+    this.currentRoundLength = 0;
   }
 
   addScore = (event: EnemyDeathEvent): void => {

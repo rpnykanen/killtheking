@@ -1,5 +1,3 @@
 ### Development
 
-run tsc --build to build
-
-use liveserver
+run `npm run build`

@@ -19,13 +19,13 @@ export default class SceneManager {
   }
 
   public initialize = () => {
-    this.currentScene.init();
+    this.currentScene.initialize();
   }
 
   public changeScene = () => {
     this.currentScene.destroy();
     this.currentScene = this.currentScene === this.gameScene ? this.menuScene : this.gameScene;
-    this.currentScene.init();
+    this.currentScene.initialize();
   }
 
   public updateScene = () => {

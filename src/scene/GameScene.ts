@@ -7,6 +7,7 @@ import GameOverEvent from "@event/events/GameOverEvent";
 import Renderer from "@renderer/Renderer";
 import State from "../State";
 import Api from "../api/Api";
+import SceneChangeEvent from "@event/events/SceneChangeEvent";
 
 export default class GameScene implements Scene {
 
@@ -19,25 +20,28 @@ export default class GameScene implements Scene {
     private api: Api
   ){}
 
-  init(): void {
+  initialize(): void {
     this.board.initialize();
     this.setControls();
     this.update();
     this.state.start();
     this.renderer.initialize();
   }
+  
+  update = () => {
+    this.eventManager.subscribe(RoundSkipEvent.EVENTNAME, this.board.afterRoundActions);
+    this.eventManager.subscribe(GameOverEvent.EVENTNAME, this.endGame);
+  }
 
   destroy() : void {
+    this.board.reset();
+    this.state.reset();
     this.state.stop();
+    this.renderer.destroy();
     this.eventManager.unsubscribe(RoundSkipEvent.EVENTNAME, this.board.afterRoundActions);
     this.eventManager.unsubscribe(GameOverEvent.EVENTNAME, this.endGame);
     // this.renderer.draw();
     // this.board.destroy();
-  }
-
-  update = () => {
-    this.eventManager.subscribe(RoundSkipEvent.EVENTNAME, this.board.afterRoundActions);
-    this.eventManager.subscribe(GameOverEvent.EVENTNAME, this.endGame);
   }
 
   // todo: Maybe not supposed to be here.
@@ -57,15 +61,14 @@ export default class GameScene implements Scene {
   }
 
   private end = async (win: boolean) => {
-    // POISTAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
-    // console.log(`end score: ${this.state.score()}`);
     const winOrLose = win ? 'win' : 'lose';
     try {
       await this.api.highscore(this.state.score());
     }
     catch(err) {}
     confirm(`You ${winOrLose}!`)
-    location.reload();
+    this.state.reset();
+    this.eventManager.publish(new SceneChangeEvent('menu'));
   }
 
 }

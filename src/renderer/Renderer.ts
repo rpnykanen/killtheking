@@ -15,6 +15,6 @@ export default abstract class Renderer {
 
   protected abstract draw(): void;
 
-  protected abstract destroy(): void;
+  public abstract destroy(): void;
 
 }

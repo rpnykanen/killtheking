@@ -15,8 +15,9 @@ export default class Grid extends Renderer {
     this.draw();
   }
 
-  protected destroy(): void {
-    throw new Error("Method not implemented.");
+  public destroy(): void {
+    this.context.reset();
+    this.canvas.remove();
   }
   
   public clearCanvas = (): void => {

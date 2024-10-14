@@ -1,6 +1,6 @@
 import CanvasPosition from "@renderer/game/CanvasPosition";
 import PositionConverter from "./PositionConverter";
-import Effect from "./effect/Effect";
+import EffectCanvas from "./effect/EffectCanvas";
 import EnemyDeathEvent from "../../event/events/EnemyDeathEvent";
 import GameUpdateEvent from "../../event/events/GameUpdateEvent";
 import Grid from "./grid/Grid"
@@ -11,12 +11,10 @@ import CanvasFactory from "@renderer/CanvasFactory";
 
 
 export default class GameRenderer extends Renderer {
-
-
   constructor(
     protected canvasFactory: CanvasFactory,
     private grid: Grid,
-    private effect: Effect,
+    private effectCanvas: EffectCanvas,
     private positionConverter: PositionConverter,
     private eventManager: EventManager
   ) {
@@ -24,25 +22,27 @@ export default class GameRenderer extends Renderer {
   }
 
   public initialize = () : void => {
-    this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid)
+    this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid);
     this.eventManager.subscribe(EnemyDeathEvent.EVENTNAME, this.addEffect);
     this.draw();
   }
 
   protected draw(): void {
     this.grid.initialize();
-    this.effect.draw();
+    this.effectCanvas.draw();
   }
 
-  protected destroy(): void {
-    throw new Error("Method not implemented.");
+  public destroy(): void {
+    this.eventManager.unsubscribe(GameUpdateEvent.EVENTNAME, this.updateGrid);
+    this.eventManager.unsubscribe(EnemyDeathEvent.EVENTNAME, this.addEffect);
+    this.grid.destroy();
   }
 
   public end = () => this.grid.clearCanvas();
 
   private addEffect = (event: EnemyDeathEvent) : void => {
     const canvasPosition = this.positionConverter.map(event.x, event.y, null);
-    this.effect.addAnimation(canvasPosition, 'explosion');
+    this.effectCanvas.addAnimation(canvasPosition, 'explosion');
   }
 
   private updateGrid = (gameUpdateEvent: GameUpdateEvent) : void => {

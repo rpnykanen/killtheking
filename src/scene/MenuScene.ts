@@ -1,30 +1,26 @@
 import Renderer from "@renderer/Renderer";
 import Scene from "./Scene";
-import EventManager from "@event/EventManager";
-import State from "../State";
+import Api from "../api/Api";
 
 export default class MenuScene implements Scene {
 
   constructor(
-    private eventManager: EventManager,
     private menuRenderer: Renderer,
-    private state: State,
+    private api: Api
   ){
-    // eventManager.subscribe();
   }
 
-  destroy(): void {
-    this.state.stop();
-    // this.eventManager.unsubscribe();
-  }
-
-  init(): void {
+  initialize(): void {
     this.menuRenderer.initialize();
-    this.state.start();
+    this.api.getHighscore();
   }
 
   update(): void {
     throw new Error("Method not implemented.");
+  }
+  
+  destroy(): void {
+    this.menuRenderer.destroy();
   }
 
 }

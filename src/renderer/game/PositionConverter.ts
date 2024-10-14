@@ -9,7 +9,6 @@ export default class PositionConverter {
   }
 
   public map = (x: number,y: number, icon: HTMLImageElement | null): CanvasPosition => {
-    
     const gridPaddingX = icon ? (this.gridConfiguration.gridSquareWidth - this.gridConfiguration.iconWidth) / 2 : 0;
     const gridPaddingY = icon ? (this.gridConfiguration.gridSquareHeight - this.gridConfiguration.iconHeight) / 2 : 0;
 

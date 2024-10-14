@@ -5,7 +5,7 @@ import CharacterFactory from "./board/character/CharacterFactory"
 import ConfigurationManager from "./ConfigurationManager";
 import Control from "./control/Control";
 import Controller from "./control/Controller";
-import Effect from "./renderer/game/effect/Effect";
+import EffectCanvas from "./renderer/game/effect/EffectCanvas";
 import EffectFactory from "@renderer/game/effect/effects/EffectFactory";
 import EventManager from "@event/EventManager";
 import GameRenderer from "@renderer/game/GameRenderer";
@@ -19,8 +19,11 @@ import RendererGrid from "./renderer/game/grid/Grid"
 import SceneManager from "./scene/SceneManager";
 import State from "./State";
 import Api from "./api/Api";
+import BackgroundCanvas from "@renderer/menu/BackgroundCanvas";
+import BackgroundEffect from "@renderer/game/effect/effects/BackgroundEffect";
 
 export default class Bootstrap {
+  private _api: Api;
   private _board: Board;
   private _gameRenderer: Renderer;
   private _menuRenderer: Renderer;
@@ -35,22 +38,29 @@ export default class Bootstrap {
     const effectFactory = new EffectFactory();
     this._eventManager = new EventManager();
     this._state = new State(this._eventManager);
-    const api = new Api();
     const canvasFactory = new CanvasFactory(this._configurationManager);
 
     this._gameRenderer = new GameRenderer(
       canvasFactory,
       new RendererGrid(canvasFactory, this._configurationManager.getGridConfigurations()),
-      new Effect(this._configurationManager.getGridConfigurations(), effectFactory, canvasFactory),
+      new EffectCanvas(this._configurationManager.getGridConfigurations(), effectFactory, canvasFactory),
       new GridToCanvasPositionMapper(this._configurationManager.getGridConfigurations()),
       this._eventManager
     );
+
+    this._api = new Api(this._configurationManager.getHsConfigurations(), this._eventManager);
+
+    const characterFactory = new CharacterFactory();
 
     this._menuRenderer = new MenuRenderer(
       this._eventManager,
       canvasFactory,
       this._configurationManager.getGridConfigurations(),
-      api
+      new BackgroundCanvas(
+        this._configurationManager.getGridConfigurations(),
+        canvasFactory,
+        new BackgroundEffect(this._configurationManager.getGridConfigurations(), characterFactory)
+      )
     );
 
     this._controller = this._configurationManager.getMiscConfiguration('autoplay') ? 
@@ -59,28 +69,18 @@ export default class Bootstrap {
 
     this._board = new Board(
       new Grid(this._configurationManager.getGridConfigurations()),
-      new CharacterFactory(),
+      characterFactory,
       this._eventManager,
       this._configurationManager,
     );
 
     this._sceneManager = new SceneManager(
       this._eventManager,
-      new GameScene(this._eventManager, this._board, this._controller, this._state, this._gameRenderer, api),
-      new MenuScene(this._eventManager, this._menuRenderer, this._state)
+      new GameScene(this._eventManager, this._board, this._controller, this._state, this._gameRenderer, this._api),
+      new MenuScene(this._eventManager, this._menuRenderer, this._state, this._api)
     );
   }
 
-  get board(): Board { return this._board; }
+  get sceneManager() { return this._sceneManager; }
 
-  get configurationManager(): ConfigurationManager { return this._configurationManager; }
-
-  get controller() : Control { return this._controller; }
-
-  get eventManager(): EventManager { return this._eventManager; }
-
-  get sceneManager(): SceneManager { return this._sceneManager }
-  
-  get state(): State { return this._state; }
-  
 }

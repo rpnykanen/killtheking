@@ -5,6 +5,7 @@ import EffectFactory from "./effects/EffectFactory"
 import CanvasFactory from "@renderer/CanvasFactory";
 import { GridConfiguration } from "../../types/Configurations";
 
+// TODO rewrite.
 export default class EffectCanvas {
 
   private canvas: HTMLCanvasElement;
@@ -17,7 +18,7 @@ export default class EffectCanvas {
     private effectFactory: EffectFactory,
     private canvasFactory: CanvasFactory
   ) {
-    this.canvas = this.canvasFactory.createCanvas('eFfect');
+    this.canvas = this.canvasFactory.createCanvas('effect');
     this.context = this.canvas.getContext('2d')!;
   }
 

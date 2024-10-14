@@ -42,6 +42,7 @@ export default class Board {
    */
   private deadEnemyCount = 0;
 
+  // TODO wrong?
   private maxEnemies = 3;
 
   constructor(
@@ -54,8 +55,14 @@ export default class Board {
     this.spawnPlayer();
   }
 
-  public initialize = (): void  => {
+  public initialize = (): void => {
     this.afterRoundActions();
+  }
+
+  public reset = (): void => {
+    this.enemies = [];
+    this.changes = [];
+    this.boss = null;
   }
 
   /**
@@ -74,7 +81,7 @@ export default class Board {
     }
     
     const newPosition = currentPosition.clone();
-    movingLeft ? newPosition.substractX() : newPosition.addX();
+    movingLeft ? newPosition.substractX(): newPosition.addX();
     this.player.position = newPosition;
 
     const oldGridSquare = this.grid.getGridSquare(currentPosition);
@@ -90,7 +97,7 @@ export default class Board {
   /**
    * Action to remove enemies from the board.
    */
-  public shoot = (): void  => {
+  public shoot = (): void => {
     this.eventManager.publish(new PlayerShootEvent(this.player.position));
     // TODO Reducer null, why ?
     const enemyHit = this.enemies.filter(enemy => enemy.position.x === this.player.position.x)
@@ -127,14 +134,14 @@ export default class Board {
     this.changes = [];
   }
 
-  private checkWincondition = (): boolean  => {
+  private checkWincondition = (): boolean => {
     const enemy = this.enemies.find((enemy) => {
       return enemy.isBoss && enemy.isDead;
     })
     return !!enemy
   }
 
-  private checkLosecondition = (): boolean  => {
+  private checkLosecondition = (): boolean => {
     const enemy = this.enemies.find((enemy: Enemy) => {
       const position = enemy.possiblePositions[0];
       return enemy.movement.y > 0 && this.grid.isOutOfBoundsY(position)
@@ -156,7 +163,7 @@ export default class Board {
     });
   } 
 
-  private removeEnemy = (enemy: Enemy): void  => {
+  private removeEnemy = (enemy: Enemy): void => {
     const gridSquare = this.grid.getGridSquare(enemy.position);
     gridSquare.removeCharacter();
     this.changes.push(gridSquare);

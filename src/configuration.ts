@@ -27,4 +27,8 @@ export default {
     "autoplay": false,
     "infinite": false
   },
+  "hs": [
+    "aHR0cHM6Ly81ankwaW5scG8wLmV4ZWN1dGUtYXBpLmV1LW5vcnRoLTEuYW1hem9uYXdzLmNvbS9iZXRhL2hpZ2hzY29yZQ==",
+    "aHR0cHM6Ly81ankwaW5scG8wLmV4ZWN1dGUtYXBpLmV1LW5vcnRoLTEuYW1hem9uYXdzLmNvbS9iZXRhL25ld0hpZ2hTY29yZQ=="
+  ]
 }

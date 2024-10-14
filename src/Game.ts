@@ -1,5 +1,4 @@
 import Bootstrap from './Bootstrap';
-import Renderer from "./renderer/game/GameRenderer";
 import SceneManager from './scene/SceneManager';
 
 export default class Game {

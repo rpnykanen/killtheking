@@ -2,7 +2,8 @@ export default interface Configuration {
   controls: Controls,
   gridConfiguration: GridConfiguration,
   difficulty: Difficulty[],
-  misc: Misc
+  misc: Misc,
+  hs: string[]
 }
 export interface Controls {
   [key: string]: string

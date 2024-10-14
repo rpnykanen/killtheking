@@ -3,7 +3,7 @@ export default interface Scene {
   /**
    * Initialize the scene.
    */
-  init(): void;
+  initialize(): void;
 
   /**
    * Update the scene.
