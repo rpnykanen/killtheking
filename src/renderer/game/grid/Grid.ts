@@ -11,7 +11,7 @@ export default class Grid extends Renderer {
 
   public initialize = (): void => {
     this.canvas = this.canvasFactory.createCanvas('game');
-    this.context = this.canvas.getContext('2d')!;
+    this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     this.draw();
   }
 

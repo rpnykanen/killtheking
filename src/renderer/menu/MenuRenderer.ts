@@ -8,7 +8,7 @@ import SceneChangeEvent from "@event/events/SceneChangeEvent";
 import HighscoreTable from "./HighscoreTable";
 import Username from "./Username";
 import ApiEvent from "@event/events/ApiEvent";
-import {Highscore} from "../../api/Api";
+import Highscore from "../../api/Api";
 import BackgroundCanvas from "@renderer/menu/BackgroundCanvas";
 
 export default class MenuRenderer extends Renderer {
@@ -41,7 +41,7 @@ export default class MenuRenderer extends Renderer {
     this.background.startAnimation();
 
     this.canvas = this.canvasFactory.createCanvas('menu');
-    this.context = this.canvas.getContext('2d')!;
+    this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     this.canvas.addEventListener('click', this.buttonClick);
     this.draw();
   }
@@ -91,7 +91,7 @@ export default class MenuRenderer extends Renderer {
       this.destroy();
       this.eventManager.publish(changeScene);
     } else {
-      const button = this.usernameButton.buttonClick(x-this.canvas.offsetLeft,y-this.canvas.offsetTop);
+      this.usernameButton.buttonClick(x-this.canvas.offsetLeft,y-this.canvas.offsetTop);
     }
   }
 

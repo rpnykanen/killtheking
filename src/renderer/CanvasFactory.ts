@@ -12,7 +12,7 @@ export default class CanvasFactory {
   }
 
   createCanvas = (name: string): HTMLCanvasElement => {
-    const canvas = document.createElement("canvas");
+    const canvas: HTMLCanvasElement = document.createElement("canvas");
 
     canvas.style.position = 'absolute';
     canvas.style.top = '100px';
@@ -22,7 +22,7 @@ export default class CanvasFactory {
     
     this.canvases.push(canvas);
 
-    const context = canvas.getContext("2d")!;
+    const context = canvas.getContext("2d") as CanvasRenderingContext2D;
 
     const canvasPadding = 10;
     context.canvas.width = (this.gridConfiguration.width * this.gridConfiguration.gridSquareWidth + (2 * canvasPadding));

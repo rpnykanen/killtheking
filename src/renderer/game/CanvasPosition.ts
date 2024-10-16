@@ -1,5 +1,3 @@
-import Character from "@board/character/Character";
-
 export default class CanvasPosition {
   constructor(
     private _canvasX: number, 

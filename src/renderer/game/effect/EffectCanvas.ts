@@ -19,7 +19,7 @@ export default class EffectCanvas {
     private canvasFactory: CanvasFactory
   ) {
     this.canvas = this.canvasFactory.createCanvas('effect');
-    this.context = this.canvas.getContext('2d')!;
+    this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
   }
 
   public draw = () => {

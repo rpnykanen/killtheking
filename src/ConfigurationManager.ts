@@ -1,5 +1,5 @@
 import _configuration from "./configuration";
-import Configuration, { Controls, Difficulty, GridConfiguration, Misc } from "./types/Configurations";
+import Configuration, { Controls, Difficulty, GridConfiguration } from "./types/Configurations";
 
 export default class ConfigurationManager {
   private configurations: Configuration

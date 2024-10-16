@@ -17,7 +17,7 @@ export default class Api {
  
   public getHighscore = async (): Promise<Highscore> => {
     let highscore;
-    let storageData = sessionStorage.getItem('data');
+    const storageData = sessionStorage.getItem('data');
 
     if (storageData) {
       const data = JSON.parse(storageData) as Highscore;

@@ -1,5 +1,4 @@
 import Character from "./Character";
-import Icon from "./Icon";
 import Position from "../Position";
 
 export default class Player extends Character {

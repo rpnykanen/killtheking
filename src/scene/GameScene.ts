@@ -49,7 +49,7 @@ export default class GameScene implements Scene {
       this.board.movePlayer,
       this.board.shoot,
       this.board.afterRoundActions,
-      () => {}
+      () => { /* noop */ }
     );
   }
 
@@ -64,7 +64,7 @@ export default class GameScene implements Scene {
     try {
       await this.api.highscore(this.state.score());
     }
-    catch(err) {}
+    catch(err) { /* noop */ }
     confirm(`You ${winOrLose}!`)
     this.state.reset();
     this.eventManager.publish(new SceneChangeEvent('menu'));

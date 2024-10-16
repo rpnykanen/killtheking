@@ -1,5 +1,4 @@
 import Character from "./Character";
-import Icon from "./Icon";
 import Movement from "./Movement";
 import Position from "../Position";
 

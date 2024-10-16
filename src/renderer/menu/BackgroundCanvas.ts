@@ -17,7 +17,7 @@ export default class BackgroundCanvas {
     private backgroundEffect: BackgroundEffect,
   ) {
     this.canvas = this.canvasFactory.createCanvas('background');
-    this.context = this.canvas.getContext('2d')!;
+    this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
   }
 
   public draw = () => {
