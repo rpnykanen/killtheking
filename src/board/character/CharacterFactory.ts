@@ -11,7 +11,6 @@ export default class CharacterFactory {
     return rand % 2 === 0 && rand != 0 ? this.createKnight() : this.createPawn();
   }
 
-  // TODO single function maybe.
   public createPawn = (): Pawn => {
     const health = 1;
     return new Pawn(new Position(1,1), health);

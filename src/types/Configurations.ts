@@ -19,6 +19,7 @@ export interface Difficulty {
   enemyHealth: number; // How many hits enemies endure.
   bossHealth:  number; // How many hits the boss endures.
   enemyAmount: number; // How many enemies before boss spawn.
+  maxEnemies: number;
 }
 export interface GridConfiguration {
   [key: string]: number|string;

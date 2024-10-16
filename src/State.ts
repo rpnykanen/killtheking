@@ -4,7 +4,6 @@ import GameUpdateEvent from "@event/events/GameUpdateEvent";
 import RoundSkipEvent from "@event/events/RoundSkipEvent";
 
 export default class State {
-
   private loopId: number;
   private isActive = false;
   private roundLength = 500;
@@ -41,19 +40,6 @@ export default class State {
   addScore = (event: EnemyDeathEvent): void => {
     const enemy = event.enemy;
     this._score += (enemy.score * 8)
-  }
-
-  roundEnd = (): void => {
-    const substract = this.currentRoundLength/100;
-    if (this._score == 0 || this._score <= substract) {
-      return;
-    }
-    this._score -= substract;
-    return;
-  }
-
-  getKills = (): number => {
-    return this.kills;
   }
 
   private resetCounter = () => {

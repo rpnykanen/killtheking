@@ -5,7 +5,5 @@ export default class SceneChangeEvent implements IEvent {
 
   constructor(private _sceneName: string){}
 
-  get sceneName(): string { return this._sceneName }
-
   get eventName(): string { return 'scene.change' }
 }

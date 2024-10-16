@@ -12,7 +12,6 @@ export default class Knight extends Enemy {
     ];
     this._score = 3;
   }
-  get difficulty(): number {
-    return 2;
-  }
+
+  get difficulty(): number { return 2; }
 }

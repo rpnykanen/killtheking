@@ -1,6 +1,5 @@
 export default abstract class Control {
-
-  protected _move: CallableFunction; 
+  protected _move: CallableFunction;
 
   protected _shoot: CallableFunction;
 

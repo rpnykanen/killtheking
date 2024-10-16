@@ -19,19 +19,14 @@ export default class ConfigurationManager {
     this.configurations.difficulty[0].enemyAmount = -1
   }
 
-  public getControlConfiguration = (name: string) => this.configurations.controls[name];
   public getControlConfigurations = (): Controls => this.configurations.controls;
 
-  public getDifficultyConfiguration = (name: string) => this.configurations.difficulty[0][name];
   public getDifficultyConfigurations = (): Difficulty => this.configurations.difficulty[0];
 
-  public getGridConfiguration = (name: string) => this.configurations.gridConfiguration[name];
   public getGridConfigurations = (): GridConfiguration => this.configurations.gridConfiguration;
 
   public getMiscConfiguration = (name: string) => this.configurations.misc[name];
-  public getMiscConfigurations = (): Misc => this.configurations.misc;
 
-  public getHsConfiguration = (index: number): string => this.configurations.hs[index];
   public getHsConfigurations = (): string[] => this.configurations.hs;
 
 }

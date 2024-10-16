@@ -5,7 +5,6 @@ type Events = {
 }
 
 export default class EventManager {
-
   private _events: Events = {};
 
   public subscribe = (eventname: string, callback: CallableFunction): void => {
@@ -14,7 +13,6 @@ export default class EventManager {
   }
 
   public unsubscribe = (eventname: string, callback: CallableFunction): void => {
-    // TODO
     if (this.events[eventname]) {
       this.events[eventname] = this.events[eventname].filter(fn => fn !== callback);
     }
@@ -26,8 +24,5 @@ export default class EventManager {
       .forEach(callback => callback(event));
   }
 
-  get events(): Events {
-    return this._events;
-  }
-
+  get events(): Events { return this._events; }
 }

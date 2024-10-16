@@ -4,7 +4,6 @@ import Movement from "./Movement";
 import Position from "../Position";
 
 export default abstract class Enemy extends Character {
-
   /**
    * How many hits the character can take.
    */
@@ -48,22 +47,16 @@ export default abstract class Enemy extends Character {
       : this._movementIndex + 1;
   }
 
-  public reduceHealth = (damage: number): void => {
-    this._health -= damage;
-  }
+  public reduceHealth = (damage: number): void => { this._health -= damage; }
 
   get isDead(): boolean { return this._health <= 0; }
 
-  get position(): Position {
-    return this._position;
-  }
+  get position(): Position { return this._position; }
 
   /**
    * Get the first movement pattern.
    */
-  get movement(): Movement {
-    return this._movements[0][this._movementIndex];
-  }
+  get movement(): Movement { return this._movements[0][this._movementIndex]; }
 
   /**
    * Get all possible movement positions for the character.
@@ -77,24 +70,17 @@ export default abstract class Enemy extends Character {
     });
   }
 
-  get icon(): HTMLImageElement {
-    return this._icon;
-  }
+  get icon(): HTMLImageElement { return this._icon; }
 
-  get health(): number {
-    return this._health;
-  }
+  get isBoss(): boolean { return false; }
 
-  get isBoss(): boolean {
-    return false;
-  }
+  /**
+   * Autoplay relies on this value to calculate.
+   */
+  get difficulty(): number { return 1; }
 
-  get difficulty(): number {
-    return 1;
-  }
-
-  get score(): number {
-    return this._score;
-  }
-
+  /**
+   * How much score killing the enemy yields.
+   */
+  get score(): number { return this._score; }
 }

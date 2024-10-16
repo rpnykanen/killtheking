@@ -5,7 +5,6 @@ import Scene from "./Scene";
 import SceneChangeEvent from "@event/events/SceneChangeEvent";
 
 export default class SceneManager {
-
   private currentScene: Scene;
 
   constructor(
@@ -13,7 +12,6 @@ export default class SceneManager {
     private gameScene: GameScene, 
     private menuScene: MenuScene
   ) {
-    // this.currentScene = this.gameScene;
     this.currentScene = this.menuScene;
     this.eventManager.subscribe(SceneChangeEvent.EVENT_NAME, this.changeScene);
   }
@@ -35,5 +33,4 @@ export default class SceneManager {
   public endScene = () => {
     this.currentScene.destroy();
   }
-  
 }

@@ -30,5 +30,4 @@ export default class Controller extends Control {
         break;
     }
   }
-
 }

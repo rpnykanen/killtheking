@@ -2,7 +2,6 @@ import Bootstrap from './Bootstrap';
 import SceneManager from './scene/SceneManager';
 
 export default class Game {
-
   private bootstrap: Bootstrap;
   private sceneManager: SceneManager;
 
@@ -14,5 +13,4 @@ export default class Game {
   public initialize = (): void => {
     this.sceneManager.initialize();
   }
-  
 }

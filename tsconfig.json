@@ -18,6 +18,7 @@
       "@board/*": ["./src/board/*"],
       "@event/*": ["./src/event/*"],
       "@renderer/*": ["./src/renderer/*"],
+      "@types/*": ["./src/types/*"],
       "@utils/*": ["./src/utils/*"],
     }
   },

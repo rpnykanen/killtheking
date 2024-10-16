@@ -1,20 +1,23 @@
+/**
+ * Position on grid.
+ */
 export default class Position {
-    constructor(private _x: number, private _y: number) {}
+  constructor(private _x: number, private _y: number) {}
 
-    public static createNullPosition = (): Position => {
-      return new this(-1,-1);
-    }
+  public static createNullPosition = (): Position => {
+    return new this(-1,-1);
+  }
 
-    get x() { return this._x; }
-    get y() { return this._y; }
+  get x() { return this._x; }
+  get y() { return this._y; }
 
-    addX = () => this._x += 1;
+  public addX = () => this._x += 1;
 
-    substractX = () => this._x -= 1;
+  public substractX = () => this._x -= 1;
 
-    equals = (position: Position) => this._x === position.x && this._y === position.y;
+  public equals = (position: Position) => this._x === position.x && this._y === position.y;
 
-    notNull = () => this._x !== -1 || this._y !== -1;
+  public notNull = () => this._x !== -1 || this._y !== -1;
 
-    clone = () => new Position(this._x, this._y);
+  public clone = () => new Position(this._x, this._y);
 }

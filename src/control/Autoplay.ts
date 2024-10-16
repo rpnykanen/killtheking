@@ -7,7 +7,6 @@ import Player from "@board/character/Player";
 import PlayerSpawnEvent from "@event/events/PlayerSpawnEvent";
 
 export default class Autoplay extends Control {
-  
   private enemies: Enemy[] = [];
 
   private target: Enemy;
@@ -50,7 +49,7 @@ export default class Autoplay extends Control {
   }
 
   private calculateThreat = (enemy: Enemy): number => {
-    return enemy.position.y*2 * enemy.difficulty;
+    return enemy.position.y * 2 * enemy.difficulty;
   }
 
   private addTrackedEnemies = (event: EnemySpawnEvent) => {
@@ -60,7 +59,9 @@ export default class Autoplay extends Control {
   }
 
   private removeTrackedEnemies = (killedEnemy: Enemy) => {
-    this.enemies = this.enemies.filter(enemy => enemy !== undefined).filter((enemy: Enemy) => enemy !== killedEnemy);
+    this.enemies = this.enemies
+      .filter((enemy:Enemy) => enemy !== undefined)
+      .filter((enemy: Enemy) => enemy !== killedEnemy);
   }
 
   private setPlayer = (event: PlayerSpawnEvent) => {

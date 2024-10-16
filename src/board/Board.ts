@@ -8,7 +8,7 @@ import Grid from "./Grid";
 import Player from "./character/Player";
 import Position from "./Position";
 import EventManager from "@event/EventManager";
-import { randomNumber } from "../utils/RandomHelper";
+import { randomNumber } from "@utils/RandomHelper";
 import EnemyHitEvent from "@event/events/EnemyHitEvent";
 import PlayerShootEvent from "@event/events/PlayerShootEvent";
 import EnemySpawnEvent from "@event/events/EnemySpawnEvent";
@@ -16,8 +16,7 @@ import PlayerSpawnEvent from "@event/events/PlayerSpawnEvent";
 import ConfigurationManager from "../ConfigurationManager";
 
 export default class Board {
-
-  /** 
+  /**
    * The player character.
    */
   private player: Player;
@@ -41,9 +40,6 @@ export default class Board {
    * How many enemies have been removed from the board.
    */
   private deadEnemyCount = 0;
-
-  // TODO wrong?
-  private maxEnemies = 3;
 
   constructor(
     private grid: Grid,
@@ -224,5 +220,5 @@ export default class Board {
     !this.boss
   )
 
-  private isBoardFull = (): boolean => this.enemies.length >= this.maxEnemies;
+  private isBoardFull = (): boolean => this.enemies.length >= this.configurationManager.getDifficultyConfigurations().maxEnemies;
 }

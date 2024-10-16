@@ -19,11 +19,7 @@ export default class Player extends Character {
     this._position = new Position(x, this._position.y);
   }
 
-  set position(position: Position) {
-    this._position = position;
-  }
+  set position(position: Position) { this._position = position; }
 
-  get position(): Position {
-    return this._position;
-  }
+  get position(): Position { return this._position; }
 }

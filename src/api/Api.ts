@@ -1,13 +1,8 @@
-import EventManager from "@event/EventManager";
 import ApiEvent from "@event/events/ApiEvent";
-
-export interface Highscore {
-  items: Array<{'username': string, 'score': string}>,
-  token: string
-}
+import EventManager from "@event/EventManager";
+import Highscore from "@types/Highscore";
 
 export default class Api {
-
   private token: string;
 
   private u: string;

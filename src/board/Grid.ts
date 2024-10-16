@@ -1,10 +1,12 @@
 import GridSquare from "./GridSquare";
 import Position from "./Position";
 import { GridConfiguration } from "../types/Configurations";
-import { randomNumber } from "../utils/RandomHelper";
+import { randomNumber } from "@utils/RandomHelper";
 
+/**
+ * Holds the grid data.
+ */
 export default class Grid {
-
   private grid: GridSquare[] = [];
 
   constructor(private gridConfiguration: GridConfiguration) {

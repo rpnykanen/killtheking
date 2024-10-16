@@ -10,7 +10,6 @@ import Api from "../api/Api";
 import SceneChangeEvent from "@event/events/SceneChangeEvent";
 
 export default class GameScene implements Scene {
-
   constructor(
     private eventManager: EventManager,
     private board: Board,

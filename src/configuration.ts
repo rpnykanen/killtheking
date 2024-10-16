@@ -12,6 +12,7 @@ export default {
       "enemyHealth": 1,
       "bossHealth": 5,
       "enemyAmount": 20,
+      "maxEnemies": 3,
     }
   ],
   "gridConfiguration": {
