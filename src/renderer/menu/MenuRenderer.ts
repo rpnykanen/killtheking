@@ -49,6 +49,7 @@ export default class MenuRenderer extends Renderer {
   public destroy = () => {
     // this.context.reset(); // not found ?
     this.canvas.remove();
+
     this.background.stopAnimation();
     this.background.destroy();
 

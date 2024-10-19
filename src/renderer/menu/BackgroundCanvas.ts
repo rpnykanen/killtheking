@@ -25,9 +25,8 @@ export default class BackgroundCanvas {
   }
 
   public startAnimation = () => {
-    // const effect = this.effectFactory.getEffect(effectName, canvasPosition);
-    // effect && this.animations.push(effect);
     this.context.globalAlpha = 0.05;
+    // this.backgroundEffect.start();
     this.requestAnimation();
   }
 
@@ -36,6 +35,7 @@ export default class BackgroundCanvas {
   }
 
   public destroy = () => {
+    this.context.clearRect(0, 0, 1000, 1000);
     this.canvas.remove();
   }
 

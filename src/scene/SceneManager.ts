@@ -26,6 +26,7 @@ export default class SceneManager {
     this.currentScene.initialize();
   }
 
+  // TODO maybe loop here.
   public updateScene = () => {
     this.currentScene.update();
   }
