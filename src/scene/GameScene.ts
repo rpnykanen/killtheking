@@ -9,7 +9,7 @@ import State from "../State";
 import Api from "../api/Api";
 import SceneChangeEvent from "@event/events/SceneChangeEvent";
 
-export default class GameScene implements Scene {
+export default class GameScene extends Scene {
   constructor(
     private eventManager: EventManager,
     private board: Board,
@@ -17,22 +17,30 @@ export default class GameScene implements Scene {
     private state: State,
     private renderer: Renderer,
     private api: Api
-  ){}
+  ){ super(); }
 
-  initialize(): void {
+  initialize = (): void => {
     this.board.initialize();
     this.setControls();
-    this.update();
-    this.state.start();
-    this.renderer.initialize();
-  }
-  
-  update = () => {
+
     this.eventManager.subscribe(RoundSkipEvent.EVENTNAME, this.board.afterRoundActions);
     this.eventManager.subscribe(GameOverEvent.EVENTNAME, this.endGame);
+
+    this.state.start();
+
+    this.renderer.initialize();
   }
 
-  destroy() : void {
+  update = (): void => {
+    if (this.state.currentRoundLength >= this.state.roundLength) {
+      this.state.currentRoundLength = 0;
+      this.eventManager.publish(new RoundSkipEvent());
+    } else {
+      this.state.currentRoundLength += 5;
+    }
+  }
+
+  destroy = () : void => {
     this.board.reset();
     this.state.reset();
     this.state.stop();
@@ -43,7 +51,6 @@ export default class GameScene implements Scene {
     // this.board.destroy();
   }
 
-  // todo: Maybe not supposed to be here.
   private setControls = (): void => {
     this.controller.setupControls(
       this.board.movePlayer,
@@ -55,7 +62,6 @@ export default class GameScene implements Scene {
 
   private endGame = (gameOverEvent: GameOverEvent): void => {
     this.state.stop();
-    // Jump to end game menu scene or something
     this.end(gameOverEvent.win);
   }
 
@@ -69,5 +75,4 @@ export default class GameScene implements Scene {
     this.state.reset();
     this.eventManager.publish(new SceneChangeEvent('menu'));
   }
-
 }

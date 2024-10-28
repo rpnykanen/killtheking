@@ -2,7 +2,6 @@ import ConfigurationManager from "../ConfigurationManager";
 import { GridConfiguration } from "../types/Configurations";
 
 export default class CanvasFactory {
-
   private gridConfiguration: GridConfiguration;
 
   private canvases: HTMLCanvasElement[] = [];
@@ -11,6 +10,7 @@ export default class CanvasFactory {
     this.gridConfiguration = this.configuration.getGridConfigurations();
   }
 
+  // Todo read canvas.
   createCanvas = (name: string): HTMLCanvasElement => {
     const canvas: HTMLCanvasElement = document.createElement("canvas");
 
@@ -30,5 +30,4 @@ export default class CanvasFactory {
 
     return canvas;
   }
-
 }

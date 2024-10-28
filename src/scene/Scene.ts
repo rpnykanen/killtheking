@@ -1,18 +1,22 @@
-export default interface Scene {
-
+export default abstract class Scene {
   /**
    * Initialize the scene.
    */
-  initialize(): void;
+  public initialize = (): void => {
+    /* Implement */
+  }
 
   /**
    * Update the scene.
    */
-  update(): void;
+  public update = (): void => {
+    /* Implement */
+  }
 
   /**
    * Destroy the scene.
    */
-  destroy(): void;
-
+  public destroy = (): void => {
+    /* Implement */
+  }
 }

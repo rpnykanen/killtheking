@@ -1,4 +1,4 @@
-import CanvasPosition from "@renderer/CanvasPosition";
+import CanvasPosition from "@renderer/game/CanvasPosition";
 import IEffect from "./IEffect";
 import Particle from "./Particle";
 
@@ -38,5 +38,4 @@ export default class Explosion implements IEffect {
   }
 
   get particles(): Particle[] { return this.activeParticles; }
-
 }

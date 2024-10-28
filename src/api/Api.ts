@@ -1,6 +1,6 @@
 import ApiEvent from "@event/events/ApiEvent";
 import EventManager from "@event/EventManager";
-import Highscore from "@types/Highscore";
+import Highscore from "@type/Highscore";
 
 export default class Api {
   private token: string;

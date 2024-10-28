@@ -1,4 +1,4 @@
-import { Highscore } from "../../api/Api";
+import Highscore from "@type/Highscore";
 
 export default class HighscoreTable {
   constructor(private context: CanvasRenderingContext2D) {
@@ -17,5 +17,4 @@ export default class HighscoreTable {
       });
     }
   }
-
 }

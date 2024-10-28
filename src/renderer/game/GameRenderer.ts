@@ -1,14 +1,13 @@
+import CanvasFactory from "@renderer/CanvasFactory";
 import CanvasPosition from "@renderer/game/CanvasPosition";
-import PositionConverter from "./PositionConverter";
 import EffectCanvas from "./effect/EffectCanvas";
 import EnemyDeathEvent from "../../event/events/EnemyDeathEvent";
-import GameUpdateEvent from "../../event/events/GameUpdateEvent";
+import EventManager from "@event/EventManager";
+import GameRoundEvent from "../../event/events/GameRoundEvent";
 import Grid from "./grid/Grid"
 import GridSquare from "../../board/GridSquare";
-import EventManager from "@event/EventManager";
+import PositionConverter from "./PositionConverter";
 import Renderer from "@renderer/Renderer";
-import CanvasFactory from "@renderer/CanvasFactory";
-
 
 export default class GameRenderer extends Renderer {
   constructor(
@@ -22,7 +21,7 @@ export default class GameRenderer extends Renderer {
   }
 
   public initialize = () : void => {
-    this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.updateGrid);
+    this.eventManager.subscribe(GameRoundEvent.EVENTNAME, this.updateGrid);
     this.eventManager.subscribe(EnemyDeathEvent.EVENTNAME, this.addEffect);
     this.draw();
   }
@@ -33,7 +32,7 @@ export default class GameRenderer extends Renderer {
   }
 
   public destroy(): void {
-    this.eventManager.unsubscribe(GameUpdateEvent.EVENTNAME, this.updateGrid);
+    this.eventManager.unsubscribe(GameRoundEvent.EVENTNAME, this.updateGrid);
     this.eventManager.unsubscribe(EnemyDeathEvent.EVENTNAME, this.addEffect);
     this.grid.destroy();
   }
@@ -45,9 +44,9 @@ export default class GameRenderer extends Renderer {
     this.effectCanvas.addAnimation(canvasPosition, 'explosion');
   }
 
-  private updateGrid = (gameUpdateEvent: GameUpdateEvent) : void => {
-    this.clearEmptySquares(gameUpdateEvent.gridSquares);
-    this.renderSquares(gameUpdateEvent.gridSquares);
+  private updateGrid = (GameRoundEvent: GameRoundEvent) : void => {
+    this.clearEmptySquares(GameRoundEvent.gridSquares);
+    this.renderSquares(GameRoundEvent.gridSquares);
   }
 
   private clearEmptySquares = (gridSquares: GridSquare[]): void => {
@@ -61,5 +60,4 @@ export default class GameRenderer extends Renderer {
       .map((gridSquare: GridSquare): CanvasPosition => this.positionConverter.map(gridSquare.x, gridSquare.y, gridSquare.icon))
       .forEach((canvasPosition: CanvasPosition) => this.grid.renderIcon(canvasPosition));
   }
-
 }

@@ -14,7 +14,7 @@ export default class King extends Enemy {
     this._score = 5;
   }
 
-  reduceHealth = (damage: number): void => { this._health -= damage; }
+  public reduceHealth = (damage: number): void => { this._health -= damage; }
 
   get isBoss(): boolean { return true; }
 

@@ -25,6 +25,7 @@ export default abstract class Enemy extends Character {
 
   constructor(position: Position, health: number) {
     super();
+    // TODO: might be unnecessary to track here since grid already knows.
     this._position = position;
     this._health = health;
     this._movements = [
@@ -32,6 +33,7 @@ export default abstract class Enemy extends Character {
     ];
   }
 
+  // TODO: might be unnecessary to track here since grid already knows.
   public setPosition = (position: Position, updatePosition = true) => {
     this._position = position;
     updatePosition && this.updateMovementIndex();
@@ -50,6 +52,7 @@ export default abstract class Enemy extends Character {
 
   get isDead(): boolean { return this._health <= 0; }
 
+  // TODO: might be unnecessary to track here since grid already knows.
   get position(): Position { return this._position; }
 
   /**
@@ -57,6 +60,7 @@ export default abstract class Enemy extends Character {
    */
   get movement(): Movement { return this._movements[0][this._movementIndex]; }
 
+  // TODO: might be unnecessary to track here since grid already knows.
   /**
    * Get all possible movement positions for the character.
    */

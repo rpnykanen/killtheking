@@ -5,11 +5,8 @@ import Item from "@renderer/game/effect/effects/Item";
 
 // TODO rewrite.
 export default class BackgroundCanvas {
-
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D
-
-  private items: Item[];
 
   constructor(
     private gridConfiguration: GridConfiguration,
@@ -24,10 +21,13 @@ export default class BackgroundCanvas {
     document.getElementById(this.gridConfiguration.elementId)?.append(this.canvas);
   }
 
-  public startAnimation = () => {
-    this.context.globalAlpha = 0.05;
-    // this.backgroundEffect.start();
-    this.requestAnimation();
+  public update = () => {
+    if (!this.backgroundEffect.isOn()) {
+      return;
+    }
+
+    this.context.clearRect(0, 0, 1000, 1000);
+    this.drawParticles();
   }
 
   public stopAnimation = () => {
@@ -39,20 +39,9 @@ export default class BackgroundCanvas {
     this.canvas.remove();
   }
 
-  private requestAnimation = (): void => {
-    if (!this.backgroundEffect.isOn()) {
-      return;
-    }
-
-    this.context.clearRect(0, 0, 1000, 1000);
-    this.drawParticles();
-
-    requestAnimationFrame(this.requestAnimation);
-  }
-
   private drawParticles = () => {
     const items = this.backgroundEffect.update();
-
+    this.context.globalAlpha = 0.05;
     items.forEach((item: Item): void => {
       this.context.drawImage(
         item.icon,

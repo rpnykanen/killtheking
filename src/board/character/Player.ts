@@ -8,6 +8,7 @@ export default class Player extends Character {
     this._position = new Position(0, 15);
   }
 
+  // TODO: bad leftarrow.
   public updatePosition = (action: string) => {
     let x = this._position.x;
     if (action == 'ArrowLeft') {

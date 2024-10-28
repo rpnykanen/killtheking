@@ -26,7 +26,5 @@ export default class CharacterFactory {
     return new King(new Position(1,1), health);
   }
 
-  public createPlayer = (): Player => {
-    return new Player();
-  }
+  public createPlayer = (): Player => { return new Player(); }
 }

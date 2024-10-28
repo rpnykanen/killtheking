@@ -5,7 +5,6 @@ import Item from "@renderer/game/effect/effects/Item";
 import CharacterFactory from "@board/character/CharacterFactory";
 
 export default class BackgroundEffect implements IEffect {
-
   private activeParticles: Item[] = [];
   private particleCount = 10;
   private spawnNew = 400;
@@ -61,5 +60,4 @@ export default class BackgroundEffect implements IEffect {
   public destroy = (): void => {
     this.stop();
   }
-
 }

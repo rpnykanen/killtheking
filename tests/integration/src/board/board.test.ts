@@ -3,15 +3,13 @@ import Board from "@board/Board";
 import CharacterFactory from "@board/character/CharacterFactory";
 import ConfigurationManager from "./../../../../src/ConfigurationManager";
 import EventManager from "@event/EventManager";
-import GameUpdateEvent from "@event/events/GameUpdateEvent";
 import Grid from "@board/Grid";
 import King from "@board/character/King";
 import Pawn from "@board/character/Pawn";
 import Player from "@board/character/Player";
 import Position from "@board/Position";
 
-
-describe('Board', ()=>{
+describe('Board', ()=> {
 
   const gridConfiguration = {
     "width": 5,
@@ -37,7 +35,7 @@ describe('Board', ()=>{
   */
   let board: Board;
 
-  beforeEach(()=>{
+  beforeEach(()=> {
     board = new Board(
       new Grid(gridConfiguration),
       new CharacterFactory(),
@@ -59,7 +57,8 @@ describe('Board', ()=>{
     expect(spy).toBeCalledTimes(0)
   });
 
-  test('Test moving', ()=>{
+  // TODO: fix tobecalled, disable the loop for tests.
+  test('Test moving', ()=> {
     board.movePlayer(false);
     board.movePlayer(false);
     expect(spy).toBeCalledTimes(2);
@@ -67,12 +66,14 @@ describe('Board', ()=>{
     expect(spy.mock.calls[1][0].eventName).toBe('game.update');
   });
 
+  // TODO: fix tobecalled, disable the loop for tests.
   test('Test skip', ()=>{
     board.afterRoundActions();
     expect(spy).toBeCalledTimes(1);
   });
 
-  test('Test shoot', ()=>{
+  // TODO: fix tobecalled, disable the loop for tests.
+  test('Test shoot', ()=> {
     const mockCreatePlayer = jest.fn(()=>{return new Player()});
     const mockCreateRandomEnemy = jest.fn(()=>{return new Pawn(new Position(0,0), 1)});
     jest.mock("@board/character/CharacterFactory", ()=>{
@@ -93,7 +94,8 @@ describe('Board', ()=>{
     expect(spy.mock.calls[3][0].eventName).toBe('game.update');
   });
 
-  test('Test end game', ()=>{
+  // TODO: fix tobecalled, disable the loop for tests.
+  test('Test end game', ()=> {
     // const mockCreateKing = jest.fn(()=>{return new King(new Position(0,0), 0)});
     // FIX 
     jest.mock("@board/character/CharacterFactory", ()=>{

@@ -1,24 +1,20 @@
+import ApiEvent from "@event/events/ApiEvent";
+import BackgroundCanvas from "@renderer/menu/BackgroundCanvas";
 import Button from "./Button";
 import CanvasFactory from "@renderer/CanvasFactory";
 import EventManager from "@event/EventManager";
 import GameOverEvent from "@event/events/GameOverEvent";
-import { GridConfiguration } from "../../types/Configurations";
+import { GridConfiguration } from "@type/Configurations";
+import HighscoreTable from "./HighscoreTable";
 import Renderer from "@renderer/Renderer";
 import SceneChangeEvent from "@event/events/SceneChangeEvent";
-import HighscoreTable from "./HighscoreTable";
 import Username from "./Username";
-import ApiEvent from "@event/events/ApiEvent";
-import Highscore from "../../api/Api";
-import BackgroundCanvas from "@renderer/menu/BackgroundCanvas";
+import LoopEvent from "@event/events/LoopEvent";
 
 export default class MenuRenderer extends Renderer {
   private playButton: Button;
 
   private usernameButton: Username;
-
-  private highscore_enabled = false;
-
-  private highscore: Highscore;
 
   constructor(
     protected eventManager: EventManager,
@@ -29,35 +25,32 @@ export default class MenuRenderer extends Renderer {
     super(canvasFactory);
   }
 
-  private gameOver = () => {
-    // this.page = new End();
-  }
-
   public initialize = (): void => {
-    this.eventManager.subscribe(GameOverEvent.EVENTNAME, this.gameOver);
-    this.eventManager.subscribe(ApiEvent.EVENTNAME, this.drawHighscore);
-
+    this.eventManager.subscribe(ApiEvent.EVENT_NAME, this.drawHighscore);
+    this.eventManager.subscribe(LoopEvent.EVENT_NAME, this.update)
     this.background.draw()
-    this.background.startAnimation();
 
     this.canvas = this.canvasFactory.createCanvas('menu');
     this.context = this.canvas.getContext('2d') as CanvasRenderingContext2D;
     this.canvas.addEventListener('click', this.buttonClick);
     this.draw();
   }
+
+  public update = () => {
+    this.background.update()
+  }
   
   public destroy = () => {
-    // this.context.reset(); // not found ?
     this.canvas.remove();
 
     this.background.stopAnimation();
     this.background.destroy();
 
-    this.eventManager.unsubscribe(GameOverEvent.EVENTNAME, this.gameOver);
-    this.eventManager.unsubscribe(ApiEvent.EVENTNAME, this.drawHighscore);
+    this.eventManager.unsubscribe(ApiEvent.EVENT_NAME, this.drawHighscore);
+    this.eventManager.unsubscribe(LoopEvent.EVENT_NAME, this.update)
   }
 
-  public async draw() {
+  public draw= () => {
     document.getElementById(this.gridConfiguration.elementId)?.append(this.canvas);
     const width = this.gridConfiguration.width * this.gridConfiguration.gridSquareWidth;
     const height = this.gridConfiguration.height * this.gridConfiguration.gridSquareHeight;
@@ -95,5 +88,4 @@ export default class MenuRenderer extends Renderer {
       this.usernameButton.buttonClick(x-this.canvas.offsetLeft,y-this.canvas.offsetTop);
     }
   }
-
 }

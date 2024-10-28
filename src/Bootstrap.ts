@@ -19,9 +19,11 @@ import State from "./State";
 import Api from "./api/Api";
 import BackgroundCanvas from "@renderer/menu/BackgroundCanvas";
 import BackgroundEffect from "@renderer/game/effect/effects/BackgroundEffect";
+import Loop from "./Loop";
 
 export default class Bootstrap {
   private _sceneManager: SceneManager;
+  private _loop: Loop;
 
   constructor() {
     const configManager = new ConfigurationManager();
@@ -29,6 +31,7 @@ export default class Bootstrap {
     const eventManager = new EventManager();
     const state = new State(eventManager);
     const canvasFactory = new CanvasFactory(configManager);
+    this._loop = new Loop(eventManager);
 
     const gameRenderer = new GameRenderer(
       canvasFactory,
@@ -69,7 +72,6 @@ export default class Bootstrap {
       new MenuScene(menuRenderer, api)
     );
   }
-
   get sceneManager() { return this._sceneManager; }
-
+  get loop() { return this._loop; }
 }

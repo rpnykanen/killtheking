@@ -5,9 +5,9 @@ describe('Event', () => {
   const eventManager = new EventManager();
 
   const testFunction1 = () => expect(true).toBe(true);
-  const testFunction2 = () => {}
+  const testFunction2 = () => { /*noop*/ };
   const event = new RoundSkipEvent();
-  const theEventName = 'round.skip'
+  const theEventName = 'round.skip';
 
   test('Test round skip event', () => {
     expect(event.eventName).toBe(theEventName);

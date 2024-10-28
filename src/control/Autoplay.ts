@@ -1,5 +1,5 @@
 import Control from "./Control";
-import GameUpdateEvent from "@event/events/GameUpdateEvent";
+import GameRoundEvent from "@event/events/GameRoundEvent";
 import Enemy from "@board/character/Enemy";
 import EventManager from "@event/EventManager";
 import EnemySpawnEvent from "@event/events/EnemySpawnEvent";
@@ -15,7 +15,7 @@ export default class Autoplay extends Control {
 
   constructor(private eventManager: EventManager){
     super();
-    this.eventManager.subscribe(GameUpdateEvent.EVENTNAME, this.act);
+    this.eventManager.subscribe(GameRoundEvent.EVENTNAME, this.act);
     this.eventManager.subscribe(EnemySpawnEvent.EVENTNAME, this.addTrackedEnemies);
     this.eventManager.subscribe(PlayerSpawnEvent.EVENTNAME, this.setPlayer);
   }

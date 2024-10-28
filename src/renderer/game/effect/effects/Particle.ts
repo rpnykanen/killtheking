@@ -1,5 +1,4 @@
 export default class Particle {
-
   private _alpha;
 
   private _radius;

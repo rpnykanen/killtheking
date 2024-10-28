@@ -34,7 +34,7 @@
       "^@board/(.*)$": "<rootDir>/src/board/$1",
       "^@event/(.*)$": "<rootDir>/src/event/$1",
       "^@renderer/(.*)$": "<rootDir>/src/renderer/$1",
-      "^@types/(.*)$": "<rootDir>/src/types/$1",
+      "^@type/(.*)$": "<rootDir>/src/types/$1",
       "^@utils/(.*)$": "<rootDir>/src/utils/$1"
     }
   }

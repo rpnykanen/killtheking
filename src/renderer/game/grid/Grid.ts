@@ -1,10 +1,9 @@
 import CanvasFactory from "@renderer/CanvasFactory";
-import { GridConfiguration } from "../../../types/Configurations";
+import { GridConfiguration } from "@type/Configurations";
 import CanvasPosition from "@renderer/CanvasPosition";
 import Renderer from "@renderer/Renderer";
 
 export default class Grid extends Renderer {
- 
   constructor(protected canvasFactory: CanvasFactory, private gridConfiguration: GridConfiguration) {
     super(canvasFactory);
   }
@@ -16,7 +15,6 @@ export default class Grid extends Renderer {
   }
 
   public destroy(): void {
-    this.context.reset();
     this.canvas.remove();
   }
   

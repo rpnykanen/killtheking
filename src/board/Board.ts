@@ -2,7 +2,7 @@ import CharacterFactory from "./character/CharacterFactory";
 import Enemy from "./character/Enemy";
 import EnemyDeathEvent from "../event/events/EnemyDeathEvent";
 import GameOverEvent from "../event/events/GameOverEvent";
-import GameUpdateEvent from "../event/events/GameUpdateEvent";
+import GameRoundEvent from "../event/events/GameRoundEvent";
 import GridSquare from "./GridSquare";
 import Grid from "./Grid";
 import Player from "./character/Player";
@@ -27,7 +27,7 @@ export default class Board {
   private enemies: Enemy[] = [];
 
   /** 
-   * Tracks the changes to gridsquares during a round.
+   * Tracks the changes to grid squares during a round.
    */
   private changes: GridSquare[] = [];
 
@@ -114,9 +114,9 @@ export default class Board {
    * Procedure to wrap up an in-game round.
    */
   public afterRoundActions = (): void => {
-    const win = this.checkWincondition();
+    const win = this.checkWinCondition();
     this.removeDeadEnemies();
-    const lose = this.checkLosecondition();
+    const lose = this.checkLoseCondition();
 
     if (win || lose) {
       this.eventManager.publish(new GameOverEvent(win));
@@ -126,18 +126,21 @@ export default class Board {
     this.moveEnemies();
     this.spawnEnemy();
     
-    this.eventManager.publish(new GameUpdateEvent(this.changes));
+    this.eventManager.publish(new GameRoundEvent(this.changes));
     this.changes = [];
   }
 
-  private checkWincondition = (): boolean => {
+  private checkWinCondition = (): boolean => {
     const enemy = this.enemies.find((enemy) => {
       return enemy.isBoss && enemy.isDead;
     })
     return !!enemy
   }
 
-  private checkLosecondition = (): boolean => {
+  /**
+   * Check if enemy is about to move out of bounds on Y axis.
+   */
+  private checkLoseCondition = (): boolean => {
     const enemy = this.enemies.find((enemy: Enemy) => {
       const position = enemy.possiblePositions[0];
       return enemy.movement.y > 0 && this.grid.isOutOfBoundsY(position)
@@ -169,9 +172,10 @@ export default class Board {
     this.enemies.forEach((enemy: Enemy) => {
       const newPossibleEnemyPositions = enemy.possiblePositions;
 
-      const allowed = newPossibleEnemyPositions.filter((position: Position) => {
-        return this.grid.isValidPosition(position) && this.grid.isEmpty(position);
-      });
+      const allowed = newPossibleEnemyPositions
+        .filter((position: Position): boolean => {
+          return this.grid.isValidPosition(position) && this.grid.isEmpty(position);
+        });
 
       if (allowed.length === 0) {
         enemy.setPosition(enemy.position);
@@ -201,7 +205,7 @@ export default class Board {
     if (this.isBoardFull()) return;
 
     const gridSquare = this.grid.getEmptySpawn();
-    const enemy = this.spawnBoss() ? 
+    const enemy = this.shouldSpawnBoss() ?
       this.characterFactory.createKing() :
       this.characterFactory.createRandomEnemy();
 
@@ -215,7 +219,7 @@ export default class Board {
     this.eventManager.publish(new EnemySpawnEvent(enemy));
   }
 
-  private spawnBoss = (): boolean => (
+  private shouldSpawnBoss = (): boolean => (
     this.deadEnemyCount === this.configurationManager.getDifficultyConfigurations().enemyAmount && 
     !this.boss
   )

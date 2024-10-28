@@ -1,7 +1,6 @@
 import Character from "@board/character/Character";
 
 export default class Item {
-
   private _ttl = 800;
 
   constructor(

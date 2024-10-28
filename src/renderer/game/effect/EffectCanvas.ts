@@ -1,13 +1,12 @@
 import CanvasPosition from "../CanvasPosition";
+import CanvasFactory from "@renderer/CanvasFactory";
+import EffectFactory from "./effects/EffectFactory"
+import { GridConfiguration } from "@type/Configurations";
 import IEffect from "./effects/IEffect";
 import Particle from "./effects/Particle";
-import EffectFactory from "./effects/EffectFactory"
-import CanvasFactory from "@renderer/CanvasFactory";
-import { GridConfiguration } from "../../types/Configurations";
 
 // TODO rewrite.
 export default class EffectCanvas {
-
   private canvas: HTMLCanvasElement;
   private context: CanvasRenderingContext2D
 

@@ -1,5 +1,4 @@
 export class UsernameLetterButton {
-
   private letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.,";
 
   private x: number;
@@ -41,11 +40,9 @@ export class UsernameLetterButton {
     this.context.fillStyle = 'rgb(255,255,255)';
     this.letterIndex != null && this.context.fillText(this.letters[this.letterIndex], this.x+15, this.y+17);
   }
-
 }
 
 export default class Username {
-
   private x: number;
 
   private y: number;
@@ -78,5 +75,4 @@ export default class Username {
     this.draw();
     return button;
   }
-
 }
